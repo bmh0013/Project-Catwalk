@@ -1,3 +1,5 @@
+//my part
+
 import React from 'react';
 
 const RelatedProduct = () => (
