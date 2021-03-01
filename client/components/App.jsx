@@ -1,8 +1,8 @@
 import React from 'react';
-import Product from './product-overview.jsx';
-import RelatedProduct from './related-products.jsx';
-import Questions from './questions.jsx';
-import Reviews from './reviews.jsx';
+// import Product from './product-overview.jsx';
+import RelatedProduct from './relatedproducts/related-product-list.jsx';
+// import Questions from './questions.jsx';
+// import Reviews from './reviews.jsx';
 
 class App extends React.Component{
   constructor() {
@@ -12,10 +12,7 @@ class App extends React.Component{
   render() {
     return(
       <div>
-        <Product />
         <RelatedProduct />
-        <Questions />
-        <Reviews />
      </div>
     )
   }
