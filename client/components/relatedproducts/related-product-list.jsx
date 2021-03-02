@@ -24,10 +24,24 @@ const RelatedList = () => {
 
   //do useEffect again to pull all the data in accordance to the relatedItems array
   useEffect(() => {
-    console.log(relatedItems);
+    let renderedItems = [];
+    console.log(relatedItems); //being passed the correct value
+    relatedItems.forEach(item => {
+      const url = `/proxy/api/fec2/hratx/products/${item}`;
+      axios.get(url)
+        .then(res => {
+          renderedItems.push(res.data);
+        })
+        .catch(err => console.log(err));
+    })
+    setRelatedItemsData(renderedItems);
   },[relatedItems])
 
+  useEffect(() => {
+    console.log('relatedItemsDadfefwdfwefta',relatedItemsData)
+  },[relatedItemsData])
 
+  //map the relatedItemsData here
   return (
     <div className = 'related-list'>
       <h1>Related items</h1>
