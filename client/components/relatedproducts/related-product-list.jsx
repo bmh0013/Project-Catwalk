@@ -23,39 +23,69 @@ const RelatedList = () => {
   //do useEffect again to pull all the data in accordance to the relatedItems array
   useEffect(() => {
     let renderedItems = [];
-
-    console.log(relatedItems); //being passed the correct value
+    let renderedPhotos = [];
+    // console.log(relatedItems); //being passed the correct value
     relatedItems.forEach(item => {
       const url = `/proxy/api/fec2/hratx/products/${item}`;
+      const url2 = `/proxy/api/fec2/hratx/products/${item}/styles`;
       axios.get(url)
         .then(res => {
           renderedItems.push(res.data);
+          // if (relatedItems.length === renderedItems.length) {
+          //   setRelatedItemsData(renderedItems);
+          // }
+        })
+        .then(() => {
+          axios.get(url2)
+            .then(res => {
+              // console.log('photos',res.data.results[0].photos[0].thumbnail_url)
+              renderedPhotos.push(res.data.results[0].photos[0].thumbnail_url)
+              if (renderedItems.length === renderedPhotos.length) {
+                for (let i = 0; i < renderedItems.length; i++) {
+                  for (let j = 0; j < renderedPhotos.length; j++){
+                    if (i === j) {
+                      renderedItems[i]['image'] = renderedPhotos[j]
+                      // console.log(renderedItems[i]); //this properly inserts the photo into the correct renderedItem
 
-          if (relatedItems.length === renderedItems.length) {
-            setRelatedItemsData(renderedItems);
-          }
+                    }
+                  }
+                }
+                let isTrue = renderedItems.some(obj => obj.image);
+                  if (isTrue) {
+                    setRelatedItemsData(renderedItems)
+                  }
+              }
+            })
+            // .then(() => console.log(relatedItemsData))
+            .catch(err => console.log(err))
         })
         .catch(err => console.log(err));
     })
-
   },[relatedItems])
-
 
   //map the relatedItemsData here
   //for the cover, you need a clickable favorites icon, category, name, price, and star rating
 
-    return (
-      <div className = 'related-list'>
-        <h1>Related items</h1>
-        {relatedItemsData.map((relatedItem) => (
-          <RelatedProductCard
-            key = {relatedItem.id}
-            category = {relatedItem.category}
-            price = {relatedItem.default_price}
-          />
-        ))}
-      </div>
-    )
+  var rendered = relatedItemsData
+  if (rendered.length !== 0) {
+    console.log(rendered[1].image);
+  }
+
+
+  return (
+    <div className = 'related-list'>
+      <h1>Related items</h1>
+      {relatedItemsData.map((relatedItem) => (
+        <RelatedProductCard
+          key = {relatedItem.id}
+          image = {relatedItem.image}
+          name = {relatedItem.name}
+          category = {relatedItem.category}
+          price = {relatedItem.default_price}
+        />
+      ))}
+    </div>
+  )
 
 };
 export default RelatedList;
