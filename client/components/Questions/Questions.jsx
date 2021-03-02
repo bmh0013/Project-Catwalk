@@ -5,10 +5,36 @@ import { addQuestion, getQuestions, getProducts } from './helperFunctions.js';
 import sampleData from './sampleData.js';
 
 const Questions = () => {
-  const [productId, setProductId] = useState(sampleData.product_id);
-  const [questions, setQuestions] = useState(sampleData.results);
+  const [productId, setProductId] = useState(21111);
+  const [data, setData] = useState([]);
+  var base_url = 'https://app-hrsei-api.herokuapp.com/api/fec2/hratx/';
 
   useEffect(() => {
+    console.log('entered useeffect');
+    loadData(productId);
+  }, []);
+
+  const loadData = async (productId) => {
+      await getQuestions(productId)
+      .then(receivedData => setData(receivedData.results));
+  };
+
+  return (
+    <div>
+      <h1>Questions and Answers</h1>
+      <div>
+        <QuestionSearch />
+        {data.map(q => (
+          <Question question={q} key={q.question_id} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Questions;
+
+
     // addQuestion({
     //   body: 'Is this thing any good?',
     //   name: 'Mike',
@@ -21,26 +47,3 @@ const Questions = () => {
     //   .catch(data => {
     //     console.log('well that did not work');
     //   });
-    // getQuestions()
-    //   .then(data => {
-    //     console.log(data);
-    //   });
-    console.log(questions);
-  });
-
-  return (
-    <div>
-      <h1>Questions and Answers</h1>
-      <div>
-        <QuestionSearch />
-        {
-          questions.map((q) => {
-            return < Question question={q} key={q.question_id} />
-          })
-        }
-      </div>
-    </div>
-  );
-};
-
-export default Questions;
