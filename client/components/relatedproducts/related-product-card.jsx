@@ -1,8 +1,10 @@
 import React from 'react';
 
-const RelatedProductCard = () => (
+const RelatedProductCard = ({category, price}) => (
   <div className = 'related-card'>
     <h1>Hello</h1>
+    <p>{category}</p>
+    <p>{price}</p>
   </div>
 );
 

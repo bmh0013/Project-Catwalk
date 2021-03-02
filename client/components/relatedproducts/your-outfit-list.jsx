@@ -2,7 +2,7 @@ import React from 'react';
 
 const YourOutfitList = () => (
   <div>
-    <h1>Hello</h1>
+    <h1>Your outfits</h1>
   </div>
 );
 
