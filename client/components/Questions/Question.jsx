@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Answer from './Answer';
-import { markQuestionHelpful } from './helperFunctions.js';
+import { markQuestionHelpful, reportQuestion } from './helperFunctions.js';
 
 const Question = ({ question, handleChange }) => {
   var answers = Object.entries(question.answers).map((a) => a[1]).sort((a, b) => (a.helpfulness > b.helpfulness) ? -1 : 1);
@@ -26,7 +26,7 @@ const Question = ({ question, handleChange }) => {
       <div className="qa-answers">
         {
           answers.slice(0, answersToShow).map(a => {
-            return <Answer answer={a} key={a.id} />
+            return <Answer answer={a} key={a.id} handleChange={handleChange}/>
           })
         }
         {answers.length > 2 ? (

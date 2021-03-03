@@ -61,15 +61,16 @@ async function markQuestionHelpful(questionId) {
   return 'Success';
 };
 
+//not sure report question is a requested feature
 async function reportQuestion(questionId) {
-  var url = base_url + `qa/questions/${questionid}/report`;
+  var url = base_url + `qa/questions/${questionId}/report`;
 
   const response = await fetch(url, {
     method: 'PUT',
     headers: header,
-    body: { question_id: questionId }
   });
-  return response.json();
+
+  return 'Reported';
 };
 
 async function markAnswerHelpful(answerId) {
@@ -78,7 +79,6 @@ async function markAnswerHelpful(answerId) {
   const response = await fetch(url, {
     method: 'PUT',
     headers: header,
-    body: { answer_id: answerId }
   });
   return 'Success';
 };
@@ -89,9 +89,8 @@ async function reportAnswer(answerId) {
   const response = await fetch(url, {
     method: 'PUT',
     headers: header,
-    body: { answer_id: answerId }
   });
-  return response.json();
+  return 'Reported';
 };
 
 module.exports = {
