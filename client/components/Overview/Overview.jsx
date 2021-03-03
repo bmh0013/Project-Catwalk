@@ -1,17 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Rating } from './Rating.jsx';
+import getProductInfo from './serverRequests.js';
 
-class Overview extends React.Component{
-  constructor() {
-    super();
-  }
+export default function Overview() {
+    useEffect(() => {getProductInfo()}, [])
 
-  render() {
     return(
       <div>
         <h1>Overview</h1>
+        <Rating />
      </div>
     )
-  }
 }
-
-export default Overview;
