@@ -43,6 +43,7 @@ const Reviews = (props) => {
             review={review}
           />)}
           {!!reviewData.results.length && <button onClick={loadReviews}>Load More</button>}
+          <button>Add A Review</button>
         </div>
       </div>
     </div>
