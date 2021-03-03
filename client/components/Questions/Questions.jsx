@@ -7,10 +7,8 @@ import sampleData from './sampleData.js';
 const Questions = () => {
   const [productId, setProductId] = useState(21111);
   const [data, setData] = useState([]);
-  var base_url = 'https://app-hrsei-api.herokuapp.com/api/fec2/hratx/';
 
   useEffect(() => {
-    console.log('entered useeffect');
     loadData(productId);
   }, []);
 
@@ -33,17 +31,3 @@ const Questions = () => {
 };
 
 export default Questions;
-
-
-    // addQuestion({
-    //   body: 'Is this thing any good?',
-    //   name: 'Mike',
-    //   email: 'email@email.com',
-    //   product_id: 0
-    // })
-    //   .then(data => {
-    //     console.log(data);
-    //   })
-    //   .catch(data => {
-    //     console.log('well that did not work');
-    //   });

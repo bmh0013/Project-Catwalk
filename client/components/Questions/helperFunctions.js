@@ -1,4 +1,10 @@
+const { default: TOKEN } = require("../../../token");
+
 var base_url = 'https://app-hrsei-api.herokuapp.com/api/fec2/hratx/';
+var header = {
+  'Content-Type': 'application/json',
+  'Authorization': TOKEN,
+}
 
 async function getQuestions(product_id = 21111, page = 1, count = 5) {
   var url = base_url + 'qa/questions?product_id=' + product_id
@@ -6,24 +12,18 @@ async function getQuestions(product_id = 21111, page = 1, count = 5) {
 
   const response = await fetch(url, {
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': 'f83a9d35d6c9a77194d30509e501d64f347346c3',
-    }
+    headers: header
   });
+
   return response.json();
 };
 
 async function addQuestion(options) {
   var url = base_url + 'qa/questions';
-  console.log(JSON.stringify(options));
 
   const response = await fetch(url, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'f83a9d35d6c9a77194d30509e501d64f347346c3',
-    },
+    headers: header,
     body: JSON.stringify(options),
   });
   return response.json();
@@ -31,14 +31,10 @@ async function addQuestion(options) {
 
 async function addAnswer(options) {
   var url = base_url + `qa/questions/${options.questionId}/answers`;
-  console.log(JSON.stringify(options));
 
   const response = await fetch(url, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'f83a9d35d6c9a77194d30509e501d64f347346c3',
-    },
+    headers: header,
     body: JSON.stringify(options),
   });
   return response.json();
@@ -49,10 +45,7 @@ async function getProducts() {
 
   const response = await fetch(url, {
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': 'f83a9d35d6c9a77194d30509e501d64f347346c3',
-    }
+    headers: header
   });
   return response.json();
 };
@@ -62,10 +55,7 @@ async function markQuestionHelpful(questionId) {
 
   const response = await fetch(url, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': 'f83a9d35d6c9a77194d30509e501d64f347346c3',
-    },
+    headers: header,
     body: { question_id: questionId }
   });
   return response.json();
@@ -76,10 +66,7 @@ async function reportQuestion(questionId) {
 
   const response = await fetch(url, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': 'f83a9d35d6c9a77194d30509e501d64f347346c3',
-    },
+    headers: header,
     body: { question_id: questionId }
   });
   return response.json();
@@ -90,10 +77,7 @@ async function markAnswerHelpful(answerId) {
 
   const response = await fetch(url, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': 'f83a9d35d6c9a77194d30509e501d64f347346c3',
-    },
+    headers: header,
     body: { answer_id: answerId }
   });
   return response.json();
@@ -104,10 +88,7 @@ async function reportAnswer(answerId) {
 
   const response = await fetch(url, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': 'f83a9d35d6c9a77194d30509e501d64f347346c3',
-    },
+    headers: header,
     body: { answer_id: answerId }
   });
   return response.json();
@@ -116,5 +97,9 @@ async function reportAnswer(answerId) {
 module.exports = {
   getQuestions,
   addQuestion,
-  getProducts
+  getProducts,
+  markAnswerHelpful,
+  markQuestionHelpful,
+  reportAnswer,
+  reportQuestion
 }

@@ -2,7 +2,9 @@ import React from 'react';
 
 const QuestionSearch = () => (
   <div>
-    <h2>Question Search</h2>
+    <form className='search'>
+      <input type="text" name="searchTerm" defaultValue="Search for something..."/>
+    </form>
   </div>
 );
 
