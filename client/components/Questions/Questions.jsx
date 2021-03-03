@@ -14,7 +14,7 @@ const Questions = () => {
 
   const loadData = async (productId) => {
       await getQuestions(productId)
-      .then(receivedData => setData(receivedData.results));
+      .then(receivedData => setData(receivedData.results.sort((a, b) => (a.helpfulness > b.helpfulness) ? -1 : 1)));
   };
 
   return (
