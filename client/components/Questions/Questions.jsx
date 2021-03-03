@@ -32,13 +32,16 @@ const Questions = () => {
         {data.slice(0, questionsToShow).map(q => (
           <Question question={q} key={q.question_id} />
         ))}
-        <a className="btn btn-primary" onClick={showMore}>
-          {expanded ? (
-            <span>SHOW LESS QUESTIONS</span>
-          ) : (
-            <span>LOAD MORE QUESTIONS</span>
-          )}
-        </a>
+        {data.length > 2 ? (
+            <a className="btn btn-primary" onClick={showMore}>
+              {expanded ? (
+                <span>SHOW LESS</span>
+              ) : (
+                <span>LOAD MORE Questions</span>
+              )}
+            </a>
+          ) : null
+        }
       </div>
     </div>
   );
