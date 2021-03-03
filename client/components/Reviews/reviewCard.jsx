@@ -9,6 +9,7 @@ const ReviewCard = (props) => {
   useEffect(() => {
     console.log('Data:', props.data);
     console.log('Review:', props.review);
+    console.log('Photos:', props.review.photos);
   }, [])
 
   function handleHelpful(e) {
@@ -49,6 +50,15 @@ const ReviewCard = (props) => {
       <p>
         {props.review.summary}
       </p>
+      <span className="thumbnail-container">
+        {props.review.photos.map(photo =>
+          <a href={photo.url}>
+            <img className="thumbnail" src={photo.url}
+            key={photo.id}>
+            </img>
+          </a>
+        )}
+      </span>
       {!!props.review.response && <p><u>Response:</u> {props.review.response}</p>}
       <span className='helpful'>
         Helpful? &nbsp;
