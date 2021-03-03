@@ -51,14 +51,14 @@ async function getProducts() {
 };
 
 async function markQuestionHelpful(questionId) {
-  var url = base_url + `qa/questions/${questionid}/helpful`;
+  var url = base_url + `qa/questions/${questionId}/helpful`;
 
   const response = await fetch(url, {
     method: 'PUT',
     headers: header,
-    body: { question_id: questionId }
   });
-  return response.json();
+
+  return 'Success';
 };
 
 async function reportQuestion(questionId) {
@@ -80,7 +80,7 @@ async function markAnswerHelpful(answerId) {
     headers: header,
     body: { answer_id: answerId }
   });
-  return response.json();
+  return 'Success';
 };
 
 async function reportAnswer(answerId) {

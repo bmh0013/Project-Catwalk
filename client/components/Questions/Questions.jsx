@@ -14,10 +14,12 @@ const Questions = () => {
     loadData(productId);
   }, []);
 
-  const loadData = async (productId) => {
+  var loadData = async (productId) => {
       await getQuestions(productId)
       .then(receivedData => setData(receivedData.results.sort((a, b) => (a.helpfulness > b.helpfulness) ? -1 : 1)));
   };
+
+  loadData = loadData.bind(this);
 
   const showMore = () => {
     expanded ? setQuestionsToShow(4) : setQuestionsToShow(data.length);
@@ -30,14 +32,14 @@ const Questions = () => {
       <div>
         <QuestionSearch />
         {data.slice(0, questionsToShow).map(q => (
-          <Question question={q} key={q.question_id} />
+          <Question question={q} key={q.question_id} handleChange={loadData} />
         ))}
         {data.length > 2 ? (
             <a className="btn btn-primary" onClick={showMore}>
               {expanded ? (
-                <span>SHOW LESS</span>
+                <span>...show less...</span>
               ) : (
-                <span>LOAD MORE Questions</span>
+                <span>...load more questions...</span>
               )}
             </a>
           ) : null
