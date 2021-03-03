@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import RelatedProductCard from './related-product-card.jsx';
-import CardDetails from './cardDetails.jsx';
+// import ModalDetails from './modalDetails.jsx';
 import axios from 'axios';
 
 const RelatedList = () => {
@@ -9,7 +9,6 @@ const RelatedList = () => {
   const [relatedItems, setRelatedItems] = useState([]);
   //this will generate an array of objects in accordance to the relatedItems
   const [relatedItemsData, setRelatedItemsData] = useState([]);
-  const [booleanValue, setBooleanValue] = useState('false');
 
   //this will do a componentDidMount-like functionality
   useEffect(() => {
@@ -36,12 +35,12 @@ const RelatedList = () => {
         .then(() => {
           axios.get(url2)
             .then(res => {
-              renderedPhotos.push(res.data.results[0].photos[0].thumbnail_url)
+              renderedPhotos.push({id: res.data.product_id, image:res.data.results[0].photos[0].thumbnail_url})
               if (renderedItems.length === renderedPhotos.length) {
                 for (let i = 0; i < renderedItems.length; i++) {
                   for (let j = 0; j < renderedPhotos.length; j++){
-                    if (i === j) {
-                      renderedItems[i]['image'] = renderedPhotos[j]
+                    if (renderedItems[i].id == renderedPhotos[j].id) {
+                      renderedItems[i]['image'] = renderedPhotos[j].image
                     }
                   }
                 }
@@ -58,13 +57,10 @@ const RelatedList = () => {
   },[relatedItems])
 
   //for the cover, you need a clickable favorites icon, category, name, price, and star rating
-  const handleCardClick = () => {
-    console.log('You clicked me');
-    <CardDetails />
-  }
 
-  const handleActionButton = (boolean) => {
-    console.log('You clicked this button');
+  const handleActionButton = (id) => {
+    // console.log('You clicked this button');
+    // console.log('actionbutton', id);
   }
 
   return (
@@ -73,13 +69,12 @@ const RelatedList = () => {
       {relatedItemsData.map((relatedItem) => (
         <RelatedProductCard
           key = {relatedItem.id}
+          id = {relatedItem.id}
           image = {relatedItem.image}
           name = {relatedItem.name}
           category = {relatedItem.category}
           price = {relatedItem.default_price}
-          handleCardClick = {handleCardClick}
           handleActionButton = {handleActionButton}
-          booleanValue = {booleanValue}
         />
       ))}
     </div>
