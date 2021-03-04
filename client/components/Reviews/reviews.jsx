@@ -1,23 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import TOKEN from '../../../token.js'
-import ReviewCard from './reviewCard.jsx'
+import TOKEN from '../../../token.js';
+import ReviewCard from './reviewCard.jsx';
+import NewReview from './newReview.jsx';
+import $ from 'jquery';
 const axios = require('axios').default;
 
 
 const Reviews = (props) => {
-  var [resData, setResData] = useState([]);
-  var [metadata, setMetadata] = useState({});
+  var product_id = 21112;
+
+  var [product, setProduct] = useState({});
   var [reviewCards, setReviewCards] = useState([]);
+  var [metadata, setMetadata] = useState({});
+  var [showCards, updateShowCards] = useState([]);
+  var [modal, setModal] = useState(false);
 
   useEffect(() => {
     initializeReviews();
   }, []);
 
   var initializeReviews = async () => {
+    await getProduct()
+    .then(res => res.data)
+    .then(product => {
+      console.log(product);
+      setProduct(product);
+    })
+
     await getReviewCards()
     .then(res => res.data.results)
-    .then(data => {
-      loadReviews(data);
+    .then(reviews => {
+      loadReviews(reviews);
     })
     .catch(err => {
       console.error(err);
@@ -32,18 +45,8 @@ const Reviews = (props) => {
     })
   };
 
-  function loadReviews(data) {
-    let results = [];
-    let count = 0;
-    for (let i = 0; i < 2; i++) {
-      if (data[i]) {
-        count++;
-        results.push(data[i]);
-      }
-    }
-    data.splice(0, count)
-    setResData(data);
-    setReviewCards(oldReview => [...oldReview, ...results]);
+  function getProduct() {
+    return handleGetRequests(`products/${product_id}`)
   }
 
   function getReviewCards() {
@@ -54,6 +57,20 @@ const Reviews = (props) => {
     return handleGetRequests('reviews/meta')
   }
 
+  function loadReviews(data) {
+    let results = [];
+    let count = 0;
+    for (let i = 0; i < 2; i++) {
+      if (data[i]) {
+        count++;
+        results.push(data[i]);
+      }
+    }
+    data.splice(0, count)
+    setReviewCards(data);
+    updateShowCards(oldReview => [...oldReview, ...results]);
+  }
+
   function handleGetRequests(route) {
     let headers = {
       method: 'get',
@@ -62,7 +79,7 @@ const Reviews = (props) => {
         Authorization: TOKEN
       },
       params: {
-        product_id: 21112
+        product_id: product_id
       }
     };
     return axios(headers)
@@ -76,16 +93,16 @@ const Reviews = (props) => {
           This will have Star Rating information.
         </div>
         <div className="flex-right">
-          {reviewCards.map(review =>
+          {showCards.map(review =>
           <ReviewCard
             key={review.review_id}
-            data={resData}
-            review={review}
+            reviewCard={review}
           />)}
-          {!!resData.length && <button onClick={() => {loadReviews(resData)}}>Load More</button>}
-          <button onClick={() => {console.log(resData, metadata)}}>Add A Review</button>
+          {!!reviewCards.length && <button onClick={() => {loadReviews(reviewCards)}}>Load More</button>}
+          <button onClick={() => {setModal(true)}}>Add A Review</button>
         </div>
       </div>
+      {modal && <NewReview setModal={setModal} product={product}/>}
     </div>
     )
 };
