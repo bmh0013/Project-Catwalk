@@ -3,6 +3,7 @@ import Question from './Question.jsx';
 import QuestionSearch from './QuestionSearch.jsx';
 import { addQuestion, getQuestions, getProducts } from './helperFunctions.js';
 import sampleData from './sampleData.js';
+import Button from '@material-ui/core/Button';
 
 const Questions = () => {
   const [productId, setProductId] = useState(21111);
@@ -35,13 +36,15 @@ const Questions = () => {
           <Question question={q} key={q.question_id} handleChange={loadData} />
         ))}
         {data.length > 2 ? (
-            <a className="btn btn-primary" onClick={showMore}>
+          <Button color="primary" onClick={showMore} size="small">
+
               {expanded ? (
-                <span>...show less...</span>
+                <span>show fewer questions</span>
               ) : (
-                <span>...load more questions...</span>
+                <span>load more questions</span>
               )}
-            </a>
+
+          </Button>
           ) : null
         }
       </div>
