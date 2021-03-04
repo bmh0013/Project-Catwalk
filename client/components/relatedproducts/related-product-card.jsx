@@ -34,10 +34,10 @@ const RelatedProductCard = ({id, name, category, image, price, handleActionButto
   return (
     <div className = 'related-card' onClick = {toggleModal}>
       {starToggle}
-      <p>{name}</p>
-      <p>{category}</p>
-      <img src = {image} alt = {name} />
-      <p>{price}</p>
+      <img className = 'related-image' src = {image} alt = {name} />
+      <p className = 'product-name'>{name}</p>
+      <p className = 'product-category'>{category}</p>
+      <p className = 'product-price'>{price}</p>
 
       <Modal
         isOpen = {openModal}
@@ -47,7 +47,11 @@ const RelatedProductCard = ({id, name, category, image, price, handleActionButto
         overlayClassName = 'myoverlay'
         closeTimeoutMS = {500}
       >
-        <ModalDetails name = {name} category = {category}/>
+      <ModalDetails
+        name = {name}
+        category = {category}
+        price = {price}
+      />
       </Modal>
     </div>
   )

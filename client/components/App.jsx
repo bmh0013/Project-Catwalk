@@ -4,7 +4,6 @@ import YourOutfitList from './relatedproducts/your-outfit-list.jsx';
 import Questions from './questions.jsx';
 import Reviews from './reviews.jsx';
 import Overview from './Overview/Overview.jsx';
-// import CardDetails from './relatedproducts/cardDetails.jsx';
 
 class App extends React.Component{
   constructor() {
@@ -16,7 +15,6 @@ class App extends React.Component{
       <div>
         <Overview />
         <RelatedList />
-        {/* <CardDetails /> */}
         <YourOutfitList />
         <Questions />
         <Reviews />

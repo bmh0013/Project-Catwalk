@@ -2,12 +2,15 @@
 
 import React, {useState} from 'react';
 
-const ModalDetails = ({name, category}) => {
+const ModalDetails = ({name, category, price}) => {
 
   return(
     <div>
-      <h1>{name}</h1>
-      <h2>{category}</h2>
+      <h1>COMPARING</h1>
+      <p>{name}<span className = 'comparison'>Name</span></p>
+      <p>{category}<span className = 'comparison'>Category</span></p>
+      <p>{price}<span className = 'comparison'>Price</span></p>
+
     </div>
   )
 };

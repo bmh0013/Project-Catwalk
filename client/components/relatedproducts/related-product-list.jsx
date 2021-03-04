@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import RelatedProductCard from './related-product-card.jsx';
-// import ModalDetails from './modalDetails.jsx';
+import {CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
+import 'pure-react-carousel/dist/react-carousel.es.css';
 import axios from 'axios';
 
 const RelatedList = () => {
@@ -59,6 +60,7 @@ const RelatedList = () => {
   //for the cover, you need a clickable favorites icon, category, name, price, and star rating
 
   const handleActionButton = (id) => {
+    // make something happen when the user clicks/declicks the star
     // console.log('You clicked this button');
     // console.log('actionbutton', id);
   }
@@ -66,17 +68,39 @@ const RelatedList = () => {
   return (
     <div className = 'related-list'>
       <h1 className = 'related-list-heading'>RELATED PRODUCTS</h1>
-      {relatedItemsData.map((relatedItem) => (
-        <RelatedProductCard
-          key = {relatedItem.id}
-          id = {relatedItem.id}
-          image = {relatedItem.image}
-          name = {relatedItem.name}
-          category = {relatedItem.category}
-          price = {relatedItem.default_price}
-          handleActionButton = {handleActionButton}
-        />
-      ))}
+      <CarouselProvider
+        className = 'relateditems-carousel'
+        naturalSlideHeight = {100}
+        naturalSlideWidth = {100}
+        totalSlides = {relatedItems.length}
+        visibleSlides = {3}
+        dragEnabled = {false}
+      >
+      <div>
+        <ButtonBack className = 'd-bold d-border-button'>Back</ButtonBack>
+        <ButtonNext className = 'd-bold d-border-button'>Next</ButtonNext>
+      </div>
+      <Slider>
+        {relatedItemsData.map((relatedItem) => (
+          <Slide
+            aria-label = 'product slide'
+            key = {relatedItem.id}
+            className = 'slides'
+            index = {0}
+          >
+            <RelatedProductCard
+              key = {relatedItem.id}
+              id = {relatedItem.id}
+              image = {relatedItem.image}
+              name = {relatedItem.name}
+              category = {relatedItem.category}
+              price = {relatedItem.default_price}
+              handleActionButton = {handleActionButton}
+            />
+          </Slide>
+        ))}
+      </Slider>
+      </CarouselProvider>
     </div>
   )
 };

@@ -1,5 +1,26 @@
-.related-card{
+.related-list {
+  height: 50%;
+}
+
+.related-card {
   border: solid 2px;
+}
+
+.slides {
+  height: 20rem;
+  width: 20rem;
+  position: relative;
+  margin: 0 0.5rem 0 0.5rem;
+}
+/* related card styles */
+.related-image {
+  height: 10rem;
+  width: 10rem;
+}
+
+.product-category,
+.product-name {
+  font-size: 2rem;
 }
 
 .mymodal {
