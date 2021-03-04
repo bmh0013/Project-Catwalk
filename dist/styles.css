@@ -1,25 +1,74 @@
-.related-list {
-  height: 50%;
+body{
+  width: 70%;
+  margin: 0 auto 0 auto;
 }
 
-.related-card {
-  border: solid 2px;
+.related-list{
+  height:500px;
+  overflow:hidden;
 }
 
-.slides {
-  height: 20rem;
-  width: 20rem;
+.carousel__container{
+  /* position:relative; */
+  max-width: 900px;
+  margin: auto;
+}
+
+.buttons{
+  position:absolute;
+  bottom:50%;
+  width:500px;
+  margin-left:5%;
+  z-index: 1;
+}
+
+.button-back{
+  /* position: absolute; */
+  /* top: 50%; */
+  left: 1rem;
+  /* transform: translateY(-50%) */
+};
+
+.button-next{
+  /* position: absolute; */
+  /* top: 50%; */
+  float:right;
+  right: 0;
+  /* transform: translateY(-50%) */
+};
+
+/* gives us the illusion of a "centered" slide */
+.carousel__slider {
+  padding-left: 15%;
+  /* padding-right: 15%; */
+  width:1000px;
+}
+
+/*this doesn't apply, but it does when i directly style in react...
+/* .inner-slide {
+  width: 400px;
+  height:400px;
+  border: 2px solid;
+  margin-left:20%;
+  margin-right:5%;
+  position: relative;
+} */
+/* related card styles */
+.related-card{
+  /* height: 20rem;
+  width: 10rem; */
+  padding-left:25%;
+  padding-right:25%;
   position: relative;
   margin: 0 0.5rem 0 0.5rem;
 }
-/* related card styles */
+
 .related-image {
   height: 10rem;
   width: 10rem;
 }
 
-.product-category,
-.product-name {
+.product-category, .product-name {
   font-size: 2rem;
 }
 
@@ -28,7 +77,6 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
   border: 1px solid #ccc;
   background: #fff;
   overflow: auto;

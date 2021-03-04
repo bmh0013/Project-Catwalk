@@ -69,26 +69,38 @@ const RelatedList = () => {
     <div className = 'related-list'>
       <h1 className = 'related-list-heading'>RELATED PRODUCTS</h1>
       <CarouselProvider
-        className = 'relateditems-carousel'
-        naturalSlideHeight = {100}
-        naturalSlideWidth = {100}
+        className = 'c-related-items-carousel'
+        naturalSlideHeight = {150}
+        naturalSlideWidth = {125}
         totalSlides = {relatedItems.length}
         visibleSlides = {3}
         dragEnabled = {false}
+        style = {{
+          position:'relative'
+        }}
       >
-      <div>
-        <ButtonBack className = 'd-bold d-border-button'>Back</ButtonBack>
-        <ButtonNext className = 'd-bold d-border-button'>Next</ButtonNext>
+      <div className = 'buttons'>
+        <ButtonBack className = 'button-back'><i className="fas fa-arrow-left"></i></ButtonBack>
+        <ButtonNext className = 'button-next'><i className="fas fa-arrow-right"></i></ButtonNext>
       </div>
-      <Slider>
+      <div className = 'carousel__container'>
+      <Slider
+        className = 'carousel__slider'>
         {relatedItemsData.map((relatedItem) => (
           <Slide
-            aria-label = 'product slide'
+            // aria-label = 'product-slide'
             key = {relatedItem.id}
-            className = 'slides'
             index = {0}
+            style = {{
+              width: '240px',
+              height: '120px',
+              border: '2px solid',
+              marginLeft:'20px',
+              marginRight: '20px',
+              position: 'relative'
+            }}
           >
-            <RelatedProductCard
+            {/* <RelatedProductCard
               key = {relatedItem.id}
               id = {relatedItem.id}
               image = {relatedItem.image}
@@ -96,10 +108,11 @@ const RelatedList = () => {
               category = {relatedItem.category}
               price = {relatedItem.default_price}
               handleActionButton = {handleActionButton}
-            />
+            /> */}
           </Slide>
         ))}
       </Slider>
+      </div>
       </CarouselProvider>
     </div>
   )
