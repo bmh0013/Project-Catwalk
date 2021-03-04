@@ -1,22 +1,45 @@
-import key from './token.js';
+import API_KEY from './token.js';
 const axios = require('axios');
 
-function getProductInfo() {
-  const URL = 'https://app-hrsei-api.herokuapp.com/api/fec2/hratx/products';
-  console.log(key);
-  axios({
+function getReviewInfo(cb, id) {
+  let headers = {
     method: 'get',
-    url: URL,
+    url: 'https://app-hrsei-api.herokuapp.com/api/fec2/hratx/reviews/meta',
+    params: {
+      product_id: 21113
+    },
     headers: {
-      Authorization: key,
+      Authorization: API_KEY
     }
-  })
+  }
+  axios(headers)
   .then(res => {
-    console.log(res.data);
+    console.log(res);
+    cb(null, res.data.ratings);
   })
   .catch(err => {
-    console.log(err)
+    cb(err);
   });
 }
 
-export default getProductInfo;
+function getProductInfo(cb) {
+  let headers = {
+    method: 'get',
+    url: 'https://app-hrsei-api.herokuapp.com/api/fec2/hratx/products',
+    headers: {
+      Authorization: API_KEY
+    }
+  }
+  axios(headers)
+  .then(res => {
+    cb(null, res.data);
+  })
+  .catch(err => {
+    cb(err);
+  });
+}
+
+export{
+  getReviewInfo,
+  getProductInfo,
+}

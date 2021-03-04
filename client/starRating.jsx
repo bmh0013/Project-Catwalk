@@ -46,8 +46,24 @@ function HoverRating() {
   );
 }
 
-function StaticRating() {
-  const [value, setValue] = React.useState(4.25);
+function StaticRating(props) {
+  // let reviewData = props.data.reviewData;
+
+  // STATIC DEMO DATA
+  let reviewData = {
+    1: 20,
+    2: 20,
+    3: 12,
+    4: 0,
+    5: 1,
+  }
+
+  let values = Object.entries(reviewData).map(e =>
+    e[0] * e[1])
+    .reduce((a, b) => a + b, 0) /
+    Object.values(reviewData).reduce((a, b) => a + b, 0);
+
+  const [value, setValue] = React.useState(values);
 
   return (
     <div>
