@@ -4,6 +4,7 @@ import QuestionSearch from './QuestionSearch.jsx';
 import { addQuestion, getQuestions, getProducts } from './helperFunctions.js';
 import sampleData from './sampleData.js';
 import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
 
 const Questions = () => {
   const [productId, setProductId] = useState(21111);
@@ -36,17 +37,18 @@ const Questions = () => {
           <Question question={q} key={q.question_id} handleChange={loadData} />
         ))}
         {data.length > 2 ? (
-          <Button color="primary" onClick={showMore} size="small">
+          <Button color="primary" onClick={showMore} size="small" variant="outlined">
 
               {expanded ? (
-                <span>show fewer questions</span>
+                <span>FEWER ANSWERED QUESTIONS</span>
               ) : (
-                <span>load more questions</span>
+                <span>MORE ANSWERED QUESTIONS</span>
               )}
 
           </Button>
           ) : null
         }
+        <Button color="primary" onClick={()=>(alert('comings soon'))} size="small" variant="outlined" endIcon={<AddIcon>add</AddIcon>}>ADD A QUESTION</Button>
       </div>
     </div>
   );

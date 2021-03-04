@@ -1,10 +1,23 @@
 import React from 'react';
-import TextField from '@material-ui/core/TextField';
+import Input from '@material-ui/core/Input';
+import SearchIcon from '@material-ui/icons/Search';
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 const QuestionSearch = () => (
   <div>
     <form className="qa-search" noValidate autoComplete="off">
-      <TextField id="qa-search-bar" label="Search..." variant="filled" size="small" style={{width: 400}}/>
+      <Input
+        id="qa-search-bar"
+        label="Search..."
+        variant="outlined"
+        size="small"
+        fullWidth
+        endAdornment={
+          <InputAdornment position="end">
+          <SearchIcon></SearchIcon>
+          </InputAdornment>
+        }
+      />
     </form>
   </div>
 );
