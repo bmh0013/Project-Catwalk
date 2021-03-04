@@ -1,7 +1,6 @@
 import React from 'react';
 import RelatedList from './relatedproducts/related-product-list.jsx';
 import YourOutfitList from './relatedproducts/your-outfit-list.jsx';
-import RelatedProduct from './related-products.jsx';
 import Questions from './Questions/Questions.jsx';
 import Reviews from './Reviews/reviews.jsx';
 import Overview from './Overview/Overview.jsx';
