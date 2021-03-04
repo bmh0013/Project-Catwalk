@@ -106,3 +106,4 @@ typings/
 #github api key
 token.js
 package.json
+.DS_Store
