@@ -14,7 +14,7 @@ function getReviewInfo(cb, id) {
   }
   axios(headers)
   .then(res => {
-    console.log(res);
+    //console.log('GET REVIEW: ', res);
     cb(null, res.data.ratings);
   })
   .catch(err => {
@@ -22,17 +22,18 @@ function getReviewInfo(cb, id) {
   });
 }
 
-function getProductInfo(cb) {
+function getProductInfo(id, cb) {
   let headers = {
     method: 'get',
-    url: 'https://app-hrsei-api.herokuapp.com/api/fec2/hratx/products',
+    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hratx/products/${id}`,
     headers: {
       Authorization: API_KEY
-    }
+    },
   }
   axios(headers)
   .then(res => {
-    cb(null, res.data);
+    console.log(res);
+    cb(null, res);
   })
   .catch(err => {
     cb(err);
