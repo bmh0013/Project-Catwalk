@@ -107,3 +107,6 @@ token.js
 
 #bundle
 dist/bundle.js
+
+#ds_store
+.DS_Store
