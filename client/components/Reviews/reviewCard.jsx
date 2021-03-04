@@ -6,11 +6,11 @@ var moment = require('moment');
 const ReviewCard = (props) => {
   let date = moment(props.review.date, 'YYYY-MM-DD').format('MMMM D, YYYY');
 
-  useEffect(() => {
-    console.log('Data:', props.data);
-    console.log('Review:', props.review);
-    console.log('Photos:', props.review.photos);
-  }, [])
+  // useEffect(() => {
+  //   console.log('Data:', props.data);
+  //   console.log('Review:', props.review);
+  //   console.log('Photos:', props.review.photos);
+  // }, [])
 
   function handleHelpful(e) {
     let review_id = e.target.getAttribute('data');
@@ -34,10 +34,10 @@ const ReviewCard = (props) => {
       }
     };
     axios(headers)
-    .then(function (response) {
+    .then(response => {
       console.log(review_id, response);
     })
-    .catch(function (error) {
+    .catch(error => {
       console.log(error);
     });
   }
@@ -52,9 +52,8 @@ const ReviewCard = (props) => {
       </p>
       <span className="thumbnail-container">
         {props.review.photos.map(photo =>
-          <a href={photo.url}>
-            <img className="thumbnail" src={photo.url}
-            key={photo.id}>
+          <a href={photo.url} key={photo.id}>
+            <img className="thumbnail" src={photo.url}>
             </img>
           </a>
         )}
