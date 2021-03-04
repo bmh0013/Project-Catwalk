@@ -88,7 +88,6 @@ const RelatedList = () => {
         className = 'carousel__slider'>
         {relatedItemsData.map((relatedItem) => (
           <Slide
-            // aria-label = 'product-slide'
             key = {relatedItem.id}
             index = {0}
             style = {{
@@ -100,7 +99,7 @@ const RelatedList = () => {
               position: 'relative'
             }}
           >
-            {/* <RelatedProductCard
+            <RelatedProductCard
               key = {relatedItem.id}
               id = {relatedItem.id}
               image = {relatedItem.image}
@@ -108,7 +107,7 @@ const RelatedList = () => {
               category = {relatedItem.category}
               price = {relatedItem.default_price}
               handleActionButton = {handleActionButton}
-            /> */}
+            />
           </Slide>
         ))}
       </Slider>
