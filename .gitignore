@@ -102,6 +102,11 @@ typings/
 # TernJS port file
 .tern-port
 
-./dist/.bundle.js
 #github api key
 token.js
+
+#bundle
+dist/bundle.js
+
+#ds_store
+.DS_Store
