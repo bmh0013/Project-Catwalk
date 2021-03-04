@@ -1,4 +1,4 @@
-import API_KEY from './token.js';
+import API_KEY from '../../../token.js';
 const axios = require('axios');
 
 function getReviewInfo(cb, id) {
