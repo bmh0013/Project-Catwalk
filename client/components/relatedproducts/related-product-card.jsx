@@ -3,7 +3,7 @@ import {Star, StarFill} from 'react-bootstrap-icons';
 import Modal from 'react-modal';
 import ModalDetails from './modalDetails.jsx';
 
-const RelatedProductCard = ({id, name, category, image, price, handleActionButton}) => {
+const RelatedProductCard = ({id, currentProductId, name, category, image, price, handleActionButton}) => {
 
   const [starFill, setStarFill] = useState(false);
   const [openModal, setOpenModal] = useState(false);
@@ -49,6 +49,7 @@ const RelatedProductCard = ({id, name, category, image, price, handleActionButto
       >
       <ModalDetails
         name = {name}
+        currentProductId = {currentProductId}
         category = {category}
         price = {price}
       />

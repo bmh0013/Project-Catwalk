@@ -102,6 +102,7 @@ const RelatedList = () => {
             <RelatedProductCard
               key = {relatedItem.id}
               id = {relatedItem.id}
+              currentProductId = {productId}
               image = {relatedItem.image}
               name = {relatedItem.name}
               category = {relatedItem.category}

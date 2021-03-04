@@ -1,12 +1,27 @@
 //this will take care of showing all the card details when a user clicks on a click
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
 
-const ModalDetails = ({name, category, price}) => {
+const ModalDetails = ({currentProductId, name, category, price}) => {
+
+  const [currentProduct, setCurrentProduct] = useState([]);
+
+  useEffect(() => {
+    const url = `/proxy/api/fec2/hratx/products/${currentProductId}`;
+    axios.get(url)
+      .then(res => {
+        console.log('response data', res.data) //working fine
+        setCurrentProduct(res.data)
+      })
+      .then(() => console.log('currentproduct', currentProduct))
+      .catch(err => console.log(err))
+  },[currentProductId])
 
   return(
     <div>
       <h1>COMPARING</h1>
+      <h2>{currentProductId}</h2>
       <p>{name}<span className = 'comparison'>Name</span></p>
       <p>{category}<span className = 'comparison'>Category</span></p>
       <p>{price}<span className = 'comparison'>Price</span></p>
