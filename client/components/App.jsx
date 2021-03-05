@@ -14,7 +14,7 @@ class App extends React.Component{
     return(
       <div>
         {/* <Overview /> */}
-        <RelatedList />
+        {/* <RelatedList /> */}
         <YourOutfitList />
         {/* <Questions />
         <Reviews /> */}

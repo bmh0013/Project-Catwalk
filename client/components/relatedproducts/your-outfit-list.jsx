@@ -1,42 +1,47 @@
 import React, {useState, useEffect} from 'react';
+import useLocalStorageState from 'use-local-storage-state';
 import OutfitCard from './your-outfit-card.jsx';
 import {CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
 import {PlusCircle} from 'react-bootstrap-icons'
 import 'pure-react-carousel/dist/react-carousel.es.css';
-// import localstorage from 'localstorage';
 import axios from 'axios';
 
 const YourOutfitList = () => {
-  // const [localSession, setLocalSession]
-  const [outfitItems, setOutfitItems] = useState([
-    {id: 21254,
-    image: null,
-    name: 'Black jordans',
-    category: 'shoes',
-    price: '69.95'
-    },
-    {id: 21255,
-    image: null,
-    name: 'Banana Duck Jacket',
-    category: 'jacket',
-    price: '149.95'
-    },
-    {id: 21256,
-      image: null,
-      name: 'Sike Watermax',
-      category: 'shoes',
-      price: '249.95'
-      }
-    ]);
+  const [storageOutfitItems, setStorageOutfitItems] = useLocalStorageState('outfitItems', [])
+  const [outfitItems, setOutfitItems] = useState(storageOutfitItems)
+
+  //initialize outfit list array accordingly to the local storage data
+  useEffect (() => {
+    setStorageOutfitItems(outfitItems);
+  },[]);
+
+  //edit the localstorage array if the outfit list changes
+  useEffect (() => {
+    setStorageOutfitItems(outfitItems);
+  },[outfitItems]);
 
   const addNewOutfitClick = (productId) => {
-    console.log('testing if this works');
+    let productFound = false;
+
+    for (let i = 0; i < outfitItems.length; i++) {
+      if (productId === outfitItems[i].id) {
+        productFound = true;
+      }
+    }
+    if (productFound === false) {
+      const productUrl = `/proxy/api/fec2/hratx/products/${productId}`;
+      axios.get(productUrl)
+        .then(res => {
+          setOutfitItems([...outfitItems, res.data])
+        })
+        .catch(err => console.log('error, cannot retrieve outfit', err))
+    } else return;
   };
 
   const removeListItem = (id) => {
     let filteredItems = outfitItems.filter(outfitItem => outfitItem.id !== id);
     setOutfitItems(filteredItems);
-  };
+  }
 
   return(
     <div className = 'outfit-section'>
@@ -70,7 +75,8 @@ const YourOutfitList = () => {
               }}
             >
               <div className = 'product-card plus-card'>
-                <PlusCircle size = {75} onClick = {addNewOutfitClick} />
+       {/* here, instead of 21111, pass in the productid value from the product overview */}
+                <PlusCircle size = {75} onClick = {(event) => addNewOutfitClick(21114)} />
                 <p>Add to Outfit</p>
               </div>
           </Slide>

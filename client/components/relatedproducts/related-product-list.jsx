@@ -56,8 +56,6 @@ const RelatedList = () => {
     })
   },[relatedItems])
 
-
-
   //for the cover, you need a clickable favorites icon, category, name, price, and star rating
   return (
     <div className = 'related-list'>
