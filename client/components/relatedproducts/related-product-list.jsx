@@ -77,8 +77,7 @@ const RelatedList = () => {
         <ButtonNext className = 'button-next'><i className="fas fa-arrow-right"></i></ButtonNext>
       </div>
       <div className = 'carousel__container'>
-      <Slider
-        className = 'carousel__slider'>
+      <Slider className = 'carousel__slider'>
         {relatedItemsData.map((relatedItem) => (
           <Slide
             key = {relatedItem.id}

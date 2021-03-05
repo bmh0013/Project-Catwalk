@@ -1,16 +1,15 @@
 const express = require('express');
-const port = 3002;
 const path = require('path');
-const TOKEN = require('./token.js');
 const axios = require('axios');
 const proxy = require('express-http-proxy');
 const bodyparser = require('body-parser');
+const rawbody = require('raw-body');
+
+const TOKEN = require('./token.js');
+const port = 3002;
 const app = express();
 // const { default: TOKEN } = require("./token.js");
 
-//make a request here to specific things you're looking for
-
-// app.use(bodyparser.json());
 app.use(express.static(path.join(__dirname, '/dist')));
 
 app.use('/proxy',
@@ -24,6 +23,14 @@ app.use('/proxy',
     }
   })
 )
+//bodyparser has to be declared AFTER the use proxy
+
+app.use(bodyparser.json());
+
+//for the post requests
+app.use('/post', proxy('https://app-hrsei-api.herokuapp.com/', {
+  reqBodyEncoding: null
+}))
 
 app.listen(port, () => {
   console.log(`You're listening on port ${port}`)

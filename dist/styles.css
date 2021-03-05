@@ -53,7 +53,7 @@ body{
   position: relative;
 } */
 /* related card styles */
-.related-card{
+.product-card{
   /* height: 20rem;
   width: 10rem; */
   padding-left:25%;
@@ -62,9 +62,9 @@ body{
   margin: 0 0.5rem 0 0.5rem;
 }
 
-.related-image {
-  height: 10rem;
-  width: 10rem;
+.product-image {
+  height: 15rem;
+  width: 15rem;
 }
 
 .product-category, .product-name {

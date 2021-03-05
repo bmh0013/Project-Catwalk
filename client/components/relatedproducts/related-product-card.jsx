@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StarFill} from 'react-bootstrap-icons';
+import {Star} from 'react-bootstrap-icons';
 import Modal from 'react-modal';
 import ModalDetails from './modalDetails.jsx';
 
@@ -14,9 +14,9 @@ const RelatedProductCard = ({id, currentProductId, name, category, image, price,
   }
 
   return (
-    <div className = 'related-card'>
-      <StarFill onClick = {toggleModal} />
-      <img className = 'related-image' src = {image} alt = {name} />
+    <div className = 'product-card'>
+      <Star size = {30} onClick = {toggleModal} />
+      <img className = 'product-image' src = {image} alt = {name} />
       <p className = 'product-name'>{name}</p>
       <p className = 'product-category'>{category}</p>
       <p className = 'product-price'>{price}</p>

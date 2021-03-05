@@ -36,6 +36,7 @@
     "path": "^0.12.7",
     "proxy": "^1.0.2",
     "pure-react-carousel": "^1.27.6",
+    "raw-body": "^2.4.0",
     "react": "^16.13.1",
     "react-bootstrap": "^1.5.0",
     "react-bootstrap-icons": "^1.4.0",
