@@ -13,7 +13,7 @@ const ModalDetails = ({currentProductId, name, category, price, features}) => {
     const url = `/proxy/api/fec2/hratx/products/${currentProductId}`;
     axios.get(url)
       .then(res => {
-        console.log('response data', res.data) //working fine
+        // console.log('response data', res.data) //working fine
         setCurrentProduct(res.data)
       })
       .catch(err => console.log('error updating the modal', err))

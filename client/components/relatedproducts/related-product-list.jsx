@@ -11,7 +11,6 @@ const RelatedList = () => {
   //this will generate an array of objects in accordance to the relatedItems
   const [relatedItemsData, setRelatedItemsData] = useState([]);
 
-  //this will do a componentDidMount-like functionality
   useEffect(() => {
     const url = `/proxy/api/fec2/hratx/products/${productId}/related`;
     axios.get(url)
@@ -21,10 +20,10 @@ const RelatedList = () => {
       .catch(err => console.log('error retrieving the relevant product ids', err))
   }, [productId])
 
-  //do useEffect again to pull all the data in accordance to the relatedItems array
+  //do useEffect again to pull all the data in accordance to the relatedItems array populated from the first useEffect
   useEffect(() => {
     let renderedItems = [];
-    let renderedPhotos = [];
+    let renderedStyles = [];
     // console.log(relatedItems); //being passed the correct value
     relatedItems.forEach(item => {
       const productUrl = `/proxy/api/fec2/hratx/products/${item}`;
@@ -36,12 +35,12 @@ const RelatedList = () => {
         .then(() => {
           axios.get(stylesUrl)
             .then(res => {
-              renderedPhotos.push({id: res.data.product_id, image:res.data.results[0].photos[0].thumbnail_url})
-              if (renderedItems.length === renderedPhotos.length) {
+              renderedStyles.push({id: res.data.product_id, image:res.data.results[0].photos[0].thumbnail_url})
+              if (renderedItems.length === renderedStyles.length) {
                 for (let i = 0; i < renderedItems.length; i++) {
-                  for (let j = 0; j < renderedPhotos.length; j++){
-                    if (renderedItems[i].id == renderedPhotos[j].id) {
-                      renderedItems[i]['image'] = renderedPhotos[j].image
+                  for (let j = 0; j < renderedStyles.length; j++){
+                    if (renderedItems[i].id == renderedStyles[j].id) {
+                      renderedItems[i]['image'] = renderedStyles[j].image
                     }
                   }
                 }
@@ -56,6 +55,8 @@ const RelatedList = () => {
         .catch(err => console.log('error retrieving the product information', err));
     })
   },[relatedItems])
+
+
 
   //for the cover, you need a clickable favorites icon, category, name, price, and star rating
   return (

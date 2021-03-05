@@ -105,3 +105,9 @@ body{
 .ReactModal__Overlay--before-close {
   opacity: 0;
 }
+
+.plus-card{
+  display:flex;
+  justify-content:center;
+  margin-top:9rem;
+}
