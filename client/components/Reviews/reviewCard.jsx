@@ -7,8 +7,8 @@ const ReviewCard = (props) => {
   let date = moment(props.review.date, 'YYYY-MM-DD').format('MMMM D, YYYY');
 
   useEffect(() => {
-    console.log('Data:', props.data);
-    console.log('Review:', props.review);
+    // console.log('Data:', props.data);
+    // console.log('Review:', props.review);
   }, [])
 
   function handleHelpful(e) {

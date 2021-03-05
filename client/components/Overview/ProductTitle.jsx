@@ -1,12 +1,11 @@
 import React from 'react';
 
-function ProductCategory(props) {
-  console.log('PROPS: ', props)
+function ProductTitle(props) {
   if (props.product !== null) {
-    let category = props.category;
+    let title = props.title;
     return(
       <div>
-        {category}
+        {title}
       </div>
     )
   } else {
@@ -16,5 +15,5 @@ function ProductCategory(props) {
 }
 
 export{
-  ProductCategory
+  ProductTitle
 }

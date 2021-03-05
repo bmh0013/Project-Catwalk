@@ -1,12 +1,11 @@
 import React from 'react';
 
-function ProductCategory(props) {
-  console.log('PROPS: ', props)
+function ProductPrice(props) {
   if (props.product !== null) {
-    let category = props.category;
+    let price = props.price;
     return(
       <div>
-        {category}
+        ${price}
       </div>
     )
   } else {
@@ -16,5 +15,5 @@ function ProductCategory(props) {
 }
 
 export{
-  ProductCategory
+  ProductPrice
 }
