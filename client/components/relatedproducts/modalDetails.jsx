@@ -4,7 +4,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 
-const ModalDetails = ({currentProductId, name, category, price}) => {
+const ModalDetails = ({currentProductId, name, category, price, features}) => {
 
   const [currentProduct, setCurrentProduct] = useState([]);
 
@@ -16,19 +16,36 @@ const ModalDetails = ({currentProductId, name, category, price}) => {
         console.log('response data', res.data) //working fine
         setCurrentProduct(res.data)
       })
-      .then(() => console.log('currentproduct', currentProduct))
-      .catch(err => console.log(err))
+      .catch(err => console.log('error updating the modal', err))
   },[currentProductId])
 
   return(
     <div>
       <h1>COMPARING</h1>
-      <h2>{currentProductId}</h2>
-      <p>{name}<span className = 'comparison'>Name</span>{currentProduct.name}</p>
-      <p>{category}<span className = 'comparison'>Category</span>{currentProduct.category}</p>
-      <p>{price}<span className = 'comparison'>Price</span>{currentProduct.default_price}</p>
-      <p><span className = 'comparison'>Number of Features</span>{currentProduct.features.length}</p>
-
+      <table>
+        <tbody>
+          <tr>
+            <th>{name}</th>
+            <th></th>
+            <th>{currentProduct.name}</th>
+          </tr>
+          <tr>
+            <th>{category}</th>
+            <th>Category</th>
+            <th>{currentProduct.category}</th>
+          </tr>
+          <tr>
+            <th>{price}</th>
+            <th>Price</th>
+            <th>{currentProduct.default_price}</th>
+          </tr>
+          <tr>
+            <th>{features.length}</th>
+            <th>Features</th>
+            <th>Figure out why I can't retrieve length</th>
+          </tr>
+        </tbody>
+      </table>
     </div>
   )
 };

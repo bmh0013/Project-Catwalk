@@ -18,7 +18,7 @@ const RelatedList = () => {
       .then(res => {
         setRelatedItems(res.data);
       })
-      .catch(err => console.log(err))
+      .catch(err => console.log('error retrieving the relevant product ids', err))
   }, [productId])
 
   //do useEffect again to pull all the data in accordance to the relatedItems array
@@ -27,14 +27,14 @@ const RelatedList = () => {
     let renderedPhotos = [];
     // console.log(relatedItems); //being passed the correct value
     relatedItems.forEach(item => {
-      const url = `/proxy/api/fec2/hratx/products/${item}`;
-      const url2 = `/proxy/api/fec2/hratx/products/${item}/styles`;
-      axios.get(url)
+      const productUrl = `/proxy/api/fec2/hratx/products/${item}`;
+      const stylesUrl = `/proxy/api/fec2/hratx/products/${item}/styles`;
+      axios.get(productUrl)
         .then(res => {
           renderedItems.push(res.data);
         })
         .then(() => {
-          axios.get(url2)
+          axios.get(stylesUrl)
             .then(res => {
               renderedPhotos.push({id: res.data.product_id, image:res.data.results[0].photos[0].thumbnail_url})
               if (renderedItems.length === renderedPhotos.length) {
@@ -51,20 +51,13 @@ const RelatedList = () => {
                   }
               }
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log('error retrieving the product styles', err))
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log('error retrieving the product information', err));
     })
   },[relatedItems])
 
   //for the cover, you need a clickable favorites icon, category, name, price, and star rating
-
-  const handleActionButton = (id) => {
-    // make something happen when the user clicks/declicks the star
-    // console.log('You clicked this button');
-    // console.log('actionbutton', id);
-  }
-
   return (
     <div className = 'related-list'>
       <h1 className = 'related-list-heading'>RELATED PRODUCTS</h1>
@@ -102,12 +95,14 @@ const RelatedList = () => {
             <RelatedProductCard
               key = {relatedItem.id}
               id = {relatedItem.id}
-              currentProductId = {productId}
               image = {relatedItem.image}
               name = {relatedItem.name}
               category = {relatedItem.category}
               price = {relatedItem.default_price}
-              handleActionButton = {handleActionButton}
+
+              // this information is for the modal
+              currentProductId = {productId}
+              features = {relatedItem.features}
             />
           </Slide>
         ))}
