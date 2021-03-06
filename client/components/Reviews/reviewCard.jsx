@@ -1,5 +1,6 @@
 import React, { useState,useEffect } from 'react';
 import TOKEN from '../../../token.js'
+import API from '../../../api.js';
 const axios = require('axios').default;
 var moment = require('moment');
 
@@ -9,12 +10,16 @@ const ReviewCard = (props) => {
 
   function handleHelpful(e) {
     let review_id = e.target.getAttribute('data');
-    handlePutRequests(review_id, 'helpful');
+    API.updateHelpful(review_id, {review_id})
+    .then(res => console.log(res))
+    .catch(err => console.log(err));
   }
 
   function handleReport(e) {
     let review_id = e.target.getAttribute('data');
-    handlePutRequests(review_id, 'report');
+    API.updateReport(review_id, {review_id})
+    .then(res => console.log(res))
+    .catch(err => console.log(err));
   }
 
   function handlePutRequests(review_id, route) {

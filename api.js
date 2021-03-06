@@ -2,7 +2,7 @@ import { TOKEN } from './token.js';
 const axios = require('axios').default;
 
 
-// Handles all get requests, requires a route and a params
+// Handles all GET requests, requires a route and a params
 function handleGetRequests(route, params) {
   let headers;
   if (params) {
@@ -50,7 +50,7 @@ function getAnswers(question_id, params) {
   return handleGetRequests(`qa/questions/${question_id}/answers`, params)
 }
 
-// Handles all put requests, requires a route and params object
+// Handles all POST requests, requires a route and params object
 function handlePostRequests(route, params) {
   let headers = {
     method: 'post',
@@ -67,11 +67,35 @@ function postReview(params) {
   return handlePostRequests('reviews', params)
 }
 
+// Handles all PUT requests, requires a route and params object
+function handlePutRequests(route, params) {
+  let headers = {
+    method: 'put',
+    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hratx/${route}`,
+    headers: {
+      Authorization: TOKEN
+    },
+    params: params
+  };
+  return axios(headers)
+}
+
+function updateHelpful(review_id, params) {
+  return handlePutRequests(`reviews/${review_id}/helpful`, params);
+}
+
+function updateReport(review_id, params) {
+  return handlePutRequests(`reviews/${review_id}/report`, params);
+}
+
 export default {
   getAllProducts,
   getProduct,
   getReviewCards,
   getMetadata,
   getQuestions,
-  getAnswers
+  getAnswers,
+  postReview,
+  updateHelpful,
+  updateReport
 }

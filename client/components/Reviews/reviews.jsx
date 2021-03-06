@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import TOKEN from '../../../token.js';
 import ReviewCard from './reviewCard.jsx';
 import NewReview from './newReview.jsx';
-import $ from 'jquery';
+import API from '../../../api.js';
 const axios = require('axios').default;
 
 
 const Reviews = (props) => {
-  var product_id = 21114;
+  var product_id = props.product_id;
 
   var [product, setProduct] = useState({});
   var [reviewCards, setReviewCards] = useState([]);
@@ -20,41 +20,18 @@ const Reviews = (props) => {
   }, []);
 
   var initializeReviews = async () => {
-    await getProduct()
-    .then(res => res.data)
-    .then(product => {
-      setProduct(product);
-    })
+    await API.getProduct(product_id)
+    .then(res => setProduct(res.data))
+    .catch(err => console.error(err))
 
-    await getReviewCards()
-    .then(res => res.data.results)
-    .then(reviews => {
-      loadReviews(reviews);
-    })
-    .catch(err => {
-      console.error(err);
-    })
+    await API.getReviewCards({product_id: product_id})
+    .then(res => loadReviews(res.data.results))
+    .catch(err => console.error(err))
 
-    await getMetadata()
-    .then(res => {
-      setMetadata(res.data);
-    })
-    .catch(err => {
-      console.error(err);
-    })
+    await API.getMetadata({product_id: product_id})
+    .then(res => setMetadata(res.data))
+    .catch(err => console.error(err))
   };
-
-  function getProduct() {
-    return handleGetRequests(`products/${product_id}`)
-  }
-
-  function getReviewCards() {
-    return handleGetRequests('reviews')
-  }
-
-  function getMetadata() {
-    return handleGetRequests('reviews/meta')
-  }
 
   function loadReviews(data) {
     let results = [];
@@ -68,20 +45,6 @@ const Reviews = (props) => {
     data.splice(0, count)
     setReviewCards(data);
     updateShowCards(oldReview => [...oldReview, ...results]);
-  }
-
-  function handleGetRequests(route) {
-    let headers = {
-      method: 'get',
-      url: `https://app-hrsei-api.herokuapp.com/api/fec2/hratx/${route}`,
-      headers: {
-        Authorization: TOKEN
-      },
-      params: {
-        product_id: product_id
-      }
-    };
-    return axios(headers)
   }
 
   return (
