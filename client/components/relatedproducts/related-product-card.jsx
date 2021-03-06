@@ -2,8 +2,9 @@ import React, {useState} from 'react';
 import {Star} from 'react-bootstrap-icons';
 import Modal from 'react-modal';
 import ModalDetails from './modalDetails.jsx';
+import Rating from '../Overview/Rating.jsx';
 
-const RelatedProductCard = ({id, currentProductId, name, category, image, price, features, starRating}) => {
+const RelatedProductCard = ({id, currentProductId, name, category, image, price, sendProductId, features}) => {
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -13,7 +14,7 @@ const RelatedProductCard = ({id, currentProductId, name, category, image, price,
     setOpenModal(!openModal);
   }
 
-  console.log('star rating', starRating)
+  // console.log('star rating', starRating)
 
   return (
     <div className = 'product-card'>
@@ -26,11 +27,12 @@ const RelatedProductCard = ({id, currentProductId, name, category, image, price,
         }}
       />
       <img className = 'product-image' src = {image} alt = {name} />
-      <div className = 'bottom-half-card'>
+      <div className = 'bottom-half-card' onClick = {() => sendProductId(id)}>
         <p className = 'product-category'>{category}</p>
         <p className = 'product-name'>{name}</p>
-        <p className = 'product-price'>{price}</p>
-        {/* <p className = 'star-rating'>{starRating()}</p> */}
+        <p className = 'product-price'>${price}</p>
+        <div className=  'star-rating'>Star rating goes here</div>
+        {/* <div className = 'star-rating'>{starRating}</div> */}
       </div>
 
       <Modal

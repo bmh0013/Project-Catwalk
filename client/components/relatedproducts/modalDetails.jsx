@@ -25,11 +25,11 @@ const ModalDetails = ({currentProductId, name, category, price, features}) => {
  }
 
   return(
-    <div>
-      <h1>COMPARING</h1>
-      <table>
+    <div className = 'modal-container'>
+      <h1 className = 'modal-heading'>COMPARING</h1>
+      <table className = 'modal-comparison'>
         <tbody>
-          <tr>
+          <tr className = 'modal-names-row'>
             <th>{name}</th>
             <th></th>
             <th>{currentProduct.name}</th>

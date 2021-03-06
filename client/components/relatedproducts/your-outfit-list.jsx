@@ -11,14 +11,10 @@ const YourOutfitList = () => {
   const [outfitItems, setOutfitItems] = useState(storageOutfitItems)
 
   //initialize outfit list array accordingly to the local storage data
-  useEffect (() => {
-    setStorageOutfitItems(outfitItems);
-  },[]);
+  useEffect (() => setStorageOutfitItems(outfitItems),[]);
 
   //edit the localstorage array if the outfit list changes
-  useEffect (() => {
-    setStorageOutfitItems(outfitItems);
-  },[outfitItems]);
+  useEffect (() => setStorageOutfitItems(outfitItems),[outfitItems]);
 
   const addNewOutfitClick = (productId) => {
     let productFound = false;
@@ -47,7 +43,7 @@ const YourOutfitList = () => {
     <div className = 'outfit-section'>
       <h1 className = 'heading-list'>YOUR OUTFITS</h1>
       <CarouselProvider
-        className = 'c-cart-items-carousel'
+        className = 'items-carousel'
         naturalSlideHeight = {150}
         naturalSlideWidth = {125}
         totalSlides = {outfitItems.length + 1}
@@ -74,10 +70,17 @@ const YourOutfitList = () => {
                 position: 'relative'
               }}
             >
-              <div className = 'product-card plus-card'>
+              <div className = 'product-card'>
        {/* here, instead of 21111, pass in the productid value from the product overview */}
-                <PlusCircle size = {75} onClick = {(event) => addNewOutfitClick(21114)} />
-                <p>Add to Outfit</p>
+                <PlusCircle size = {75} onClick = {(event) => addNewOutfitClick(21114)}
+                   style = {{
+                    position: 'absolute',
+                    left: '7.5rem',
+                    top: '12.5rem',
+                    zIndex: '2'
+                  }}
+                />
+                <p className = 'plus-card-caption'>Add to Outfit</p>
               </div>
           </Slide>
           {outfitItems.map((outfitItem) => (
@@ -99,7 +102,7 @@ const YourOutfitList = () => {
               image = {outfitItem.image}
               name = {outfitItem.name}
               category = {outfitItem.category}
-              price = {outfitItem.price}
+              price = {outfitItem.default_price}
               removeListItem = {removeListItem}
             />
           </Slide>

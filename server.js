@@ -3,7 +3,6 @@ const path = require('path');
 const axios = require('axios');
 const proxy = require('express-http-proxy');
 const bodyparser = require('body-parser');
-const rawbody = require('raw-body');
 
 const TOKEN = require('./token.js');
 const port = 3002;

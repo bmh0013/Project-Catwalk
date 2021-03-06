@@ -50,6 +50,7 @@ function StaticRating(props) {
   // let reviewData = props.data.reviewData;
 
   // STATIC DEMO DATA
+  //comment this out
   let reviewData = {
     1: 20,
     2: 20,

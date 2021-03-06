@@ -3,7 +3,8 @@ import RelatedProductCard from './related-product-card.jsx';
 import {CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import axios from 'axios';
-import StaticRating from '../../starRating.jsx';
+import {getReviewInfo} from '../Overview/serverRequests.js';
+import {StaticRating} from '../../starRating.jsx';
 
 const RelatedList = () => {
   const [productId, setProductId] = useState(['21111']);
@@ -11,6 +12,7 @@ const RelatedList = () => {
   const [relatedItems, setRelatedItems] = useState([]);
   //this will generate an array of objects in accordance to the relatedItems
   const [relatedItemsData, setRelatedItemsData] = useState([]);
+  const [productReview, updateReview] = useState(null);
 
   useEffect(() => {
     const url = `/proxy/api/fec2/hratx/products/${productId}/related`;
@@ -31,6 +33,14 @@ const RelatedList = () => {
       const stylesUrl = `/proxy/api/fec2/hratx/products/${item}/styles`;
       axios.get(productUrl)
         .then(res => {
+          //paste in product.id within function
+          // getReviewInfo(21111, (err, data) => {
+          //   if (err) {
+          //     throw err
+          //   } else {
+          //     updateReview(data)
+          //   }
+          // })
           renderedItems.push(res.data);
         })
         .then(() => {
@@ -57,19 +67,23 @@ const RelatedList = () => {
     })
   },[relatedItems])
 
-  //for the cover, you need a clickable favorites icon, category, name, price, and star rating
+   //if you click on the card, that productid should be imported into the api request for that product info
+  const sendProductId = (id) => {
+    console.log('clicked', id);
+  };
+
   return (
     <div className = 'related-list'>
       <h1 className = 'heading-list'>RELATED PRODUCTS</h1>
       <CarouselProvider
-        className = 'c-related-items-carousel'
+        className = 'items-carousel'
         naturalSlideHeight = {150}
         naturalSlideWidth = {125}
         totalSlides = {relatedItems.length}
         visibleSlides = {3}
         dragEnabled = {false}
         style = {{
-          position:'relative'
+          position:'absolute'
         }}
       >
       <div className = 'buttons'>
@@ -98,7 +112,10 @@ const RelatedList = () => {
               name = {relatedItem.name}
               category = {relatedItem.category}
               price = {relatedItem.default_price}
-              starRating = {StaticRating}
+              // starRating = {StaticRating(productReview)}
+
+              //pass in productReview value into StaticRating
+              sendProductId = {sendProductId}
 
               // this information is for the modal
               currentProductId = {productId}
