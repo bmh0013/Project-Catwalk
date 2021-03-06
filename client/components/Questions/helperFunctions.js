@@ -28,20 +28,18 @@ async function addQuestion(options) {
     body: JSON.stringify(options),
   });
 
-  console.log(response);
-
   return 'Added';
 };
 
 async function addAnswer(options) {
-  var url = base_url + `qa/questions/${options.questionId}/answers`;
-  console.log(options);
+  var url = base_url + `qa/questions/${options.question_id}/answers`;
+
   const response = await fetch(url, {
     method: 'POST',
     headers: header,
     body: JSON.stringify(options),
   });
-  return 'response.json()';
+  return 'Added';
 };
 
 async function getProducts() {
@@ -100,6 +98,7 @@ async function reportAnswer(answerId) {
 module.exports = {
   getQuestions,
   addQuestion,
+  addAnswer,
   getProducts,
   markAnswerHelpful,
   markQuestionHelpful,

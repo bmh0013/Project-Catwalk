@@ -25,7 +25,7 @@ const Question = ({ question, refresh }) => {
         <Card>
           <CardContent>
             <span>
-              Q: {question.question_body}   |   Helpful?  <a className="qa-link" onClick={markHelpful}>Yes</a> ({question.question_helpfulness})   |   <AddAnswer />
+              Q: {question.question_body}   |   Helpful?  <a className="qa-link" onClick={markHelpful}>Yes</a> ({question.question_helpfulness})   |   <AddAnswer question_id={question.question_id} refresh={refresh}/>
             </span>
             <div className="qa-answers">
               {

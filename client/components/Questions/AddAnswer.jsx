@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
 import Link from '@material-ui/core/Link';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import { addAnswer } from './helperFunctions';
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -31,11 +33,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddAnswer = () => {
+const AddAnswer = ({ question_id, refresh }) => {
   const classes = useStyles();
-  // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle);
   const [open, setOpen] = useState(false);
+  const [formData, setFormData] = useState({ question_id: question_id });
 
   const handleOpen = () => {
     setOpen(true);
@@ -45,25 +47,49 @@ const AddAnswer = () => {
     setOpen(false);
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    addAnswer(formData)
+    .catch(err => console.log(err))
+    .then(() => {
+      setOpen(false);
+      refresh();
+    })
+  };
+
+  const handleChange = (prop, value) => {
+    let data = JSON.parse(JSON.stringify(formData));
+    data[prop] = value;
+    setFormData(data);
+  }
+
   const body = (
     <div style={modalStyle} className={classes.paper}>
-      <h2 id="simple-modal-title">Text in a modal</h2>
-      <p id="simple-modal-description">
-        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-      </p>
+      <h2 id="add-answer-title">Add an Answer</h2>
+      <form onSubmit={handleSubmit}>
+        <InputLabel htmlFor="add-answer-answer">Answer</InputLabel>
+        <Input id="add-answer-answer" onChange={(e) => handleChange('body', e.target.value)} fullWidth/>
+        <InputLabel htmlFor="add-answer-name">Name</InputLabel>
+        <Input id="add-answer-name" onChange={(e) => handleChange('name', e.target.value)} fullWidth/>
+        <InputLabel htmlFor="add-answer-email">Email</InputLabel>
+        <Input id="add-answer-email" onChange={(e) => handleChange('email', e.target.value)} fullWidth/>
+        <Button type="submit" color="primary" variant="outlined">ADD</Button>
+      </form>
     </div>
   );
 
   return (
     <div>
-      <Link onClick={handleOpen}>
-          Add Answer
+      <Link
+        color="primary"
+        onClick={handleOpen}>
+        Add Answer
       </Link>
       <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
       >
         {body}
       </Modal>

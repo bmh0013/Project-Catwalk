@@ -35,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
 
 const AddQuestion = ({ productId, refresh }) => {
   const classes = useStyles();
-  // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle);
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({ product_id: productId });
