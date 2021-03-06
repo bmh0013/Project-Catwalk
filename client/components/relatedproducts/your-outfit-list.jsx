@@ -6,7 +6,7 @@ import {PlusCircle} from 'react-bootstrap-icons'
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import axios from 'axios';
 
-const YourOutfitList = () => {
+const YourOutfitList = ({product_id}) => {
   const [storageOutfitItems, setStorageOutfitItems] = useLocalStorageState('outfitItems', [])
   const [outfitItems, setOutfitItems] = useState(storageOutfitItems)
 
@@ -72,7 +72,7 @@ const YourOutfitList = () => {
             >
               <div className = 'product-card'>
        {/* here, instead of 21111, pass in the productid value from the product overview */}
-                <PlusCircle size = {75} onClick = {(event) => addNewOutfitClick(21114)}
+                <PlusCircle size = {75} onClick = {(event) => addNewOutfitClick(product_id)}
                    style = {{
                     position: 'absolute',
                     left: '7.5rem',

@@ -6,8 +6,7 @@ import axios from 'axios';
 import {getReviewInfo} from '../Overview/serverRequests.js';
 import {StaticRating} from '../../starRating.jsx';
 
-const RelatedList = () => {
-  const [productId, setProductId] = useState(['21111']);
+const RelatedList = ({product_id, renderNewProductId}) => {
   //this will be an array of productIDs based off the productID state
   const [relatedItems, setRelatedItems] = useState([]);
   //this will generate an array of objects in accordance to the relatedItems
@@ -15,19 +14,21 @@ const RelatedList = () => {
   const [productReview, updateReview] = useState(null);
 
   useEffect(() => {
-    const url = `/proxy/api/fec2/hratx/products/${productId}/related`;
+    const url = `/proxy/api/fec2/hratx/products/${product_id}/related`;
     axios.get(url)
       .then(res => {
-        setRelatedItems(res.data);
+        const distinctRelatedItems = [...new Set(res.data)]
+        return distinctRelatedItems
       })
+      .then (res => setRelatedItems(res))
       .catch(err => console.log('error retrieving the relevant product ids', err))
-  }, [productId])
+  }, [product_id])
 
   //do useEffect again to pull all the data in accordance to the relatedItems array populated from the first useEffect
   useEffect(() => {
     let renderedItems = [];
     let renderedStyles = [];
-    // console.log(relatedItems); //being passed the correct value
+
     relatedItems.forEach(item => {
       const productUrl = `/proxy/api/fec2/hratx/products/${item}`;
       const stylesUrl = `/proxy/api/fec2/hratx/products/${item}/styles`;
@@ -69,7 +70,8 @@ const RelatedList = () => {
 
    //if you click on the card, that productid should be imported into the api request for that product info
   const sendProductId = (id) => {
-    console.log('clicked', id);
+    console.log('id', id)
+    renderNewProductId(id);
   };
 
   return (
@@ -117,8 +119,8 @@ const RelatedList = () => {
               //pass in productReview value into StaticRating
               sendProductId = {sendProductId}
 
-              // this information is for the modal
-              currentProductId = {productId}
+              // // this information is for the modal
+              currentProductId = {product_id}
               features = {relatedItem.features}
             />
           </Slide>

@@ -4,7 +4,7 @@ const axios = require('axios');
 const proxy = require('express-http-proxy');
 const bodyparser = require('body-parser');
 
-const TOKEN = require('./token.js');
+const TOKEN = require('./token2.js');
 const port = 3002;
 const app = express();
 // const { default: TOKEN } = require("./token.js");
