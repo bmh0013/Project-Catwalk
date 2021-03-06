@@ -31,7 +31,7 @@ const RelatedProductCard = ({id, currentProductId, name, category, image, price,
         <p className = 'product-category'>{category}</p>
         <p className = 'product-name'>{name}</p>
         <p className = 'product-price'>${price}</p>
-        <div className=  'star-rating'>Star rating goes here</div>
+        <div className=  'star-rating'>Star rating goes herekk</div>
         {/* <div className = 'star-rating'>{starRating}</div> */}
       </div>
 
