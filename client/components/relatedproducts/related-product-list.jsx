@@ -3,6 +3,7 @@ import RelatedProductCard from './related-product-card.jsx';
 import {CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import axios from 'axios';
+import StaticRating from '../../starRating.jsx';
 
 const RelatedList = () => {
   const [productId, setProductId] = useState(['21111']);
@@ -59,7 +60,7 @@ const RelatedList = () => {
   //for the cover, you need a clickable favorites icon, category, name, price, and star rating
   return (
     <div className = 'related-list'>
-      <h1 className = 'related-list-heading'>RELATED PRODUCTS</h1>
+      <h1 className = 'heading-list'>RELATED PRODUCTS</h1>
       <CarouselProvider
         className = 'c-related-items-carousel'
         naturalSlideHeight = {150}
@@ -97,6 +98,7 @@ const RelatedList = () => {
               name = {relatedItem.name}
               category = {relatedItem.category}
               price = {relatedItem.default_price}
+              starRating = {StaticRating}
 
               // this information is for the modal
               currentProductId = {productId}

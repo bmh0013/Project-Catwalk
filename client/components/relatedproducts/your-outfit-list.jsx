@@ -45,7 +45,7 @@ const YourOutfitList = () => {
 
   return(
     <div className = 'outfit-section'>
-      <h1>Your outfits</h1>
+      <h1 className = 'heading-list'>YOUR OUTFITS</h1>
       <CarouselProvider
         className = 'c-cart-items-carousel'
         naturalSlideHeight = {150}

@@ -7,17 +7,22 @@ import axios from 'axios';
 const ModalDetails = ({currentProductId, name, category, price, features}) => {
 
   const [currentProduct, setCurrentProduct] = useState([]);
-
+  const [currentProductStyles, setCurrentProductStyles] = useState([]);
   //should run whenever a new current product id has changed
   useEffect(() => {
     const url = `/proxy/api/fec2/hratx/products/${currentProductId}`;
+    const stylesUrl = `/proxy/api/fec2/hratx/products/${currentProductId}/styles`;
     axios.get(url)
-      .then(res => {
-        // console.log('response data', res.data) //working fine
-        setCurrentProduct(res.data)
-      })
+      .then(res => setCurrentProduct(res.data))
+      .then(() => axios.get(stylesUrl))
+      .then(res => setCurrentProductStyles(res.data))
       .catch(err => console.log('error updating the modal', err))
   },[currentProductId])
+
+ if (currentProductStyles.results) {
+   var productStyles = currentProductStyles.results
+   console.log(productStyles.length)
+ }
 
   return(
     <div>
@@ -41,8 +46,8 @@ const ModalDetails = ({currentProductId, name, category, price, features}) => {
           </tr>
           <tr>
             <th>{features.length}</th>
-            <th>Features</th>
-            <th>Figure out why I can't retrieve length</th>
+            <th>Number of styles</th>
+            {/* <th>{productStyles.length}</th> */}
           </tr>
         </tbody>
       </table>
