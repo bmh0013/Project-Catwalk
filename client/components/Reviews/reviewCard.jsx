@@ -4,6 +4,14 @@ const axios = require('axios').default;
 var moment = require('moment');
 
 const ReviewCard = (props) => {
+
+  let date = moment(props.review.date, 'YYYY-MM-DD').format('MMMM D, YYYY');
+
+  useEffect(() => {
+    console.log('Data:', props.data);
+    console.log('Review:', props.review);
+  }, [])
+  
   let card = props.reviewCard;
   let date = moment(card.date, 'YYYY-MM-DD').format('MMMM D, YYYY');
 
