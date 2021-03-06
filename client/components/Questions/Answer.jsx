@@ -1,16 +1,16 @@
 import React from 'react';
 import { markAnswerHelpful, reportAnswer } from './helperFunctions.js';
 
-const Answer = ({ answer, handleChange }) => {
+const Answer = ({ answer, refresh }) => {
 
   const markHelpful = () => {
     markAnswerHelpful(answer.id)
-      .then(()=> handleChange());
+      .then(()=> refresh());
   }
 
   const report = () => {
     reportAnswer(answer.id)
-      .then(()=> handleChange());
+      .then(()=> refresh());
   }
 
   return (

@@ -4,7 +4,7 @@ import QuestionSearch from './QuestionSearch.jsx';
 import { addQuestion, getQuestions, getProducts } from './helperFunctions.js';
 import sampleData from './sampleData.js';
 import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
+import AddQuestion from './AddQuestion.jsx';
 
 const Questions = () => {
   const [productId, setProductId] = useState(21111);
@@ -17,13 +17,14 @@ const Questions = () => {
   }, []);
 
   var loadData = async (productId) => {
-      await getQuestions(productId)
+      await getQuestions(productId,1,200)
       .then(receivedData => setData(receivedData.results.sort((a, b) => (a.helpfulness > b.helpfulness) ? -1 : 1)));
   };
 
   loadData = loadData.bind(this);
 
   const showMore = () => {
+    console.log(data);
     expanded ? setQuestionsToShow(4) : setQuestionsToShow(data.length);
     setExpanded(!expanded);
   }
@@ -34,21 +35,22 @@ const Questions = () => {
       <div>
         <QuestionSearch />
         {data.slice(0, questionsToShow).map(q => (
-          <Question question={q} key={q.question_id} handleChange={loadData} />
+          <Question question={q} key={q.question_id} refresh={loadData} />
         ))}
         {data.length > 2 ? (
-          <Button color="primary" onClick={showMore} size="small" variant="outlined">
-
+          <span>
+            <Button color="primary" onClick={showMore} size="small" variant="outlined">
               {expanded ? (
-                <span>FEWER ANSWERED QUESTIONS</span>
+                <span>FEWER QUESTIONS</span>
               ) : (
-                <span>MORE ANSWERED QUESTIONS</span>
+                <span>MORE QUESTIONS</span>
               )}
-
-          </Button>
-          ) : null
+            </Button>
+            <AddQuestion productId={productId} refresh={loadData}/>
+          </span>
+          ) :  <AddQuestion productId={productId} refresh={loadData}/>
         }
-        <Button color="primary" onClick={()=>(alert('comings soon'))} size="small" variant="outlined" endIcon={<AddIcon>add</AddIcon>}>ADD A QUESTION</Button>
+
       </div>
     </div>
   );

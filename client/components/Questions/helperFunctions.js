@@ -20,24 +20,28 @@ async function getQuestions(product_id = 21111, page = 1, count = 5) {
 
 async function addQuestion(options) {
   var url = base_url + 'qa/questions';
+  console.log(JSON.stringify(options));
 
   const response = await fetch(url, {
     method: 'POST',
     headers: header,
     body: JSON.stringify(options),
   });
-  return response.json();
+
+  console.log(response);
+
+  return 'Added';
 };
 
 async function addAnswer(options) {
   var url = base_url + `qa/questions/${options.questionId}/answers`;
-
+  console.log(options);
   const response = await fetch(url, {
     method: 'POST',
     headers: header,
     body: JSON.stringify(options),
   });
-  return response.json();
+  return 'response.json()';
 };
 
 async function getProducts() {
