@@ -7,21 +7,6 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import { addQuestion } from './helperFunctions';
 
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
-
-function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
-
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
@@ -35,7 +20,11 @@ const useStyles = makeStyles((theme) => ({
 
 const AddQuestion = ({ productId, refresh }) => {
   const classes = useStyles();
-  const [modalStyle] = useState(getModalStyle);
+  const [modalStyle] = useState({
+    top: `50%`,
+    left: `50%`,
+    transform: `translate(-50%, -50%)`,
+  });
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({ product_id: productId });
 
