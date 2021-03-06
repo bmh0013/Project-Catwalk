@@ -7,7 +7,7 @@ const axios = require('axios').default;
 
 
 const Reviews = (props) => {
-  var product_id = 21112;
+  var product_id = 21114;
 
   var [product, setProduct] = useState({});
   var [reviewCards, setReviewCards] = useState([]);
@@ -23,7 +23,6 @@ const Reviews = (props) => {
     await getProduct()
     .then(res => res.data)
     .then(product => {
-      console.log(product);
       setProduct(product);
     })
 
