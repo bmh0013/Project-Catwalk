@@ -1,4 +1,4 @@
-const { default: TOKEN } = require("./token");
+import { TOKEN } from './token.js';
 const axios = require('axios').default;
 
 
