@@ -78,7 +78,7 @@ const AddAnswer = ({ question_id, refresh }) => {
       <Modal
         open={open}
         onClose={handleClose}
-        aria-labelledby="simple-modal-title"
+        aria-labelledby="add-answer-title"
       >
         {body}
       </Modal>

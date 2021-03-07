@@ -81,7 +81,7 @@ const AddQuestion = ({ productId, refresh }) => {
       <Modal
         open={open}
         onClose={handleClose}
-        aria-labelledby="simple-modal-title"
+        aria-labelledby="add-question-title"
       >
         {body}
       </Modal>
