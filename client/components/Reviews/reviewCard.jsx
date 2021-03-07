@@ -4,22 +4,8 @@ import API from '../../../api.js';
 const axios = require('axios').default;
 var moment = require('moment');
 
-<<<<<<< HEAD
 const ReviewCard = ({ reviewCard }) => {
   let date = moment(reviewCard.date, 'YYYY-MM-DD').format('MMMM D, YYYY');
-=======
-const ReviewCard = (props) => {
-
-  let date = moment(props.review.date, 'YYYY-MM-DD').format('MMMM D, YYYY');
-
-  useEffect(() => {
-    console.log('Data:', props.data);
-    console.log('Review:', props.review);
-  }, [])
-  
-  let card = props.reviewCard;
-  let date = moment(card.date, 'YYYY-MM-DD').format('MMMM D, YYYY');
->>>>>>> production
 
   function handleHelpful(e) {
     let review_id = e.target.getAttribute('data');
