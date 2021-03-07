@@ -10,6 +10,7 @@ import API from '../../../api';
 const Questions = ({ product_id }) => {
   //const [productId, setProductId] = useState(product_id);
   const [data, setData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [questionsToShow, setQuestionsToShow] = useState(4);
   const [expanded, setExpanded] = useState(false);
 
@@ -27,13 +28,21 @@ const Questions = ({ product_id }) => {
       API.getQuestions(options)
       //await getQuestions(productId,1,200)
       .catch(err => console.log('getQuestions', err))
-      .then(response =>
-        {
-          setData(response.data.results.sort((a, b) => (a.helpfulness > b.helpfulness) ? -1 : 1));
-        });
+      .then(response => setData(response.data.results.sort((a, b) => (a.helpfulness > b.helpfulness) ? -1 : 1)));
   };
 
   loadData = loadData.bind(this);
+
+  var handleSearch = (searchTerm) => {
+    if (searchTerm.length > 2) {
+      setSearchTerm(searchTerm);
+    } else {
+      setSearchTerm('');
+    }
+    return;
+  }
+
+  handleSearch = handleSearch.bind(this);
 
   const showMore = () => {
     expanded ? setQuestionsToShow(4) : setQuestionsToShow(data.length);
@@ -44,8 +53,8 @@ const Questions = ({ product_id }) => {
     <div>
       <h1>Questions and Answers</h1>
       <div>
-        <QuestionSearch />
-        {data.slice(0, questionsToShow).map(q => (
+        <QuestionSearch handleSearch={handleSearch}/>
+        {data.filter(q => q.question_body.toLowerCase().includes(searchTerm.toLowerCase())).slice(0, questionsToShow).map(q => (
           <Question product_id={product_id} question={q} key={q.question_id} refresh={loadData} />
         ))}
         {data.length > 2 ? (
