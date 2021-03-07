@@ -57,9 +57,9 @@ const Questions = ({ product_id }) => {
                 <span>MORE QUESTIONS</span>
               )}
             </Button>
-            <AddQuestion productId={product_id} refresh={loadData}/>
+            <AddQuestion product_id={product_id} refresh={loadData}/>
           </span>
-          ) :  <AddQuestion productId={product_id} refresh={loadData}/>
+          ) :  <AddQuestion product_id={product_id} refresh={loadData}/>
         }
 
       </div>

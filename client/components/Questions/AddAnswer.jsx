@@ -5,7 +5,8 @@ import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-import { addAnswer } from './helperFunctions';
+//import { addAnswer } from './helperFunctions';
+import API from '../../../api';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddAnswer = ({ question_id, refresh }) => {
+const AddAnswer = ({ product_id, question_id, refresh }) => {
   const classes = useStyles();
   const [modalStyle] = useState({
     top: `50%`,
@@ -39,11 +40,12 @@ const AddAnswer = ({ question_id, refresh }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    addAnswer(formData)
+    //addAnswer(formData)
+    API.postAnswer(formData)
     .catch(err => console.log(err))
     .then(() => {
       setOpen(false);
-      refresh();
+      refresh(product_id);
     })
   };
 

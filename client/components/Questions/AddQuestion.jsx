@@ -5,7 +5,8 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-import { addQuestion } from './helperFunctions';
+//import { addQuestion } from './helperFunctions';
+import API from '../../../api';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddQuestion = ({ productId, refresh }) => {
+const AddQuestion = ({ product_id, refresh }) => {
   const classes = useStyles();
   const [modalStyle] = useState({
     top: `50%`,
@@ -26,7 +27,7 @@ const AddQuestion = ({ productId, refresh }) => {
     transform: `translate(-50%, -50%)`,
   });
   const [open, setOpen] = useState(false);
-  const [formData, setFormData] = useState({ product_id: productId });
+  const [formData, setFormData] = useState({ product_id: product_id });
 
   const handleOpen = () => {
     setOpen(true);
@@ -39,11 +40,14 @@ const AddQuestion = ({ productId, refresh }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    addQuestion(formData)
+    console.log('FORM DATA:', formData);
+
+    API.postQuestion(formData)
+    //addQuestion(formData)
     .catch(err => console.log(err))
     .then(() => {
       setOpen(false);
-      refresh();
+      refresh(product_id);
     })
   };
 

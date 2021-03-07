@@ -51,20 +51,30 @@ function getAnswers(question_id, params) {
 }
 
 // Handles all POST requests, requires a route and params object
-function handlePostRequests(route, params) {
+function handlePostRequests(route, params = null, data = null) {
   let options = {
     method: 'post',
     url: `https://app-hrsei-api.herokuapp.com/api/fec2/hratx/${route}`,
     headers: {
+      'Content-Type': 'application/json',
       Authorization: TOKEN
     },
-    params: params
+    params: params,
+    data: data
   };
   return axios(options)
 }
 
 function postReview(params) {
   return handlePostRequests('reviews', params)
+}
+
+function postQuestion(data) {
+  return handlePostRequests('qa/questions', null, data)
+}
+
+function postAnswer(data) {
+  return handlePostRequests(`qa/questions/${data.question_id}/answers`, null, data)
 }
 
 // Handles all PUT requests, requires a route and params object
@@ -108,6 +118,8 @@ export default {
   getQuestions,
   getAnswers,
   postReview,
+  postQuestion,
+  postAnswer,
   updateHelpful,
   updateReport,
   markQuestionHelpful,
