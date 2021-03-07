@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Answer from './Answer';
-import { markQuestionHelpful, reportQuestion } from './helperFunctions.js';
+//import { markQuestionHelpful, reportQuestion } from './helperFunctions.js';
 import { Button, Card, CardContent, CardActions } from '@material-ui/core';
 import AddAnswer from './AddAnswer';
+import API from '../../../api';
 
-const Question = ({ question, refresh }) => {
+const Question = ({ product_id, question, refresh }) => {
   var answers = Object.entries(question.answers).map((a) => a[1]).sort((a, b) => (a.helpfulness > b.helpfulness) ? -1 : 1);
 
   const [answersToShow, setAnswersToShow] = useState(2);
@@ -16,8 +17,9 @@ const Question = ({ question, refresh }) => {
   }
 
   const markHelpful = () => {
-    markQuestionHelpful(question.question_id)
-      .then(()=> refresh());
+    //markQuestionHelpful(question.question_id)
+    API.markQuestionHelpful(question.question_id)
+      .then(()=> refresh(product_id));
   }
 
   return (
@@ -30,7 +32,7 @@ const Question = ({ question, refresh }) => {
             <div className="qa-answers">
               {
                 answers.slice(0, answersToShow).map(a => {
-                  return <Answer answer={a} key={a.id} refresh={refresh}/>
+                  return <Answer product_id={product_id} answer={a} key={a.id} refresh={refresh}/>
                 })
               }
             </div>

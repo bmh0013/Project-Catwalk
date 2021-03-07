@@ -20,7 +20,7 @@ class App extends React.Component{
         <Overview />
         <RelatedList />
         <YourOutfitList />
-        <Questions />
+        <Questions product_id={this.state.product_id}/>
         <Reviews product_id={this.state.product_id}/>
      </div>
     )

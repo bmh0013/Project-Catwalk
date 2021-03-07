@@ -1,16 +1,17 @@
 import React from 'react';
-import { markAnswerHelpful, reportAnswer } from './helperFunctions.js';
+//import { markAnswerHelpful, reportAnswer } from './helperFunctions.js';
+import API from '../../../api';
 
-const Answer = ({ answer, refresh }) => {
+const Answer = ({ product_id, answer, refresh }) => {
 
   const markHelpful = () => {
-    markAnswerHelpful(answer.id)
-      .then(()=> refresh());
+    API.markAnswerHelpful(answer.id)
+      .then(()=> refresh(product_id));
   }
 
   const report = () => {
-    reportAnswer(answer.id)
-      .then(()=> refresh());
+    API.reportAnswer(answer.id)
+      .then(()=> refresh(product_id));
   }
 
   return (

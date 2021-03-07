@@ -1,4 +1,4 @@
-import { TOKEN } from './token.js';
+const { default: TOKEN } = require("./token");
 const axios = require('axios').default;
 
 
@@ -43,7 +43,7 @@ function getMetadata(params) {
 }
 
 function getQuestions(params) {
-  return handleGetRequests('qa/questions/', params)
+  return handleGetRequests('qa/questions', params)
 }
 
 function getAnswers(question_id, params) {
@@ -88,6 +88,18 @@ function updateReport(review_id, params) {
   return handlePutRequests(`reviews/${review_id}/report`, params);
 }
 
+function markQuestionHelpful(question_id) {
+  return handlePutRequests(`qa/questions/${question_id}/helpful`);
+}
+
+function markAnswerHelpful(answer_id) {
+  return handlePutRequests(`qa/answers/${answer_id}/helpful`);
+}
+
+function reportAnswer(answer_id) {
+  return handlePutRequests(`qa/answers/${answer_id}/report`);
+}
+
 export default {
   getAllProducts,
   getProduct,
@@ -97,5 +109,8 @@ export default {
   getAnswers,
   postReview,
   updateHelpful,
-  updateReport
+  updateReport,
+  markQuestionHelpful,
+  markAnswerHelpful,
+  reportAnswer
 }
