@@ -51,20 +51,21 @@ function getAnswers(question_id, params) {
 }
 
 // Handles all POST requests, requires a route and params object
-function handlePostRequests(route, params) {
+function handlePostRequests(route, json) {
   let options = {
     method: 'post',
     url: `https://app-hrsei-api.herokuapp.com/api/fec2/hratx/${route}`,
+    data: json,
     headers: {
-      Authorization: TOKEN
-    },
-    params: params
+      Authorization: TOKEN,
+      "Content-Type": "application/json"
+    }
   };
   return axios(options)
 }
 
-function postReview(params) {
-  return handlePostRequests('reviews', params)
+function postReview(json) {
+  return handlePostRequests('reviews', json)
 }
 
 // Handles all PUT requests, requires a route and params object

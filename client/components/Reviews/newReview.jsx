@@ -1,5 +1,5 @@
 import React, { useState, useEffect, setModal } from 'react';
-import TOKEN from '../../../token.js';
+import { TOKEN } from '../../../token.js';
 import API from '../../../api.js';
 const axios = require('axios').default;
 
@@ -9,6 +9,7 @@ const NewReview = ({ product, metadata, setModal }) => {
   useEffect(() => {
     console.log(product);
     console.log(metadata);
+    console.log(TOKEN);
   })
 
   function closeModal() {
@@ -48,7 +49,8 @@ const NewReview = ({ product, metadata, setModal }) => {
       email: form.email.value,
       photos: [],
       characteristics: characteristics
-    }
+    };
+
     console.log(json);
 
     API.postReview(json)

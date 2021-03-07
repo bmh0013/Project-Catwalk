@@ -44,9 +44,9 @@ const ReviewCard = ({ reviewCard }) => {
     <div className='review-card'>
       <span className="rating">Rating: {reviewCard.rating}</span>
       <span className="user_date">{reviewCard.reviewer_name} | {date}</span>
-      <h5>{reviewCard.body}</h5>
+      <h5>{reviewCard.summary}</h5>
       <p>
-        {reviewCard.summary}
+        {reviewCard.body}
       </p>
       {thumbnails}
       {!!reviewCard.response && <p><u>Response:</u> {reviewCard.response}</p>}
