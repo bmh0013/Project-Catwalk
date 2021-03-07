@@ -21,7 +21,7 @@ class App extends React.Component{
         <RelatedList />
         <YourOutfitList />
         <Questions />
-        <Reviews />
+        <Reviews product_id={this.state.product_id}/>
      </div>
     )
   }

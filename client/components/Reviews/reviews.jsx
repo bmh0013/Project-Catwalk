@@ -2,13 +2,11 @@ import React, { useState, useEffect } from 'react';
 import TOKEN from '../../../token.js';
 import ReviewCard from './reviewCard.jsx';
 import NewReview from './newReview.jsx';
-import $ from 'jquery';
+import API from '../../../api.js';
 const axios = require('axios').default;
 
 
-const Reviews = (props) => {
-  var product_id = 21112;
-
+const Reviews = ({ product_id }) => {
   var [product, setProduct] = useState({});
   var [reviewCards, setReviewCards] = useState([]);
   var [metadata, setMetadata] = useState({});
@@ -16,73 +14,47 @@ const Reviews = (props) => {
   var [modal, setModal] = useState(false);
 
   useEffect(() => {
-    initializeReviews();
+    fetchProductInfo()
+    fetchReviews();
+    fetchMetadata();
   }, []);
 
-  var initializeReviews = async () => {
-    await getProduct()
-    .then(res => res.data)
-    .then(product => {
-      console.log(product);
-      setProduct(product);
-    })
-
-    await getReviewCards()
-    .then(res => res.data.results)
-    .then(reviews => {
-      loadReviews(reviews);
-    })
-    .catch(err => {
-      console.error(err);
-    })
-
-    await getMetadata()
+  function fetchProductInfo() {
+    API.getProduct(product_id)
     .then(res => {
-      setMetadata(res.data);
+      setProduct(res.data);
     })
-    .catch(err => {
-      console.error(err);
-    })
-  };
-
-  function getProduct() {
-    return handleGetRequests(`products/${product_id}`)
+    .catch(err => console.log(err));
   }
 
-  function getReviewCards() {
-    return handleGetRequests('reviews')
-  }
-
-  function getMetadata() {
-    return handleGetRequests('reviews/meta')
+  function fetchReviews() {
+    API.getReviewCards({ product_id })
+    .then(res => loadReviews(res.data.results))
+    .catch(err => console.log(err));
   }
 
   function loadReviews(data) {
     let results = [];
     let count = 0;
+
     for (let i = 0; i < 2; i++) {
       if (data[i]) {
         count++;
         results.push(data[i]);
       }
     }
+
     data.splice(0, count)
     setReviewCards(data);
     updateShowCards(oldReview => [...oldReview, ...results]);
   }
 
-  function handleGetRequests(route) {
-    let headers = {
-      method: 'get',
-      url: `https://app-hrsei-api.herokuapp.com/api/fec2/hratx/${route}`,
-      headers: {
-        Authorization: TOKEN
-      },
-      params: {
-        product_id: product_id
-      }
-    };
-    return axios(headers)
+  function fetchMetadata() {
+    API.getMetadata({ product_id })
+    .then(res => {
+      setMetadata(res.data);
+    })
+    .catch(err => console.log(err));
   }
 
   return (
@@ -93,16 +65,12 @@ const Reviews = (props) => {
           This will have Star Rating information.
         </div>
         <div className="flex-right">
-          {showCards.map(review =>
-          <ReviewCard
-            key={review.review_id}
-            reviewCard={review}
-          />)}
+          {showCards.map(card => <ReviewCard key={card.review_id} reviewCard={card}/>)}
           {!!reviewCards.length && <button onClick={() => {loadReviews(reviewCards)}}>Load More</button>}
           <button onClick={() => {setModal(true)}}>Add A Review</button>
         </div>
       </div>
-      {modal && <NewReview setModal={setModal} product={product}/>}
+      {modal && <NewReview setModal={setModal} product={product} metadata={metadata} />}
     </div>
     )
 };

@@ -2,11 +2,11 @@ import { TOKEN } from './token.js';
 const axios = require('axios').default;
 
 
-// Handles all get requests, requires a route and a params
+// Handles all GET requests, requires a route and a params
 function handleGetRequests(route, params) {
-  let headers;
+  let options;
   if (params) {
-    headers = {
+    options = {
       method: 'get',
       url: `https://app-hrsei-api.herokuapp.com/api/fec2/hratx/${route}`,
       headers: {
@@ -15,7 +15,7 @@ function handleGetRequests(route, params) {
       params: params
     }
   } else {
-    headers = {
+    options = {
       method: 'get',
       url: `https://app-hrsei-api.herokuapp.com/api/fec2/hratx/${route}`,
       headers: {
@@ -23,7 +23,7 @@ function handleGetRequests(route, params) {
       }
     }
   }
-  return axios(headers)
+  return axios(options)
 }
 
 function getAllProducts() {
@@ -50,9 +50,9 @@ function getAnswers(question_id, params) {
   return handleGetRequests(`qa/questions/${question_id}/answers`, params)
 }
 
-// Handles all put requests, requires a route and params object
+// Handles all POST requests, requires a route and params object
 function handlePostRequests(route, params) {
-  let headers = {
+  let options = {
     method: 'post',
     url: `https://app-hrsei-api.herokuapp.com/api/fec2/hratx/${route}`,
     headers: {
@@ -60,11 +60,32 @@ function handlePostRequests(route, params) {
     },
     params: params
   };
-  return axios(headers)
+  return axios(options)
 }
 
 function postReview(params) {
   return handlePostRequests('reviews', params)
+}
+
+// Handles all PUT requests, requires a route and params object
+function handlePutRequests(route, params) {
+  let options = {
+    method: 'put',
+    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hratx/${route}`,
+    headers: {
+      Authorization: TOKEN
+    },
+    params: params
+  };
+  return axios(options)
+}
+
+function updateHelpful(review_id, params) {
+  return handlePutRequests(`reviews/${review_id}/helpful`, params);
+}
+
+function updateReport(review_id, params) {
+  return handlePutRequests(`reviews/${review_id}/report`, params);
 }
 
 export default {
@@ -73,5 +94,8 @@ export default {
   getReviewCards,
   getMetadata,
   getQuestions,
-  getAnswers
+  getAnswers,
+  postReview,
+  updateHelpful,
+  updateReport
 }

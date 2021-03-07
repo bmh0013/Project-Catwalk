@@ -172,7 +172,15 @@ a:hover{
 .modal-inner {
   background-color: #fff;
   width: 60%;
-  height: 50%;
+  height: 70%;
   padding: 20px;
   margin: 15% auto;
+}
+.radio {
+  display: inline-block;
+  margin-left: 20px;
+}
+.required:after {
+  content:" *";
+  color: red;
 }
