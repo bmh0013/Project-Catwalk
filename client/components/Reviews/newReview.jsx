@@ -1,37 +1,18 @@
 import React, { useState, useEffect, setModal } from 'react';
 import TOKEN from '../../../token.js';
+import API from '../../../api.js';
 const axios = require('axios').default;
 
-const NewReview = ({ product, metadata }) => {
+const NewReview = ({ product, metadata, setModal }) => {
   let [reviewImages, setReviewImages] = useState([]);
 
   useEffect(() => {
+    console.log(product);
     console.log(metadata);
-    console.log(metadata.characteristics.comfort)
   })
 
   function closeModal() {
     setModal(false);
-  }
-
-  function postNewReview(parameters) {
-    let headers = {
-      method: 'post',
-      url: 'https://app-hrsei-api.herokuapp.com/api/fec2/hratx/reviews',
-      headers: {
-        Authorization: TOKEN
-      },
-      params: parameters
-    };
-
-    console.log(parameters);
-    axios(headers)
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err);
-      })
   }
 
   function handleUploadImages(e) {
@@ -48,8 +29,17 @@ const NewReview = ({ product, metadata }) => {
     setModal(false);
     let form = document.getElementById('newReview').elements;
 
-    let parameters = {
-      product_id: product.product.id,
+    let characteristics = {};
+    let charList = Object.keys(metadata.characteristics);
+
+    charList.forEach(char => {
+      let char_id = metadata.characteristics[char].id
+      let value = form[char].value;
+      characteristics[char_id] = Number(value);
+    })
+
+    let json = {
+      product_id: product.id,
       rating: Number(form.rating.value),
       summary: form.summary.value || '',
       body: form.body.value,
@@ -57,16 +47,13 @@ const NewReview = ({ product, metadata }) => {
       name: form.nickname.value,
       email: form.email.value,
       photos: [],
-      characteristics: {
-        Comfort: form.comfort.value,
-        Quality: form.quality.value,
-        Length: form.long.value,
-        Fit: form.fit.value
-      }
+      characteristics: characteristics
     }
+    console.log(json);
 
-    console.log('Submitted!');
-    postNewReview(parameters)
+    API.postReview(json)
+    .then(res => console.log(res))
+    .catch(err => console.log(err));
   }
 
   var form = (
@@ -91,66 +78,66 @@ const NewReview = ({ product, metadata }) => {
       {!!metadata.characteristics.Size &&
         <span>
           <label className="label" required>Size</label><br/>
-          <input name="size" type="radio" value="1" required/>1
-          <input name="size" type="radio" value="2" required/>2
-          <input name="size" type="radio" value="3" required/>3
-          <input name="size" type="radio" value="4" required/>4
-          <input name="size" type="radio" value="5" required/>5
+          <input name="Size" type="radio" value="1" required/>1
+          <input name="Size" type="radio" value="2" required/>2
+          <input name="Size" type="radio" value="3" required/>3
+          <input name="Size" type="radio" value="4" required/>4
+          <input name="Size" type="radio" value="5" required/>5
           <br/>
         </span>
       }
       {!!metadata.characteristics.Width &&
         <span>
           <label className="label" required>Width</label><br/>
-          <input name="width" type="radio" value="1" required/>1
-          <input name="width" type="radio" value="2" required/>2
-          <input name="width" type="radio" value="3" required/>3
-          <input name="width" type="radio" value="4" required/>4
-          <input name="width" type="radio" value="5" required/>5
+          <input name="Width" type="radio" value="1" required/>1
+          <input name="Width" type="radio" value="2" required/>2
+          <input name="Width" type="radio" value="3" required/>3
+          <input name="Width" type="radio" value="4" required/>4
+          <input name="Width" type="radio" value="5" required/>5
           <br/>
         </span>
       }
       {!!metadata.characteristics.Comfort &&
         <span>
           <label className="label" required>Comfort</label><br/>
-          <input name="comfort" type="radio" value="1" required/>1
-          <input name="comfort" type="radio" value="2" required/>2
-          <input name="comfort" type="radio" value="3" required/>3
-          <input name="comfort" type="radio" value="4" required/>4
-          <input name="comfort" type="radio" value="5" required/>5
+          <input name="Comfort" type="radio" value="1" required/>1
+          <input name="Comfort" type="radio" value="2" required/>2
+          <input name="Comfort" type="radio" value="3" required/>3
+          <input name="Comfort" type="radio" value="4" required/>4
+          <input name="Comfort" type="radio" value="5" required/>5
           <br/>
         </span>
       }
       {!!metadata.characteristics.Quality &&
         <span>
           <label className="label" required>Quality</label><br/>
-          <input name="quality" type="radio" value="1" required/>1
-          <input name="quality" type="radio" value="2" required/>2
-          <input name="quality" type="radio" value="3" required/>3
-          <input name="quality" type="radio" value="4" required/>4
-          <input name="quality" type="radio" value="5" required/>5
+          <input name="Quality" type="radio" value="1" required/>1
+          <input name="Quality" type="radio" value="2" required/>2
+          <input name="Quality" type="radio" value="3" required/>3
+          <input name="Quality" type="radio" value="4" required/>4
+          <input name="Quality" type="radio" value="5" required/>5
           <br/>
         </span>
       }
       {!!metadata.characteristics.Length &&
         <span>
           <label className="label" required>Length</label><br/>
-          <input name="long" type="radio" value="1" required/>1
-          <input name="long" type="radio" value="2" required/>2
-          <input name="long" type="radio" value="3" required/>3
-          <input name="long" type="radio" value="4" required/>4
-          <input name="long" type="radio" value="5" required/>5
+          <input name="Length" type="radio" value="1" required/>1
+          <input name="Length" type="radio" value="2" required/>2
+          <input name="Length" type="radio" value="3" required/>3
+          <input name="Length" type="radio" value="4" required/>4
+          <input name="Length" type="radio" value="5" required/>5
           <br/>
         </span>
       }
       {!!metadata.characteristics.Fit &&
         <span>
           <label className="label" required>Fit</label><br/>
-          <input name="fit" type="radio" value="1" required/>1
-          <input name="fit" type="radio" value="2" required/>2
-          <input name="fit" type="radio" value="3" required/>3
-          <input name="fit" type="radio" value="4" required/>4
-          <input name="fit" type="radio" value="5" required/>5
+          <input name="Fit" type="radio" value="1" required/>1
+          <input name="Fit" type="radio" value="2" required/>2
+          <input name="Fit" type="radio" value="3" required/>3
+          <input name="Fit" type="radio" value="4" required/>4
+          <input name="Fit" type="radio" value="5" required/>5
         </span>
       }
     </div>

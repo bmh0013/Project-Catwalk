@@ -4,9 +4,9 @@ const axios = require('axios').default;
 
 // Handles all GET requests, requires a route and a params
 function handleGetRequests(route, params) {
-  let headers;
+  let options;
   if (params) {
-    headers = {
+    options = {
       method: 'get',
       url: `https://app-hrsei-api.herokuapp.com/api/fec2/hratx/${route}`,
       headers: {
@@ -15,7 +15,7 @@ function handleGetRequests(route, params) {
       params: params
     }
   } else {
-    headers = {
+    options = {
       method: 'get',
       url: `https://app-hrsei-api.herokuapp.com/api/fec2/hratx/${route}`,
       headers: {
@@ -23,7 +23,7 @@ function handleGetRequests(route, params) {
       }
     }
   }
-  return axios(headers)
+  return axios(options)
 }
 
 function getAllProducts() {
@@ -52,7 +52,7 @@ function getAnswers(question_id, params) {
 
 // Handles all POST requests, requires a route and params object
 function handlePostRequests(route, params) {
-  let headers = {
+  let options = {
     method: 'post',
     url: `https://app-hrsei-api.herokuapp.com/api/fec2/hratx/${route}`,
     headers: {
@@ -60,7 +60,7 @@ function handlePostRequests(route, params) {
     },
     params: params
   };
-  return axios(headers)
+  return axios(options)
 }
 
 function postReview(params) {
@@ -69,7 +69,7 @@ function postReview(params) {
 
 // Handles all PUT requests, requires a route and params object
 function handlePutRequests(route, params) {
-  let headers = {
+  let options = {
     method: 'put',
     url: `https://app-hrsei-api.herokuapp.com/api/fec2/hratx/${route}`,
     headers: {
@@ -77,7 +77,7 @@ function handlePutRequests(route, params) {
     },
     params: params
   };
-  return axios(headers)
+  return axios(options)
 }
 
 function updateHelpful(review_id, params) {

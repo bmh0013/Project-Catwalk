@@ -23,12 +23,12 @@ const ReviewCard = ({ reviewCard }) => {
 
   var thumbnails = (
     <span className="thumbnail-container">
-    {reviewCard.photos.map(photo =>
-      <a href={photo.url} key={photo.id}>
-        <img className="thumbnail" src={photo.url} />
-      </a>
-    )}
-  </span>
+      {reviewCard.photos.map(photo =>
+        <a key={photo.id}>
+          <img className="thumbnail" src={photo.url}/>
+        </a>
+      )}
+    </span>
   );
 
   var feedback = (
