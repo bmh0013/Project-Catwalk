@@ -69,13 +69,13 @@ const NewReview = ({ product, metadata, setModal }) => {
     </div>
 
     <div className="field">
-      <label className="label">Do you recommend this product?</label><br/>
+      <label className="label required">Do you recommend this product?</label><br/>
       <input name="recommend" type="radio" value="true" required/>Yes
       <input name="recommend" type="radio" value="false" required/>No
     </div>
 
     <div className="field">
-      <h5 className="label">Characteristics:</h5><br/>
+      <h5 className="label required">Characteristics:</h5><br/>
       {!!metadata.characteristics.Size &&
         <span>
           <label className="label" required>Size</label><br/>
