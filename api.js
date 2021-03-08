@@ -51,7 +51,7 @@ function getAnswers(question_id, params) {
 }
 
 // Handles all POST requests, requires a route, params, and data object
-function handlePostRequests(route, params = null, data = null) {
+function handlePostRequests(route, params = {}, data = {}) {
   let options = {
     method: 'post',
     url: `https://app-hrsei-api.herokuapp.com/api/fec2/hratx/${route}`,
