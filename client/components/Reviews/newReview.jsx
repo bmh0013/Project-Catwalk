@@ -66,7 +66,6 @@ const NewReview = ({ product, metadata, setModal }) => {
     <div className="field">
       <label className="label required">Overall Rating</label><br/>
       <HoverRating />
-      <input type="hidden" name="StartDate_required" value="You must enter a start date." />
     </div>
 
     <div className="field">

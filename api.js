@@ -66,7 +66,7 @@ function handlePostRequests(route, params = {}, data = {}) {
 }
 
 function postReview(json) {
-  return handlePostRequests('reviews', null, json)
+  return handlePostRequests('reviews', {}, json)
 }
 
 function postQuestion(data) {

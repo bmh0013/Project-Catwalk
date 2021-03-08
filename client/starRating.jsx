@@ -34,7 +34,7 @@ function HoverRating() {
       <Rating
         name="hover-feedback"
         value={value}
-        precision={0.25}
+        precision={1}
         onChange={(event, newValue) => {
           setValue(newValue);
         }}
