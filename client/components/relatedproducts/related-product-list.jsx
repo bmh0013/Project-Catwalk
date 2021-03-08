@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import RelatedProductCard from './related-product-card.jsx';
 import {CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
-import axios from 'axios';
 import {getReviewInfo} from '../Overview/serverRequests.js';
 import {StaticRating} from '../../starRating.jsx';
 import api from '../../../api.js';
@@ -15,10 +14,10 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
   const [productReview, updateReview] = useState(null);
 
   useEffect(() => {
-    chainFunctions();
+    relatedIdFunction();
   }, [product_id])
 
-  const chainFunctions = async () => {
+  const relatedIdFunction = async () => {
     await api.getRelatedProductIds(product_id)
       .then(res => {
         const distinctRelatedItems = [...new Set(res.data)]
@@ -29,10 +28,10 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
   };
 
   useEffect(() => {
-    chainProducts(relatedItems);
+    generateRelatedItems(relatedItems);
   }, [relatedItems])
 
-  const chainProducts = async (relatedItems) => {
+  const generateRelatedItems = async (relatedItems) => {
     let renderedItems = [];
     let renderedStyles = [];
 

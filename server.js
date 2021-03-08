@@ -6,7 +6,6 @@ const bodyparser = require('body-parser');
 
 const port = 3002;
 const app = express();
-// const { default: TOKEN } = require("./token.js");
 
 app.use(express.static(path.join(__dirname, '/dist')));
 

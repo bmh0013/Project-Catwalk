@@ -38,7 +38,7 @@ body{
 
 /* gives us the illusion of a "centered" slide */
 .carousel__slider {
-  padding-left: 15%;
+  /* padding-left: 15%; */
   /* padding-right: 15%; */
   width:1000px;
 }
@@ -50,6 +50,7 @@ body{
   display:flex;
   flex-direction:column;
   justify-content:space-between;
+  background-color: #fcfcfc;
 }
 
 .product-image {

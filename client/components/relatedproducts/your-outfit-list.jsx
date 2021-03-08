@@ -4,7 +4,6 @@ import OutfitCard from './your-outfit-card.jsx';
 import {CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
 import {PlusCircle} from 'react-bootstrap-icons'
 import 'pure-react-carousel/dist/react-carousel.es.css';
-import axios from 'axios';
 import api from '../../../api.js';
 
 const YourOutfitList = ({product_id}) => {
@@ -16,6 +15,7 @@ const YourOutfitList = ({product_id}) => {
 
   //edit the localstorage array if the outfit list changes
   useEffect (() => setStorageOutfitItems(outfitItems),[outfitItems]);
+
 
   const getProductFunction = async () => {
     let productData;
@@ -58,7 +58,7 @@ const YourOutfitList = ({product_id}) => {
         visibleSlides = {3}
         dragEnabled = {false}
         style = {{
-          position:'relative'
+          position:'absolute'
         }}
       >
       <div className = 'buttons'>
