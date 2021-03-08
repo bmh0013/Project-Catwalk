@@ -37,7 +37,6 @@ function HoverRating() {
         precision={0.25}
         onChange={(event, newValue) => {
           setValue(newValue);
-          console.log(newValue);
         }}
         onChangeActive={(event, newHover) => {
           setHover(newHover);
