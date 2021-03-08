@@ -132,6 +132,7 @@ body{
 
 .modal-names-row{
   font-size: 1.7rem;
+  position: static;
 }
 
 .modal-comparison th{
