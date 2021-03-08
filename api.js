@@ -43,7 +43,7 @@ function getMetadata(params) {
 }
 
 function getQuestions(params) {
-  return handleGetRequests('qa/questions/', params)
+  return handleGetRequests('qa/questions', params)
 }
 
 function getAnswers(question_id, params) {
@@ -51,20 +51,30 @@ function getAnswers(question_id, params) {
 }
 
 // Handles all POST requests, requires a route and params object
-function handlePostRequests(route, params) {
+function handlePostRequests(route, params = null, data = null) {
   let options = {
     method: 'post',
     url: `https://app-hrsei-api.herokuapp.com/api/fec2/hratx/${route}`,
     headers: {
+      'Content-Type': 'application/json',
       Authorization: TOKEN
     },
-    params: params
+    params: params,
+    data: data
   };
   return axios(options)
 }
 
 function postReview(params) {
   return handlePostRequests('reviews', params)
+}
+
+function postQuestion(data) {
+  return handlePostRequests('qa/questions', null, data)
+}
+
+function postAnswer(data) {
+  return handlePostRequests(`qa/questions/${data.question_id}/answers`, null, data)
 }
 
 // Handles all PUT requests, requires a route and params object
@@ -88,6 +98,18 @@ function updateReport(review_id, params) {
   return handlePutRequests(`reviews/${review_id}/report`, params);
 }
 
+function markQuestionHelpful(question_id) {
+  return handlePutRequests(`qa/questions/${question_id}/helpful`);
+}
+
+function markAnswerHelpful(answer_id) {
+  return handlePutRequests(`qa/answers/${answer_id}/helpful`);
+}
+
+function reportAnswer(answer_id) {
+  return handlePutRequests(`qa/answers/${answer_id}/report`);
+}
+
 export default {
   getAllProducts,
   getProduct,
@@ -96,6 +118,11 @@ export default {
   getQuestions,
   getAnswers,
   postReview,
+  postQuestion,
+  postAnswer,
   updateHelpful,
-  updateReport
+  updateReport,
+  markQuestionHelpful,
+  markAnswerHelpful,
+  reportAnswer
 }
