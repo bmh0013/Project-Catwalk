@@ -22,7 +22,7 @@ function getReviewInfo(id, cb) {
   });
 }
 
-function getProductInfo(id, cb) {
+function getCurrentProductInfo(id, cb) {
   let headers = {
     method: 'get',
     url: `https://app-hrsei-api.herokuapp.com/api/fec2/hratx/products/${id}`,
@@ -32,7 +32,23 @@ function getProductInfo(id, cb) {
   }
   axios(headers)
   .then(res => {
-    console.log(res);
+    cb(null, res);
+  })
+  .catch(err => {
+    cb(err);
+  });
+}
+
+function getProductInfo(cb) {
+  let headers = {
+    method: 'get',
+    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hratx/products`,
+    headers: {
+      Authorization: API_KEY
+    },
+  }
+  axios(headers)
+  .then(res => {
     cb(null, res);
   })
   .catch(err => {
@@ -43,5 +59,6 @@ function getProductInfo(id, cb) {
 
 export{
   getReviewInfo,
+  getCurrentProductInfo,
   getProductInfo
 }

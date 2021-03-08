@@ -56,7 +56,7 @@ function StaticRating(props) {
     2: 20,
     3: 12,
     4: 0,
-    5: 1,
+    5: 20,
   }
 
   let values = Object.entries(reviewData).map(e =>

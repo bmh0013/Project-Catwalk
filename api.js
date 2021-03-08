@@ -1,11 +1,11 @@
 import TOKEN from './token.js';
 const axios = require('axios').default;
 
-// Handles all get requests, requires a route and a params
+// Handles all GET requests, requires a route and a params
 function handleGetRequests(route, params) {
-  let headers;
+  let options;
   if (params) {
-    headers = {
+    options = {
       method: 'get',
       url: `https://app-hrsei-api.herokuapp.com/api/fec2/hratx/${route}`,
       headers: {
@@ -14,7 +14,7 @@ function handleGetRequests(route, params) {
       params: params
     }
   } else {
-    headers = {
+    options = {
       method: 'get',
       url: `https://app-hrsei-api.herokuapp.com/api/fec2/hratx/${route}`,
       headers: {
@@ -22,7 +22,7 @@ function handleGetRequests(route, params) {
       }
     }
   }
-  return axios(headers)
+  return axios(options)
 }
 
 function getAllProducts() {
@@ -50,28 +50,71 @@ function getMetadata(params) {
 }
 
 function getQuestions(params) {
-  return handleGetRequests('qa/questions/', params)
+  return handleGetRequests('qa/questions', params)
 }
 
 function getAnswers(question_id, params) {
   return handleGetRequests(`qa/questions/${question_id}/answers`, params)
 }
 
-// Handles all put requests, requires a route and params object
-function handlePostRequests(route, params) {
-  let headers = {
+// Handles all POST requests, requires a route and params object
+function handlePostRequests(route, params = null, data = null) {
+  let options = {
     method: 'post',
+    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hratx/${route}`,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: TOKEN
+    },
+    params: params,
+    data: data
+  };
+  return axios(options)
+}
+
+function postReview(params) {
+  return handlePostRequests('reviews', params)
+}
+
+function postQuestion(data) {
+  return handlePostRequests('qa/questions', null, data)
+}
+
+function postAnswer(data) {
+  return handlePostRequests(`qa/questions/${data.question_id}/answers`, null, data)
+}
+
+// Handles all PUT requests, requires a route and params object
+function handlePutRequests(route, params) {
+  let options = {
+    method: 'put',
     url: `https://app-hrsei-api.herokuapp.com/api/fec2/hratx/${route}`,
     headers: {
       Authorization: TOKEN
     },
     params: params
   };
-  return axios(headers)
+  return axios(options)
 }
 
-function postReview(params) {
-  return handlePostRequests('reviews', params)
+function updateHelpful(review_id, params) {
+  return handlePutRequests(`reviews/${review_id}/helpful`, params);
+}
+
+function updateReport(review_id, params) {
+  return handlePutRequests(`reviews/${review_id}/report`, params);
+}
+
+function markQuestionHelpful(question_id) {
+  return handlePutRequests(`qa/questions/${question_id}/helpful`);
+}
+
+function markAnswerHelpful(answer_id) {
+  return handlePutRequests(`qa/answers/${answer_id}/helpful`);
+}
+
+function reportAnswer(answer_id) {
+  return handlePutRequests(`qa/answers/${answer_id}/report`);
 }
 
 export default {
@@ -82,5 +125,13 @@ export default {
   getReviewCards,
   getMetadata,
   getQuestions,
-  getAnswers
+  getAnswers,
+  postReview,
+  postQuestion,
+  postAnswer,
+  updateHelpful,
+  updateReport,
+  markQuestionHelpful,
+  markAnswerHelpful,
+  reportAnswer
 }
