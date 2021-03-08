@@ -1,6 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 
 const ModalDetails = (props) => {
+
+  console.log(props.features)
+  console.log('currentProduct', props.currentProduct);
+  console.log('currentproductstyles', props.currentProductStyles)
 
   return(
     <div className = 'modal-container'>
@@ -24,7 +28,12 @@ const ModalDetails = (props) => {
           </tr>
           <tr>
             <th>{props.features.length}</th>
-            <th>Number of styles</th>
+            <th>Number of Features</th>
+            <th>{props.currentProduct['features'].length}</th>
+          </tr>
+          <tr>
+            <th>{props.features.length}</th>
+            <th>Number of Styles</th>
             <th>{props.currentProductStyles['results'].length}</th>
           </tr>
         </tbody>

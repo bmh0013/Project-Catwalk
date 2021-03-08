@@ -44,6 +44,7 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
         .then(res => renderedItems.push(res.data))
         .then(() => api.getProductStyles(item))
         .then(res => {
+          console.log('style responses', res.data)
           renderedStyles.push({id: res.data.product_id, image:res.data.results[0].photos[0].thumbnail_url})
 
           if (renderedItems.length === relatedItems.length && renderedStyles.length === relatedItems.length) {
