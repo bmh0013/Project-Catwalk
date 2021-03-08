@@ -1,7 +1,8 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import TOKEN from '../../../token.js'
 import API from '../../../api.js';
 import { HoverRating, StaticRating } from '../../starRating.jsx';
+import Body from './body.jsx';
 const axios = require('axios').default;
 var moment = require('moment');
 
@@ -23,13 +24,13 @@ const ReviewCard = ({ reviewCard }) => {
   }
 
   var thumbnails = (
-    <span className="thumbnail-container">
+    <div className="thumbnail-container">
       {reviewCard.photos.map(photo =>
         <a key={photo.id}>
           <img className="thumbnail" src={photo.url}/>
         </a>
       )}
-    </span>
+    </div>
   );
 
   var feedback = (
@@ -46,13 +47,15 @@ const ReviewCard = ({ reviewCard }) => {
   reviewRating[rating] = 1;
 
   return (
-    <div className='review-card'>
-      <span className="rating"><StaticRating data={reviewRating} /></span>
-      <span className="user_date">{reviewCard.reviewer_name} | {date}</span>
+    <div className='review-card' id={reviewCard.review_id}>
+      <span className="rating">
+        <StaticRating data={reviewRating} />
+      </span>
+      <span className="user_date">
+        {reviewCard.reviewer_name} | {date}
+      </span>
       <h5>{reviewCard.summary}</h5>
-      <p>
-        {reviewCard.body}
-      </p>
+      <Body body={reviewCard.body} id={reviewCard.review_id}/>
       {thumbnails}
       {!!reviewCard.response && <p><u>Response:</u> {reviewCard.response}</p>}
       {feedback}

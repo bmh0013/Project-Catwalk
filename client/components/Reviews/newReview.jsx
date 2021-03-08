@@ -1,4 +1,4 @@
-import React, { useState, useEffect, setModal } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TOKEN } from '../../../token.js';
 import API from '../../../api.js';
 import { HoverRating, StaticRating } from '../../starRating.jsx';
@@ -75,7 +75,7 @@ const NewReview = ({ product, metadata, setModal }) => {
     </div>
 
     <div className="field">
-      <h5 className="label">Characteristics</h5>
+      <h5 className="label">Characteristics:</h5><br/>
       {!!metadata.characteristics.Size &&
         <span>
           <label className="label" required>Size</label><br/>
