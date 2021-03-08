@@ -16,7 +16,7 @@ const OutfitCard = ({id, image, name, category, price, removeListItem}) => {
       <img className = 'product-image' src = {image} alt = {name} />
       <p className = 'product-name'>{name}</p>
       <p className = 'product-category'>{category}</p>
-      <p className = 'product-price'>{price}</p>
+      <p className = 'product-price'>${price}</p>
     </div>
   )
 };

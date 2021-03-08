@@ -18,10 +18,15 @@ const YourOutfitList = ({product_id}) => {
   useEffect (() => setStorageOutfitItems(outfitItems),[outfitItems]);
 
   const getProductFunction = async () => {
-    console.log('it reached me')
+    let productData;
+
     await api.getProduct(product_id)
-      .then(res => setOutfitItems([...outfitItems, res.data]))
-      .catch(err => console.log('error, cannot retrieve outfit', err))
+      .then(res => productData = res.data)
+      .then(() => api.getProductStyles(product_id))
+      .catch(() => console.log('error, cannot fetch API', err))
+      .then(res => productData['image'] = res.data.results[0].photos[0].thumbnail_url)
+      .then(() => setOutfitItems([...outfitItems, productData]))
+      .catch(err => console.log('error, cannot change outfit items state', err))
   };
 
   const addNewOutfitClick = (productId) => {
@@ -34,12 +39,6 @@ const YourOutfitList = ({product_id}) => {
     }
     if (productFound === false) {
       getProductFunction()
-      // const productUrl = `/proxy/api/fec2/hratx/products/${product_id}`;
-      // axios.get(productUrl)
-      //   .then(res => {
-      //     setOutfitItems([...outfitItems, res.data])
-      //   })
-      //   .catch(err => console.log('error, cannot retrieve outfit', err))
     } else return;
   };
 
@@ -80,7 +79,6 @@ const YourOutfitList = ({product_id}) => {
               }}
             >
               <div className = 'product-card'>
-       {/* here, instead of 21111, pass in the productid value from the product overview */}
                 <PlusCircle size = {75} onClick = {(event) => addNewOutfitClick(product_id)}
                    style = {{
                     position: 'absolute',
