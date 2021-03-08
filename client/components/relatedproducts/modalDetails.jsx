@@ -3,20 +3,23 @@
 
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
+import api from '../../../api.js';
 
 const ModalDetails = ({currentProductId, name, category, price, features}) => {
 
   const [currentProduct, setCurrentProduct] = useState([]);
   const [currentProductStyles, setCurrentProductStyles] = useState([]);
+
+  const chainFunctions = async(currentProductId) => {
+    await api.getProduct(currentProductId)
+      .then(res => setCurrentProduct(res.data))
+      .then(() => api.getProductStyles(currentProductId))
+      .then(res => setCurrentProductStyles(res.data))
+      .catch(err => console.log('error updating modal', err))
+  };
   //should run whenever a new current product id has changed
   useEffect(() => {
-    const url = `/proxy/api/fec2/hratx/products/${currentProductId}`;
-    const stylesUrl = `/proxy/api/fec2/hratx/products/${currentProductId}/styles`;
-    axios.get(url)
-      .then(res => setCurrentProduct(res.data))
-      .then(() => axios.get(stylesUrl))
-      .then(res => setCurrentProductStyles(res.data))
-      .catch(err => console.log('error updating the modal', err))
+    chainFunctions(currentProductId)
   },[currentProductId])
 
  if (currentProductStyles.results) {
@@ -56,3 +59,11 @@ const ModalDetails = ({currentProductId, name, category, price, features}) => {
 };
 
 export default ModalDetails;
+
+    // const url = `/proxy/api/fec2/hratx/products/${currentProductId}`;
+    // const stylesUrl = `/proxy/api/fec2/hratx/products/${currentProductId}/styles`;
+    // axios.get(url)
+    //   .then(res => setCurrentProduct(res.data))
+    //   .then(() => axios.get(stylesUrl))
+    //   .then(res => setCurrentProductStyles(res.data))
+    //   .catch(err => console.log('error updating the modal', err))

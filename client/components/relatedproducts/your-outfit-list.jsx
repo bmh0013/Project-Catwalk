@@ -5,6 +5,7 @@ import {CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-rea
 import {PlusCircle} from 'react-bootstrap-icons'
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import axios from 'axios';
+import api from '../../../api.js';
 
 const YourOutfitList = ({product_id}) => {
   const [storageOutfitItems, setStorageOutfitItems] = useLocalStorageState('outfitItems', [])
@@ -16,21 +17,29 @@ const YourOutfitList = ({product_id}) => {
   //edit the localstorage array if the outfit list changes
   useEffect (() => setStorageOutfitItems(outfitItems),[outfitItems]);
 
+  const getProductFunction = async () => {
+    console.log('it reached me')
+    await api.getProduct(product_id)
+      .then(res => setOutfitItems([...outfitItems, res.data]))
+      .catch(err => console.log('error, cannot retrieve outfit', err))
+  };
+
   const addNewOutfitClick = (productId) => {
     let productFound = false;
 
     for (let i = 0; i < outfitItems.length; i++) {
-      if (productId === outfitItems[i].id) {
+      if (product_id === outfitItems[i].id) {
         productFound = true;
       }
     }
     if (productFound === false) {
-      const productUrl = `/proxy/api/fec2/hratx/products/${productId}`;
-      axios.get(productUrl)
-        .then(res => {
-          setOutfitItems([...outfitItems, res.data])
-        })
-        .catch(err => console.log('error, cannot retrieve outfit', err))
+      getProductFunction()
+      // const productUrl = `/proxy/api/fec2/hratx/products/${product_id}`;
+      // axios.get(productUrl)
+      //   .then(res => {
+      //     setOutfitItems([...outfitItems, res.data])
+      //   })
+      //   .catch(err => console.log('error, cannot retrieve outfit', err))
     } else return;
   };
 

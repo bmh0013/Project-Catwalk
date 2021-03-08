@@ -5,72 +5,68 @@ import 'pure-react-carousel/dist/react-carousel.es.css';
 import axios from 'axios';
 import {getReviewInfo} from '../Overview/serverRequests.js';
 import {StaticRating} from '../../starRating.jsx';
+import api from '../../../api.js';
 
-const RelatedList = ({product_id, renderNewProductId}) => {
-  //this will be an array of productIDs based off the productID state
+const RelatedList =  ({product_id, renderNewProductId}) => {
+  //array of productIDs based off the productID state
   const [relatedItems, setRelatedItems] = useState([]);
-  //this will generate an array of objects in accordance to the relatedItems
+  //array of objects in accordance to the relatedItems
   const [relatedItemsData, setRelatedItemsData] = useState([]);
   const [productReview, updateReview] = useState(null);
 
   useEffect(() => {
-    const url = `/proxy/api/fec2/hratx/products/${product_id}/related`;
-    axios.get(url)
-      .then(res => {
-        const distinctRelatedItems = [...new Set(res.data)]
-        return distinctRelatedItems
-      })
-      .then (res => setRelatedItems(res))
-      .catch(err => console.log('error retrieving the relevant product ids', err))
+    chainFunctions();
   }, [product_id])
 
-  //do useEffect again to pull all the data in accordance to the relatedItems array populated from the first useEffect
+  const chainFunctions = async () => {
+    await api.getRelatedProductIds(product_id)
+      .then(res => {
+        const distinctRelatedItems = [...new Set(res.data)]
+          return distinctRelatedItems
+      })
+      .then(res => setRelatedItems(res))
+      .catch(err => console.log ('error retrieving the relevant product ids', err))
+  };
+
   useEffect(() => {
+    chainProducts(relatedItems);
+  }, [relatedItems])
+
+  const chainProducts = async (relatedItems) => {
     let renderedItems = [];
     let renderedStyles = [];
 
+    let promiseChain = Promise.resolve();
+
     relatedItems.forEach(item => {
-      const productUrl = `/proxy/api/fec2/hratx/products/${item}`;
-      const stylesUrl = `/proxy/api/fec2/hratx/products/${item}/styles`;
-      axios.get(productUrl)
+      promiseChain = promiseChain
+        .then(() => api.getProduct(item))
+        .catch(err => console.log('error retrieving the product information', err))
+        .then(res => renderedItems.push(res.data))
+        .then(() => api.getProductStyles(item))
         .then(res => {
-          //paste in product.id within function
-          // getReviewInfo(21111, (err, data) => {
-          //   if (err) {
-          //     throw err
-          //   } else {
-          //     updateReview(data)
-          //   }
-          // })
-          renderedItems.push(res.data);
-        })
-        .then(() => {
-          axios.get(stylesUrl)
-            .then(res => {
-              renderedStyles.push({id: res.data.product_id, image:res.data.results[0].photos[0].thumbnail_url})
-              if (renderedItems.length === renderedStyles.length) {
-                for (let i = 0; i < renderedItems.length; i++) {
-                  for (let j = 0; j < renderedStyles.length; j++){
-                    if (renderedItems[i].id == renderedStyles[j].id) {
-                      renderedItems[i]['image'] = renderedStyles[j].image
-                    }
-                  }
+          renderedStyles.push({id: res.data.product_id, image:res.data.results[0].photos[0].thumbnail_url})
+
+          if (renderedItems.length === relatedItems.length && renderedStyles.length === relatedItems.length) {
+            for (let i = 0; i < renderedItems.length; i++) {
+              for (let j = 0; j < renderedStyles.length; j++){
+                if (renderedItems[i].id == renderedStyles[j].id) {
+                  renderedItems[i]['image'] = renderedStyles[j].image
                 }
-                let checkImageProperty = renderedItems.some(obj => obj.image);
-                  if (checkImageProperty) {
-                    setRelatedItemsData(renderedItems)
-                  }
               }
-            })
-            .catch(err => console.log('error retrieving the product styles', err))
+            }
+            let checkImageProperty = renderedItems.some(obj => obj.image);
+              if (checkImageProperty) {
+                setRelatedItemsData(renderedItems)
+              }
+          }
         })
-        .catch(err => console.log('error retrieving the product information', err));
+        .catch(err => console.log('error retrieving the product styles', err))
     })
-  },[relatedItems])
+  };
 
    //if you click on the card, that productid should be imported into the api request for that product info
   const sendProductId = (id) => {
-    console.log('id', id)
     renderNewProductId(id);
   };
 

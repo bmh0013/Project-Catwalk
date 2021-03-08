@@ -18,7 +18,6 @@ class App extends React.Component{
     this.setState({
       product_id: id
     })
-    console.log('new state id', id);
   }
 
   render() {
