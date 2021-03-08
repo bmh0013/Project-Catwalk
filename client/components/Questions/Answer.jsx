@@ -1,5 +1,4 @@
 import React from 'react';
-//import { markAnswerHelpful, reportAnswer } from './helperFunctions.js';
 import API from '../../../api';
 
 const Answer = ({ product_id, answer, refresh }) => {

@@ -5,7 +5,6 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-//import { addQuestion } from './helperFunctions';
 import API from '../../../api';
 
 const useStyles = makeStyles((theme) => ({
@@ -43,7 +42,6 @@ const AddQuestion = ({ product_id, refresh }) => {
     console.log('FORM DATA:', formData);
 
     API.postQuestion(formData)
-    //addQuestion(formData)
     .catch(err => console.log(err))
     .then(() => {
       setOpen(false);

@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Question from './Question.jsx';
 import QuestionSearch from './QuestionSearch.jsx';
-//import { addQuestion, getQuestions, getProducts } from './helperFunctions.js';
 import sampleData from './sampleData.js';
 import Button from '@material-ui/core/Button';
 import AddQuestion from './AddQuestion.jsx';
 import API from '../../../api';
 
 const Questions = ({ product_id }) => {
-  //const [productId, setProductId] = useState(product_id);
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [questionsToShow, setQuestionsToShow] = useState(4);
@@ -26,7 +24,6 @@ const Questions = ({ product_id }) => {
       }
 
       API.getQuestions(options)
-      //await getQuestions(productId,1,200)
       .catch(err => console.log('getQuestions', err))
       .then(response => setData(response.data.results.sort((a, b) => (a.helpfulness > b.helpfulness) ? -1 : 1)));
   };
