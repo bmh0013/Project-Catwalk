@@ -1,6 +1,7 @@
 import React, { useState, useEffect, setModal } from 'react';
 import { TOKEN } from '../../../token.js';
 import API from '../../../api.js';
+import { HoverRating, StaticRating } from '../../starRating.jsx';
 const axios = require('axios').default;
 
 const NewReview = ({ product, metadata, setModal }) => {
@@ -9,7 +10,6 @@ const NewReview = ({ product, metadata, setModal }) => {
   useEffect(() => {
     console.log(product);
     console.log(metadata);
-    console.log(TOKEN);
   })
 
   function closeModal() {
@@ -27,56 +27,56 @@ const NewReview = ({ product, metadata, setModal }) => {
 
   function handleSubmitReview(e) {
     e.preventDefault();
-    setModal(false);
-    let form = document.getElementById('newReview').elements;
+    let rating = document.getElementById('hover-rating').getAttribute('value');
 
-    let characteristics = {};
-    let charList = Object.keys(metadata.characteristics);
+    if (rating === null) {
+      alert('Please select a rating');
+    } else {
+      setModal(false);
+      let form = document.getElementById('newReview').elements;
+      let characteristics = {};
+      let charList = Object.keys(metadata.characteristics);
 
-    charList.forEach(char => {
-      let char_id = metadata.characteristics[char].id
-      let value = form[char].value;
-      characteristics[char_id] = Number(value);
-    })
+      charList.forEach(char => {
+        let char_id = metadata.characteristics[char].id
+        let value = form[char].value;
+        characteristics[char_id] = Number(value);
+      })
 
-    let json = {
-      product_id: product.id,
-      rating: Number(form.rating.value),
-      summary: form.summary.value || '',
-      body: form.body.value,
-      recommend: Boolean(form.recommend.value),
-      name: form.nickname.value,
-      email: form.email.value,
-      photos: [],
-      characteristics: characteristics
-    };
+      let json = {
+        product_id: product.id,
+        rating: Number(rating),
+        summary: form.summary.value || '',
+        body: form.body.value,
+        recommend: Boolean(form.recommend.value),
+        name: form.nickname.value,
+        email: form.email.value,
+        photos: [],
+        characteristics: characteristics
+      };
 
-    console.log(json);
-
-    API.postReview(json)
-    .then(res => console.log(res))
-    .catch(err => console.log(err));
+      API.postReview(json)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+    }
   }
 
   var form = (
     <form id="newReview" onSubmit={handleSubmitReview}>
     <div className="field">
       <label className="label required">Overall Rating</label><br/>
-      <input name="rating" type="radio" value="1" required/>1
-      <input name="rating" type="radio" value="2" required/>2
-      <input name="rating" type="radio" value="3" required/>3
-      <input name="rating" type="radio" value="4" required/>4
-      <input name="rating" type="radio" value="5" required/>5
+      <HoverRating />
+      <input type="hidden" name="StartDate_required" value="You must enter a start date." />
     </div>
 
     <div className="field">
-      <label className="label required">Do you recommend this product?</label><br/>
+      <label className="label">Do you recommend this product?</label><br/>
       <input name="recommend" type="radio" value="true" required/>Yes
       <input name="recommend" type="radio" value="false" required/>No
     </div>
 
     <div className="field">
-      <h5 className="required">Characteristics</h5>
+      <h5 className="label">Characteristics</h5>
       {!!metadata.characteristics.Size &&
         <span>
           <label className="label" required>Size</label><br/>

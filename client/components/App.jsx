@@ -10,7 +10,7 @@ class App extends React.Component{
   constructor() {
     super();
     this.state = {
-      product_id: 21114
+      product_id: 21112
     }
   }
 
@@ -20,7 +20,7 @@ class App extends React.Component{
         <Overview />
         <RelatedList />
         <YourOutfitList />
-        <Questions />
+        <Questions product_id={this.state.product_id}/>
         <Reviews product_id={this.state.product_id}/>
      </div>
     )

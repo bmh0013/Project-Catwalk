@@ -1,6 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import TOKEN from '../../../token.js'
 import API from '../../../api.js';
+import { HoverRating, StaticRating } from '../../starRating.jsx';
 const axios = require('axios').default;
 var moment = require('moment');
 
@@ -40,9 +41,13 @@ const ReviewCard = ({ reviewCard }) => {
     </span>
   );
 
+  let rating = reviewCard.rating
+  let reviewRating = {};
+  reviewRating[rating] = 1;
+
   return (
     <div className='review-card'>
-      <span className="rating">Rating: {reviewCard.rating}</span>
+      <span className="rating"><StaticRating data={reviewRating} /></span>
       <span className="user_date">{reviewCard.reviewer_name} | {date}</span>
       <h5>{reviewCard.summary}</h5>
       <p>

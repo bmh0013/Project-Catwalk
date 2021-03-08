@@ -25,18 +25,19 @@ const useStyles = makeStyles({
 });
 
 function HoverRating() {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(null);
   const [hover, setHover] = React.useState(-1);
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} id='hover-rating' value={value}>
       <Rating
         name="hover-feedback"
         value={value}
         precision={0.25}
         onChange={(event, newValue) => {
           setValue(newValue);
+          console.log(newValue);
         }}
         onChangeActive={(event, newHover) => {
           setHover(newHover);
@@ -47,16 +48,16 @@ function HoverRating() {
 }
 
 function StaticRating(props) {
-  // let reviewData = props.data.reviewData;
+  let reviewData = props.data;
 
   // STATIC DEMO DATA
-  let reviewData = {
-    1: 20,
-    2: 20,
-    3: 12,
-    4: 0,
-    5: 20,
-  }
+  // let reviewData = {
+  //   1: 20,
+  //   2: 20,
+  //   3: 12,
+  //   4: 0,
+  //   5: 20,
+  // }
 
   let values = Object.entries(reviewData).map(e =>
     e[0] * e[1])

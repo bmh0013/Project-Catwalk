@@ -184,3 +184,6 @@ a:hover{
   content:" *";
   color: red;
 }
+#hideMe {
+  display: none;
+}

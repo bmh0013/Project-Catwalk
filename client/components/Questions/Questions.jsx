@@ -1,27 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import Question from './Question.jsx';
 import QuestionSearch from './QuestionSearch.jsx';
-import { addQuestion, getQuestions, getProducts } from './helperFunctions.js';
+//import { addQuestion, getQuestions, getProducts } from './helperFunctions.js';
 import sampleData from './sampleData.js';
 import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
+import AddQuestion from './AddQuestion.jsx';
+import API from '../../../api';
 
-const Questions = () => {
-  const [productId, setProductId] = useState(21111);
+const Questions = ({ product_id }) => {
+  //const [productId, setProductId] = useState(product_id);
   const [data, setData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [questionsToShow, setQuestionsToShow] = useState(4);
   const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
-    loadData(productId);
+    loadData(product_id);
   }, []);
 
-  var loadData = async (productId) => {
-      await getQuestions(productId)
-      .then(receivedData => setData(receivedData.results.sort((a, b) => (a.helpfulness > b.helpfulness) ? -1 : 1)));
+  var loadData = async (product_id) => {
+      let options = {
+        product_id: product_id,
+        page: 1,
+        count: 200
+      }
+
+      API.getQuestions(options)
+      //await getQuestions(productId,1,200)
+      .catch(err => console.log('getQuestions', err))
+      .then(response => setData(response.data.results.sort((a, b) => (a.helpfulness > b.helpfulness) ? -1 : 1)));
   };
 
   loadData = loadData.bind(this);
+
+  var handleSearch = (searchTerm) => {
+    if (searchTerm.length > 2) {
+      setSearchTerm(searchTerm);
+    } else {
+      setSearchTerm('');
+    }
+    return;
+  }
+
+  handleSearch = handleSearch.bind(this);
 
   const showMore = () => {
     expanded ? setQuestionsToShow(4) : setQuestionsToShow(data.length);
@@ -32,23 +53,24 @@ const Questions = () => {
     <div>
       <h1>Questions and Answers</h1>
       <div>
-        <QuestionSearch />
-        {data.slice(0, questionsToShow).map(q => (
-          <Question question={q} key={q.question_id} handleChange={loadData} />
+        <QuestionSearch handleSearch={handleSearch}/>
+        {data.filter(q => q.question_body.toLowerCase().includes(searchTerm.toLowerCase())).slice(0, questionsToShow).map(q => (
+          <Question product_id={product_id} question={q} key={q.question_id} refresh={loadData} />
         ))}
         {data.length > 2 ? (
-          <Button color="primary" onClick={showMore} size="small" variant="outlined">
-
+          <span>
+            <Button color="primary" onClick={showMore} size="small" variant="outlined">
               {expanded ? (
-                <span>FEWER ANSWERED QUESTIONS</span>
+                <span>FEWER QUESTIONS</span>
               ) : (
-                <span>MORE ANSWERED QUESTIONS</span>
+                <span>MORE QUESTIONS</span>
               )}
-
-          </Button>
-          ) : null
+            </Button>
+            <AddQuestion product_id={product_id} refresh={loadData}/>
+          </span>
+          ) :  <AddQuestion product_id={product_id} refresh={loadData}/>
         }
-        <Button color="primary" onClick={()=>(alert('comings soon'))} size="small" variant="outlined" endIcon={<AddIcon>add</AddIcon>}>ADD A QUESTION</Button>
+
       </div>
     </div>
   );
