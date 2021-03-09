@@ -50,7 +50,7 @@ const Reviews = ({ product_id }) => {
     .catch(err => console.log(err));
   }
 
-  async function loadMore() {
+  function loadMore() {
     updateCount(count + 2);
   }
 
