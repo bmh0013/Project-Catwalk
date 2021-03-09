@@ -116,27 +116,13 @@ body{
   opacity: 0;
 }
 
-.modal-container{
-  height:40rem;
-  width:50rem;
+.scroll-table{
+  overflow:scroll;
+  height:55rem;
 }
 
-.modal-heading{
-  font-size: 2rem;
-  margin-left: 1.7rem;
-}
-
-.modal-comparison{
-  width: 100%;
-}
-
-.modal-names-row{
-  font-size: 1.7rem;
-  position: static;
-}
-
-.modal-comparison th{
-  text-align:center;
+.table-header{
+  font-size:3rem;
 }
 
 .modal-outer {
@@ -162,3 +148,4 @@ body{
   content:" *";
   color: red;
 }
+

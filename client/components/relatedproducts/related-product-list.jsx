@@ -11,6 +11,7 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
   const [relatedItems, setRelatedItems] = useState([]);
   //array of objects in accordance to the relatedItems
   const [relatedItemsData, setRelatedItemsData] = useState([]);
+  const[relatedItemsStyles, setRelatedItemsStyles] = useState([]);
   const [productReview, updateReview] = useState(null);
 
   useEffect(() => {
@@ -44,7 +45,7 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
         .then(res => renderedItems.push(res.data))
         .then(() => api.getProductStyles(item))
         .then(res => {
-          console.log('style responses', res.data)
+          setRelatedItemsStyles(res.data)
           renderedStyles.push({id: res.data.product_id, image:res.data.results[0].photos[0].thumbnail_url})
 
           if (renderedItems.length === relatedItems.length && renderedStyles.length === relatedItems.length) {
@@ -117,6 +118,7 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
 
               // // this information is for the modal
               currentProductId = {product_id}
+              relatedItemsStyles = {relatedItemsStyles}
               features = {relatedItem.features}
             />
           </Slide>

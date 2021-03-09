@@ -5,7 +5,7 @@ import ModalDetails from './modalDetails.jsx';
 import Rating from '../Overview/Rating.jsx';
 import api from '../../../api.js';
 
-const RelatedProductCard = ({id, currentProductId, name, category, image, price, sendProductId, features}) => {
+const RelatedProductCard = ({id, currentProductId, relatedItemsStyles, name, category, image, price, sendProductId, features}) => {
 
   const [openModal, setOpenModal] = useState(false);
   const [currentProduct, setCurrentProduct] = useState([]);
@@ -60,6 +60,7 @@ const RelatedProductCard = ({id, currentProductId, name, category, image, price,
       <ModalDetails
         currentProduct = {currentProduct}
         currentProductStyles = {currentProductStyles}
+        relatedItemsStyles = {relatedItemsStyles}
         name = {name}
         currentProductId = {currentProductId}
         category = {category}
