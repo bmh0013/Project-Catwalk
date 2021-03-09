@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
+import Box from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
@@ -19,16 +20,11 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import grey from "@material-ui/core/colors/grey";
+import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 600
-  },
-  cardheader: {
-    title: {
-      fontSize: '26px !important'
-    }
+    maxWidth: 800
   },
   media: {
     height: 0,
@@ -70,24 +66,25 @@ const Question = ({ product_id, question, refresh }) => {
   return (
     <div>
         <Card className={classes.root} variant='outlined'>
-          <CardHeader
-            avatar={
-              <Avatar aria-label="qa-question-asker" className={classes.avatar}>
-                Q
-              </Avatar>
-            }
-            action={
-              <IconButton aria-label="qa-question-helpfulness" onClick={markHelpful}>
-                {question.question_helpfulness}
-                <FavoriteIcon />
-              </IconButton>
-            }
-            titleTypographyProps={{variant: 'h5'}}
-            title={question.question_body}
-            subheaderTypographyProps={{variant: 'h6'}}
-            subheader={question.asker_name + ' | ' + new Date(question.question_date).toLocaleDateString('en-us')}
-            style={{paddingBottom: '0'}}
-          />
+            <CardHeader
+              avatar={
+                <Avatar aria-label="qa-question-avatar" className={classes.avatar}>
+                  Q
+                </Avatar>
+              }
+              action={
+                <h5>
+                  Helpful? <Link aria-label="qa-question-helpfulness" onClick={markHelpful} variant="h5">
+                    Yes
+                  </Link> ({question.question_helpfulness})   |   <AddAnswer product_id={product_id} question_id={question.question_id} question={question.question_body} refresh={refresh}/>
+                </h5>
+              }
+              titleTypographyProps={{variant: 'h5'}}
+              title={question.question_body}
+              subheaderTypographyProps={{variant: 'h6'}}
+              subheader={question.asker_name + ' | ' + new Date(question.question_date).toLocaleDateString('en-us')}
+              style={{paddingBottom: '0', paddingTop: '4'}}
+            />
           <CardContent>
             <div className="qa-answers">
               {
@@ -97,18 +94,17 @@ const Question = ({ product_id, question, refresh }) => {
               }
             </div>
           </CardContent>
-          <CardActions style={{justifyContent: 'center'}}>
+          <CardActions style={{justifyContent: 'flex-end', paddingTop: 0}}>
             {answers.length > 2 ? (
-                <Button color="primary" onClick={showMore} size="large" variant='outlined'>
+                <Button color="secondary" onClick={showMore} size="small" variant='outlined'>
                   {expanded ? (
-                    <span>show fewer answers</span>
+                    <span>Collapse answers</span>
                   ) : (
-                    <span>show more answers</span>
+                    <span>See more answers</span>
                   )}
                 </Button>
               ) : null
             }
-            <AddAnswer product_id={product_id} question_id={question.question_id} refresh={refresh}/>
           </CardActions>
         </Card>
     </div>

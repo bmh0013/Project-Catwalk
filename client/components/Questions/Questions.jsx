@@ -3,10 +3,42 @@ import Question from './Question.jsx';
 import QuestionSearch from './QuestionSearch.jsx';
 import sampleData from './sampleData.js';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import AddQuestion from './AddQuestion.jsx';
 import API from '../../../api';
 
-const Questions = ({ product_id }) => {
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import { blue } from '@material-ui/core/colors';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    maxWidth: 800
+  },
+  media: {
+    height: 0,
+    paddingTop: '56.25%', // 16:9
+  },
+  expand: {
+    transform: 'rotate(0deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  expandOpen: {
+    transform: 'rotate(180deg)',
+  },
+  avatar: {
+    backgroundColor: blue[500],
+  },
+}));
+
+const Questions = ({ product_id, product_name }) => {
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [questionsToShow, setQuestionsToShow] = useState(4);
@@ -15,6 +47,8 @@ const Questions = ({ product_id }) => {
   useEffect(() => {
     loadData(product_id);
   }, []);
+
+  const classes = useStyles();
 
   var loadData = async (product_id) => {
       let options = {
@@ -47,29 +81,35 @@ const Questions = ({ product_id }) => {
   }
 
   return (
-    <div>
-      <h1>Questions and Answers</h1>
-      <div>
+    <Card className={classes.root}>
+      <CardHeader
+        titleTypographyProps={{variant: 'h5'}}
+        title='QUESTIONS AND ANSWERS'
+        style={{paddingBottom: '0', paddingTop: '4'}}
+      />
+      <CardContent style={{height: '200'}}>
         <QuestionSearch handleSearch={handleSearch}/>
         {data.filter(q => q.question_body.toLowerCase().includes(searchTerm.toLowerCase())).slice(0, questionsToShow).map(q => (
           <Question product_id={product_id} question={q} key={q.question_id} refresh={loadData} />
         ))}
+      </CardContent>
+      <CardActions style={{justifyContent: 'center'}}>
         {data.length > 2 ? (
-          <span>
-            <Button color="primary" onClick={showMore} size="small" variant="outlined">
-              {expanded ? (
-                <span>FEWER QUESTIONS</span>
-              ) : (
-                <span>MORE QUESTIONS</span>
-              )}
-            </Button>
-            <AddQuestion product_id={product_id} refresh={loadData}/>
-          </span>
-          ) :  <AddQuestion product_id={product_id} refresh={loadData}/>
-        }
+            <span>
+              <Button color="primary" onClick={showMore} size="large" variant="outlined">
+                {expanded ? (
+                  <span>FEWER QUESTIONS</span>
+                ) : (
+                  <span>MORE ANSWERED QUESTIONS</span>
+                )}
+              </Button>
 
-      </div>
-    </div>
+            </span>
+            ) :  null
+          }
+        <AddQuestion product_id={product_id} refresh={loadData}/>
+      </CardActions>
+    </Card>
   );
 };
 
