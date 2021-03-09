@@ -1,6 +1,5 @@
-import { TOKEN } from './token.js';
+import TOKEN from './token.js';
 const axios = require('axios').default;
-
 
 // Handles all GET requests, requires a route and a params
 function handleGetRequests(route, params) {
@@ -32,6 +31,14 @@ function getAllProducts() {
 
 function getProduct(product_id) {
   return handleGetRequests(`products/${product_id}`)
+}
+
+function getProductStyles(product_id) {
+  return handleGetRequests(`products/${product_id}/styles`)
+}
+
+function getRelatedProductIds(product_id) {
+  return handleGetRequests(`products/${product_id}/related`)
 }
 
 function getReviewCards(params) {
@@ -113,6 +120,8 @@ function reportAnswer(answer_id) {
 export default {
   getAllProducts,
   getProduct,
+  getProductStyles,
+  getRelatedProductIds,
   getReviewCards,
   getMetadata,
   getQuestions,
