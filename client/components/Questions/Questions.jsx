@@ -17,21 +17,12 @@ import { blue } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 800
+    maxWidth: '80vw',
+    justifyContent: 'center'
   },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
+  cardContent: {
+    maxHeight: '50vh',
+    overflow: 'scroll'
   },
   avatar: {
     backgroundColor: blue[500],
@@ -87,7 +78,7 @@ const Questions = ({ product_id, product_name }) => {
         title='QUESTIONS AND ANSWERS'
         style={{paddingBottom: '0', paddingTop: '4'}}
       />
-      <CardContent style={{height: '200'}}>
+      <CardContent className={classes.cardContent}>
         <QuestionSearch handleSearch={handleSearch}/>
         {data.filter(q => q.question_body.toLowerCase().includes(searchTerm.toLowerCase())).slice(0, questionsToShow).map(q => (
           <Question product_id={product_id} question={q} key={q.question_id} refresh={loadData} />
