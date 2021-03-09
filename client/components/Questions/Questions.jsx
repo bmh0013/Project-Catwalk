@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Question from './Question.jsx';
 import QuestionSearch from './QuestionSearch.jsx';
-import sampleData from './sampleData.js';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import AddQuestion from './AddQuestion.jsx';
 import API from '../../../api';
 
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
 import { blue } from '@material-ui/core/colors';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 
@@ -21,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '80vw',
     justifyContent: 'center'
   },
-  cardContent: {
+  questionsGridItem: {
     maxHeight: '50vh',
     overflow: 'scroll'
   },
@@ -83,7 +78,7 @@ const Questions = ({ product_id, product_name }) => {
         <Grid item>
           <QuestionSearch handleSearch={handleSearch}/>
         </Grid>
-        <Grid item>
+        <Grid item className={classes.questionsGridItem}>
           {
             data.filter(q => q.question_body.toLowerCase().includes(searchTerm.toLowerCase())).slice(0, questionsToShow)
               .map(q => (<Question product_id={product_id} question={q} key={q.question_id} refresh={loadData} />))
