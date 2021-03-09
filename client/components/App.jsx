@@ -23,11 +23,11 @@ class App extends React.Component{
   render() {
     return(
       <div>
-        {/* <Overview /> */}
+        <Overview />
         <RelatedList product_id = {this.state.product_id} renderNewProductId = {this.renderNewProductId.bind(this)}/>
         <YourOutfitList product_id = {this.state.product_id}/>
-        {/* <Questions product_id = {this.state.product_id}/>
-        <Reviews product_id = {this.state.product_id}/> */}
+        <Questions product_id = {this.state.product_id}/>
+        <Reviews product_id = {this.state.product_id}/>
      </div>
     )
   }

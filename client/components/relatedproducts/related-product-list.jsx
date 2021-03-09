@@ -78,7 +78,7 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
   };
 
   return (
-    <div className = 'related-list'>
+    <div className = 'product-list'>
       <h1 className = 'heading-list'>RELATED PRODUCTS</h1>
       <CarouselProvider
         className = 'items-carousel'

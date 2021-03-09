@@ -3,8 +3,8 @@ body{
   margin: 0 auto 0 auto;
 }
 
-.related-list, .outfit-section{
-  height:45rem;
+.product-list{
+  height:43rem;
   overflow:hidden;
 }
 
@@ -116,4 +116,13 @@ body{
 
 .ReactModal__Overlay--before-close {
   opacity: 0;
+}
+
+.scroll-table{
+  height: 30rem;
+  overflow: scroll;
+}
+
+.table-header{
+  padding-bottom: 0.3rem;
 }

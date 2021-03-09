@@ -48,7 +48,7 @@ const YourOutfitList = ({product_id}) => {
   };
 
   return(
-    <div className = 'outfit-section'>
+    <div className = 'product-list'>
       <h1 className = 'heading-list'>YOUR OUTFITS</h1>
       <CarouselProvider
         className = 'items-carousel'

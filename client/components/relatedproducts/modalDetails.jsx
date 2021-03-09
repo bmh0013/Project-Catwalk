@@ -69,10 +69,10 @@ const ModalDetails = props => {
     <TableContainer className = 'scroll-table'>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
-          <TableRow>
-            <TableCell align="center" style ={{fontSize: 25}}>{props.name}</TableCell>
-            <TableCell align="center"></TableCell>
-            <TableCell align="center" style ={{fontSize: 25}}>{props.currentProduct.name}</TableCell>
+          <TableRow style ={{padding:35}}>
+            <TableCell align="center" style ={{fontSize: 22}}>{props.name}</TableCell>
+            <TableCell align="center" style ={{padding: 40}}></TableCell>
+            <TableCell align="center" style ={{fontSize: 22}}>{props.currentProduct.name}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
