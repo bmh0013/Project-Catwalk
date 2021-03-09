@@ -5,11 +5,12 @@ import {CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-rea
 import {PlusCircle} from 'react-bootstrap-icons'
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import api from '../../../api.js';
+import {StaticRating} from '../../starRating.jsx';
 
 const YourOutfitList = ({product_id}) => {
   const [storageOutfitItems, setStorageOutfitItems] = useLocalStorageState('outfitItems', [])
   const [outfitItems, setOutfitItems] = useState(storageOutfitItems)
-
+  const [starRating, setStarRating] = useState([]);
   //initialize outfit list array accordingly to the local storage data
   useEffect (() => setStorageOutfitItems(outfitItems),[]);
 
@@ -21,7 +22,14 @@ const YourOutfitList = ({product_id}) => {
     let productData;
 
     await api.getProduct(product_id)
-      .then(res => productData = res.data)
+      .then(res => {
+        console.log('getProductAPI', res.data)
+        productData = res.data
+      })
+      // get star rating data
+      .then(() => api.getMetadata({product_id}))
+      .then(res =>  setStarRating(res.data.ratings))
+      //
       .then(() => api.getProductStyles(product_id))
       .catch(() => console.log('error, cannot fetch API', err))
       .then(res => productData['image'] = res.data.results[0].photos[0].thumbnail_url)
@@ -111,6 +119,7 @@ const YourOutfitList = ({product_id}) => {
               category = {outfitItem.category}
               price = {outfitItem.default_price}
               removeListItem = {removeListItem}
+              starRating = {starRating}
             />
           </Slide>
           ))}
