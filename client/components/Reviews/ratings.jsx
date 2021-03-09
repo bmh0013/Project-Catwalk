@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { StaticRating } from '../../starRating.jsx';
 
 const Ratings = ({ metadata, reviewCards }) => {
-  let totalReviews = 0;
-  let recommend = 0;
+  let totalReviews = 0, recommend = 0;
+
   reviewCards.forEach(card => {
     if (card.recommend) {
       recommend++;
@@ -13,11 +13,15 @@ const Ratings = ({ metadata, reviewCards }) => {
 
   let percentage = Math.round(100 * (recommend / totalReviews));
   let totalRatings = Object.values(metadata.ratings).reduce((a, b) => Number(a) + Number(b));
-  let stars5 = metadata.ratings[5] ? Math.round( 100 * ( Number(metadata.ratings[5]) / totalRatings ) ) : 0;
-  let stars4 = metadata.ratings[4] ? Math.round( 100 * ( Number(metadata.ratings[4]) / totalRatings ) ) : 0;
-  let stars3 = metadata.ratings[3] ? Math.round( 100 * ( Number(metadata.ratings[3]) / totalRatings ) ) : 0;
-  let stars2 = metadata.ratings[2] ? Math.round( 100 * ( Number(metadata.ratings[2]) / totalRatings ) ) : 0;
-  let stars1 = metadata.ratings[1] ? Math.round( 100 * ( Number(metadata.ratings[1]) / totalRatings ) ) : 0;
+  let stars5 = starBarFill(5);
+  let stars4 = starBarFill(4);
+  let stars3 = starBarFill(3);
+  let stars2 = starBarFill(2);
+  let stars1 = starBarFill(1);
+
+  function starBarFill(n) {
+    return metadata.ratings[n] ? Math.round( 100 * ( Number(metadata.ratings[n]) / totalRatings ) ) : 0;
+  }
 
   let statistics = (
     <div>
