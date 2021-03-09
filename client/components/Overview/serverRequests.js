@@ -32,7 +32,7 @@ function getCurrentProductInfo(id, cb) {
   }
   axios(headers)
   .then(res => {
-    cb(null, res);
+    cb(null, res.data);
   })
   .catch(err => {
     cb(err);
@@ -56,9 +56,28 @@ function getProductInfo(cb) {
   });
 }
 
+function getProductStyles(id, cb) {
+  let headers = {
+    method: 'get',
+    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hratx/products/${id}/styles`,
+    headers: {
+      Authorization: API_KEY
+    },
+  }
+  axios(headers)
+  .then(res => {
+    console.log('RES: ', res.data.results);
+    cb(null, res.data.results);
+  })
+  .catch(err => {
+    cb(err);
+  });
+}
 
 export{
   getReviewInfo,
   getCurrentProductInfo,
-  getProductInfo
+  getProductInfo,
+  getProductStyles
+
 }

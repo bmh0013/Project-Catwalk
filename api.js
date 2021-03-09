@@ -117,7 +117,7 @@ function reportAnswer(answer_id) {
   return handlePutRequests(`qa/answers/${answer_id}/report`);
 }
 
-export default {
+export default{
   getAllProducts,
   getProduct,
   getProductStyles,
