@@ -1,12 +1,12 @@
 import API_KEY from '../../../token.js';
 const axios = require('axios');
 
-function getReviewInfo(cb, id) {
+function getReviewInfo(id, cb) {
   let headers = {
     method: 'get',
     url: 'https://app-hrsei-api.herokuapp.com/api/fec2/hratx/reviews/meta',
     params: {
-      product_id: 21113
+      product_id: id
     },
     headers: {
       Authorization: API_KEY

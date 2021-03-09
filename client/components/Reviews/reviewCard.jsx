@@ -1,61 +1,65 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import TOKEN from '../../../token.js'
+import API from '../../../api.js';
+import { StaticRating } from '../../starRating.jsx';
+import Body from './body.jsx';
 const axios = require('axios').default;
 var moment = require('moment');
 
-const ReviewCard = (props) => {
-  let date = moment(props.review.date, 'YYYY-MM-DD').format('MMMM D, YYYY');
-
-  useEffect(() => {
-    // console.log('Data:', props.data);
-    // console.log('Review:', props.review);
-  }, [])
+const ReviewCard = ({ reviewCard }) => {
+  let date = moment(reviewCard.date, 'YYYY-MM-DD').format('MMMM D, YYYY');
 
   function handleHelpful(e) {
     let review_id = e.target.getAttribute('data');
-    handlePutRequests(review_id, 'helpful')
+    API.updateHelpful(review_id, {review_id})
+    .then(res => console.log(res))
+    .catch(err => console.log(err));
   }
 
   function handleReport(e) {
     let review_id = e.target.getAttribute('data');
-    handlePutRequests(review_id, 'report')
+    API.updateReport(review_id, {review_id})
+    .then(res => console.log(res))
+    .catch(err => console.log(err));
   }
 
-  function handlePutRequests(review_id, route) {
-    let headers = {
-      method: 'put',
-      url: `https://app-hrsei-api.herokuapp.com/api/fec2/hratx/reviews/${review_id}/${route}`,
-      headers: {
-        Authorization: TOKEN
-      },
-      parameters: {
-        review_id: review_id
-      }
-    };
-    axios(headers)
-    .then(function (response) {
-      console.log(review_id, response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
+  var thumbnails = (
+    <div className="thumbnail-container">
+      {reviewCard.photos.map(photo =>
+        <a key={photo.id}>
+          <img className="thumbnail" src={photo.url}/>
+        </a>
+      )}
+    </div>
+  );
+
+  var feedback = (
+    <span className='helpful'>
+      Helpful? &nbsp;
+      <a className='helpful-link' data={reviewCard.review_id} onClick={handleHelpful}>Yes </a>
+      ({ reviewCard.helpfulness }) &nbsp; |  &nbsp;
+      <a className='report-link' data={reviewCard.review_id} onClick={handleReport}>Report</a>
+    </span>
+  );
+
+  let rating = reviewCard.rating
+  let reviewRating = {};
+  reviewRating[rating] = 1;
 
   return (
-    <div className='review-card'>
-      <span className="rating">Rating: {props.review.rating}</span>
-      <span className="user_date">{props.review.reviewer_name} | {date}</span>
-      <h5>{props.review.body}</h5>
-      <p>
-        {props.review.summary}
-      </p>
-      {!!props.review.response && <p><u>Response:</u> {props.review.response}</p>}
-      <span className='helpful'>
-        Helpful? &nbsp;
-        <a className='helpful-link' data={props.review.review_id} onClick={handleHelpful}>Yes</a> ({props.review.helpfulness}) &nbsp; |  &nbsp;
-        <a className='report-link' data={props.review.review_id} onClick={handleReport}>Report</a>
+    <div className='review-card' id={reviewCard.review_id}>
+      <span className="rating">
+        <StaticRating data={reviewRating} />
       </span>
-      {!!props.review.recommend && <span className='recommend'><u>I recommend this product!</u></span>}
+      <span className="user_date">
+        {reviewCard.reviewer_name} | {date}
+      </span>
+      <h5>{reviewCard.summary}</h5>
+      <Body body={reviewCard.body} id={reviewCard.review_id}/>
+      {thumbnails}
+      {!!reviewCard.response && <p><u>Response:</u> {reviewCard.response}</p>}
+      {feedback}
+      {!!reviewCard.recommend && <span className='recommend'><u>I recommend this product!</u></span>}
     </div>
     )
 };
