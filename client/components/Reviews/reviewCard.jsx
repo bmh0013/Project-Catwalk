@@ -42,14 +42,10 @@ const ReviewCard = ({ reviewCard }) => {
     </span>
   );
 
-  let rating = reviewCard.rating
-  let reviewRating = {};
-  reviewRating[rating] = 1;
-
   return (
     <div className='review-card' id={reviewCard.review_id}>
       <span className="rating">
-        <StaticRating data={reviewRating} />
+        <StaticRating data={{[reviewCard.rating]: 1}} />
       </span>
       <span className="user_date">
         {reviewCard.reviewer_name} | {date}
