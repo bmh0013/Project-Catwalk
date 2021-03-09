@@ -26,8 +26,8 @@ class App extends React.Component{
         <Overview />
         <RelatedList product_id = {this.state.product_id} renderNewProductId = {this.renderNewProductId.bind(this)}/>
         <YourOutfitList product_id = {this.state.product_id}/>
-        <Questions />
-        <Reviews />
+        <Questions product_id = {this.state.product_id}/>
+        <Reviews product_id = {this.state.product_id}/>
      </div>
     )
   }
