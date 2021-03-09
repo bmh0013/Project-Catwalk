@@ -10,10 +10,11 @@ import API from '../../../api';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import { blue } from '@material-ui/core/colors';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -72,35 +73,42 @@ const Questions = ({ product_id, product_name }) => {
   }
 
   return (
-    <Card className={classes.root}>
-      <CardHeader
-        titleTypographyProps={{variant: 'h5'}}
-        title='QUESTIONS AND ANSWERS'
-        style={{paddingBottom: '0', paddingTop: '4'}}
-      />
-      <CardContent className={classes.cardContent}>
-        <QuestionSearch handleSearch={handleSearch}/>
-        {data.filter(q => q.question_body.toLowerCase().includes(searchTerm.toLowerCase())).slice(0, questionsToShow).map(q => (
-          <Question product_id={product_id} question={q} key={q.question_id} refresh={loadData} />
-        ))}
-      </CardContent>
-      <CardActions style={{justifyContent: 'center'}}>
-        {data.length > 2 ? (
-            <span>
-              <Button color="primary" onClick={showMore} size="large" variant="outlined">
-                {expanded ? (
-                  <span>FEWER QUESTIONS</span>
-                ) : (
-                  <span>MORE ANSWERED QUESTIONS</span>
-                )}
-              </Button>
-
-            </span>
-            ) :  null
+    <Box>
+      <Grid container direction="column" spacing={1}>
+        <Grid item>
+          <Typography variant="h5" style={{paddingBottom: '0', paddingTop: '4'}}>
+            QUESTIONS AND ANSWERS
+          </Typography>
+        </Grid>
+        <Grid item>
+          <QuestionSearch handleSearch={handleSearch}/>
+        </Grid>
+        <Grid item>
+          {
+            data.filter(q => q.question_body.toLowerCase().includes(searchTerm.toLowerCase())).slice(0, questionsToShow)
+              .map(q => (<Question product_id={product_id} question={q} key={q.question_id} refresh={loadData} />))
           }
-        <AddQuestion product_id={product_id} refresh={loadData}/>
-      </CardActions>
-    </Card>
+        </Grid>
+      </Grid>
+      <Grid container justify="center" alignItems="center" spacing={1}>
+        {
+        data.length > 2 ? (
+          <Grid item>
+            <Button color="primary" onClick={showMore} size="large" variant="outlined">
+              {expanded ? (
+                <span>FEWER QUESTIONS</span>
+              ) : (
+                <span>MORE ANSWERED QUESTIONS</span>
+              )}
+            </Button>
+          </Grid>
+          ) :  null
+        }
+        <Grid item>
+          <AddQuestion product_id={product_id} refresh={loadData}/>
+        </Grid>
+      </Grid>
+    </Box>
   );
 };
 

@@ -152,7 +152,7 @@ const AddQuestion = ({ product_id, refresh }) => {
 
 
   return (
-    <div>
+    <span>
       <Button
         color="primary"
         onClick={handleOpen}
@@ -168,7 +168,7 @@ const AddQuestion = ({ product_id, refresh }) => {
       >
         {body}
       </Modal>
-    </div>
+    </span>
   );
 }
 
