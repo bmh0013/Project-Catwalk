@@ -13,7 +13,7 @@ import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: '80vw',
+    maxWidth: '75vw',
     justifyContent: 'center'
   },
   questionsGridItem: {
@@ -79,10 +79,16 @@ const Questions = ({ product_id, product_name }) => {
           <QuestionSearch handleSearch={handleSearch}/>
         </Grid>
         <Grid item className={classes.questionsGridItem}>
-          {
-            data.filter(q => q.question_body.toLowerCase().includes(searchTerm.toLowerCase())).slice(0, questionsToShow)
-              .map(q => (<Question product_id={product_id} question={q} key={q.question_id} refresh={loadData} />))
-          }
+          <Grid container direction="column" spacing={3}>
+            {
+              data.filter(q => q.question_body.toLowerCase().includes(searchTerm.toLowerCase())).slice(0, questionsToShow)
+                .map(q => (
+                  <Grid item>
+                    <Question product_id={product_id} question={q} key={q.question_id} refresh={loadData} />
+                  </Grid>
+                ))
+            }
+          </Grid>
         </Grid>
       </Grid>
       <Grid container justify="center" alignItems="center" spacing={1}>

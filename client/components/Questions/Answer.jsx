@@ -20,7 +20,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: '80vw'
+    maxWidth: '75vw'
   },
   avatar: {
     backgroundColor: blue[500],

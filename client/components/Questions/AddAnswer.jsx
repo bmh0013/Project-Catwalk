@@ -153,7 +153,7 @@ const AddAnswer = ({ product_id, question_id, question, refresh }) => {
   return (
     <span>
       <Link
-        variant="h5"
+        variant="h6"
         onClick={handleOpen}>
         Add Answer
 
