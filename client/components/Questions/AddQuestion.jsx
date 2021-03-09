@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
-import Input from '@material-ui/core/Input';
+import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
-//import { addQuestion } from './helperFunctions';
 import API from '../../../api';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -17,7 +18,10 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
-}));
+  helperText: {
+    color: 'blue'
+  }
+  }));
 
 const AddQuestion = ({ product_id, refresh }) => {
   const classes = useStyles();
@@ -28,58 +32,133 @@ const AddQuestion = ({ product_id, refresh }) => {
   });
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({ product_id: product_id });
+  const [formValidation, setFormValidation] = useState({
+    body: [false, null],
+    name: [false, null],
+    email: [false, null]
+  });
 
   const handleOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  var handleClose = () => {
     setOpen(false);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log('FORM DATA:', formData);
+    if (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(formData.email))
+    {
+      API.postQuestion(formData)
+      .catch(err => console.log(err))
+      .then(() => {
+        setOpen(false);
+        refresh(product_id);
+      })
+    } else {
+      let newFormValidation = JSON.parse(JSON.stringify(formValidation));
+      newFormValidation.email[0] = true;
+      newFormValidation.email[1] = 'Please enter a valid email address';
+      setFormValidation(newFormValidation);
+    }
 
-    API.postQuestion(formData)
-    //addQuestion(formData)
-    .catch(err => console.log(err))
-    .then(() => {
-      setOpen(false);
-      refresh(product_id);
-    })
   };
 
-  const handleChange = (prop, value) => {
-    let data = JSON.parse(JSON.stringify(formData));
-    data[prop] = value;
-    setFormData(data);
-  }
+  const handleChange = (prop, target, charLimit) => {
+    if (target.value.length > charLimit) {
+      target.value = target.value.slice(0, charLimit);
+      let newFormValidation = JSON.parse(JSON.stringify(formValidation));
+      newFormValidation[prop][1] = 'Character Limit Reached';
+      setFormValidation(newFormValidation);
+    } else {
+      let newFormValidation = JSON.parse(JSON.stringify(formValidation));
+      for (const prop in newFormValidation) {
+        newFormValidation[prop][1] = false;
+      }
+      if (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(formData.email))
+      {
+        newFormValidation.email[0] = false;
+        newFormValidation.email[1] = null;
+      }
+      setFormValidation(newFormValidation);
+      let newFormData = JSON.parse(JSON.stringify(formData));
+      newFormData[prop] = target.value;
+      setFormData(newFormData);
+    }
+  };
+
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
-      <h2 id="add-question-title">Add a Question</h2>
-      <form onSubmit={handleSubmit}>
-        <InputLabel htmlFor="add-question-question">Question</InputLabel>
-        <Input id="add-question-question" onChange={(e) => handleChange('body', e.target.value)} fullWidth/>
-        <InputLabel htmlFor="add-question-name">Name</InputLabel>
-        <Input id="add-question-name" onChange={(e) => handleChange('name', e.target.value)} fullWidth/>
-        <InputLabel htmlFor="add-question-email">Email</InputLabel>
-        <Input id="add-question-email" onChange={(e) => handleChange('email', e.target.value)} fullWidth/>
-        <Button type="submit" color="primary" variant="outlined">ADD</Button>
-      </form>
+      <Grid container direction="column" spacing={1}>
+        <Grid item><Typography variant='h4'>Ask Your Question</Typography></Grid>
+        <Grid item><Typography variant='h5'>About the product XXX</Typography></Grid>
+        <Grid item>
+          <form onSubmit={handleSubmit}>
+            <Grid container direction="column" spacing={2}>
+              <Grid item>
+              <InputLabel htmlFor="add-question-question">Answer*</InputLabel>
+                <TextField id="add-question-question"
+                  variant="outlined"
+                  FormHelperTextProps={{className: classes.helperText}}
+                  helperText={<Typography component='span' variant='body1'>{formValidation.body[1]}</Typography>}
+                  onChange={(e) => handleChange('body', e.target, 1000)}
+                  multiline={true}
+                  rows={4}
+                  required
+                  fullWidth
+                />
+              </Grid>
+              <Grid item>
+                <InputLabel color="primary" htmlFor="add-question-name">Name*</InputLabel>
+                <Typography component='span' variant='body1'>
+                  <Box fontStyle="italic">For privacy reasons, do not use your full name or email address</Box>
+                </Typography>
+                <TextField id="add-question-name"
+                  variant="outlined"
+                  FormHelperTextProps={{className: classes.helperText}}
+                  helperText={<Typography component='span' variant='body1'>{formValidation.name[1]}</Typography>}
+                  onChange={(e) => handleChange('name', e.target, 60)}
+                  required
+                  fullWidth
+                />
+              </Grid>
+              <Grid item>
+                <InputLabel htmlFor="add-question-email">Email*</InputLabel>
+                <Typography component='span' variant='body1'>
+                  <Box fontStyle="italic">For authentication reasons, you will not be emailed</Box>
+                </Typography>
+                <TextField id="add-question-email"
+                  variant="outlined"
+                  FormHelperTextProps={{className: classes.helperText}}
+                  helperText={<Typography component='span' variant='body1'>{formValidation.email[1]}</Typography>}
+                  onChange={(e) => handleChange('email', e.target, 60)}
+                  error={formValidation.email[0]}
+                  required
+                  fullWidth
+                />
+              </Grid>
+              <Grid item>
+                <Button type="submit" color="primary" variant="outlined">ADD</Button>
+              </Grid>
+            </Grid>
+          </form>
+        </Grid>
+      </Grid>
     </div>
   );
+
 
   return (
     <div>
       <Button
         color="primary"
         onClick={handleOpen}
-        size="small"
+        size="large"
         variant="outlined"
-        endIcon={<AddIcon>add</AddIcon>}>
+        >
           ADD A QUESTION
       </Button>
       <Modal
