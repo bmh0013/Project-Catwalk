@@ -2,7 +2,7 @@ import React from 'react';
 import {XCircle} from 'react-bootstrap-icons';
 import {StaticRating} from '../../starRating.jsx';
 
-const OutfitCard = ({id, image, name, category, price, removeListItem, starRating}) => {
+const OutfitCard = ({id, image, name, category, price, removeListItem,starRating}) => {
 
   return(
     <div className = 'product-card'>

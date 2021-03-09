@@ -5,7 +5,7 @@ import {CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-rea
 import {PlusCircle} from 'react-bootstrap-icons'
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import api from '../../../api.js';
-import {StaticRating} from '../../starRating.jsx';
+
 
 const YourOutfitList = ({product_id}) => {
   const [storageOutfitItems, setStorageOutfitItems] = useLocalStorageState('outfitItems', [])
@@ -17,19 +17,15 @@ const YourOutfitList = ({product_id}) => {
   //edit the localstorage array if the outfit list changes
   useEffect (() => setStorageOutfitItems(outfitItems),[outfitItems]);
 
-
   const getProductFunction = async () => {
     let productData;
 
+    console.log('product id', {product_id})
+
     await api.getProduct(product_id)
-      .then(res => {
-        console.log('getProductAPI', res.data)
-        productData = res.data
-      })
-      // get star rating data
+      .then(res => productData = res.data)
       .then(() => api.getMetadata({product_id}))
       .then(res =>  setStarRating(res.data.ratings))
-      //
       .then(() => api.getProductStyles(product_id))
       .catch(() => console.log('error, cannot fetch API', err))
       .then(res => productData['image'] = res.data.results[0].photos[0].thumbnail_url)
@@ -78,8 +74,8 @@ const YourOutfitList = ({product_id}) => {
            <Slide
               index = {0}
               style = {{
-                width: '240px',
-                height: '120px',
+                width: '500px',
+                height: '500px',
                 border: '2px solid',
                 marginLeft:'20px',
                 marginRight: '20px',

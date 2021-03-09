@@ -2,8 +2,6 @@ import React, {useState, useEffect} from 'react';
 import RelatedProductCard from './related-product-card.jsx';
 import {CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
-import {getReviewInfo} from '../Overview/serverRequests.js';
-import {StaticRating} from '../../starRating.jsx';
 import api from '../../../api.js';
 
 const RelatedList =  ({product_id, renderNewProductId}) => {
@@ -13,6 +11,7 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
   const [relatedItemsData, setRelatedItemsData] = useState([]);
   const[relatedItemsStyles, setRelatedItemsStyles] = useState([]);
   const [productReview, updateReview] = useState(null);
+  const [starRating, getStarRating] = useState([]);
 
   useEffect(() => {
     relatedIdFunction();
@@ -29,8 +28,25 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
   };
 
   useEffect(() => {
+    generateStarRatings(relatedItems);
     generateRelatedItems(relatedItems);
   }, [relatedItems])
+
+  const generateStarRatings = async (relatedItems) => {
+    await api.getProduct(product_id)
+    .then(res => console.log(res.data))
+    .then(() => api.getMetadata({product_id}))
+    .then(res => console.log('gotten metadata', res.data))
+
+    // await api.getMetadata({searchItem: searchItem})
+    // .then(res => console.log('gotten metadata', res.data))
+    // relatedItems.forEach(item => {
+    //   promiseChain = promiseChain
+    //   .then(() => api.getMetadata({21116}))
+    //   .then(res => console.log('gotten metadata', res.data))
+    // })
+  }
+
 
   const generateRelatedItems = async (relatedItems) => {
     let renderedItems = [];
@@ -39,10 +55,12 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
     let promiseChain = Promise.resolve();
 
     relatedItems.forEach(item => {
+      console.log('item', item)
       promiseChain = promiseChain
         .then(() => api.getProduct(item))
         .catch(err => console.log('error retrieving the product information', err))
         .then(res => renderedItems.push(res.data))
+
         .then(() => api.getProductStyles(item))
         .then(res => {
           setRelatedItemsStyles(res.data)
