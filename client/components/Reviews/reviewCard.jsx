@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import TOKEN from '../../../token.js'
 import API from '../../../api.js';
-import { HoverRating, StaticRating } from '../../starRating.jsx';
+import { StaticRating } from '../../starRating.jsx';
 import Body from './body.jsx';
 const axios = require('axios').default;
 var moment = require('moment');

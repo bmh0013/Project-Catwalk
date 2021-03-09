@@ -187,3 +187,7 @@ a:hover{
 .show-more {
   display: none;
 }
+#product-rating {
+  font-size: 60px;
+  font-weight: bold;
+}
