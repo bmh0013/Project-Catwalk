@@ -31,7 +31,6 @@ const Reviews = ({ product_id }) => {
   function fetchReviews() {
     API.getReviewCards({ product_id })
     .then(res => {
-      console.log(res.data.results);
       setReviewCards(res.data.results);
     })
     .catch(err => console.log(err));
