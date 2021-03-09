@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TOKEN } from '../../../token.js';
+import TOKEN from '../../../token.js';
 import API from '../../../api.js';
 import { HoverRating } from '../../starRating.jsx';
 const axios = require('axios').default;
@@ -22,23 +22,23 @@ const NewReview = ({ product, metadata, setModal }) => {
 
   function handleSubmitReview(e) {
     e.preventDefault();
-    let rating = document.getElementById('hover-rating').getAttribute('value');
+    const rating = document.getElementById('hover-rating').getAttribute('value');
 
     if (rating === null) {
       alert('Please select a rating');
     } else {
       setModal(false);
-      let form = document.getElementById('newReview').elements;
+      const form = document.getElementById('newReview').elements;
       let characteristics = {};
-      let charList = Object.keys(metadata.characteristics);
+      const charList = Object.keys(metadata.characteristics);
 
       charList.forEach(char => {
-        let char_id = metadata.characteristics[char].id
-        let value = form[char].value;
+        const char_id = metadata.characteristics[char].id
+        const value = form[char].value;
         characteristics[char_id] = Number(value);
       })
 
-      let json = {
+      const json = {
         product_id: product.id,
         rating: Number(rating),
         summary: form.summary.value || '',
@@ -56,7 +56,7 @@ const NewReview = ({ product, metadata, setModal }) => {
     }
   }
 
-  var form = (
+  const form = (
     <form id="newReview" onSubmit={handleSubmitReview}>
     <div className="field">
       <label className="label required">Overall Rating</label><br/>

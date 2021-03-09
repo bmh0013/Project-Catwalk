@@ -75,3 +75,16 @@ a:hover{
   content:" *";
   color: red;
 }
+.show-more {
+  display: none;
+}
+#product-rating {
+  font-size: 60px;
+  font-weight: bold;
+}
+.bar-graph {
+  width: 50%;
+  height: 12px;
+  display: inline-block;
+  color: rgb(155, 155, 155);
+}
