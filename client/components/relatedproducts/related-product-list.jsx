@@ -11,7 +11,6 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
   const [relatedItemsData, setRelatedItemsData] = useState([]);
   const[relatedItemsStyles, setRelatedItemsStyles] = useState([]);
   const [productReview, updateReview] = useState(null);
-  const [starRating, getStarRating] = useState([]);
 
   useEffect(() => {
     relatedIdFunction();
@@ -28,49 +27,38 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
   };
 
   useEffect(() => {
-    generateStarRatings(relatedItems);
     generateRelatedItems(relatedItems);
   }, [relatedItems])
 
-  const generateStarRatings = async (relatedItems) => {
-    await api.getProduct(product_id)
-    .then(res => console.log(res.data))
-    .then(() => api.getMetadata({product_id}))
-    .then(res => console.log('gotten metadata', res.data))
-
-    // await api.getMetadata({searchItem: searchItem})
-    // .then(res => console.log('gotten metadata', res.data))
-    // relatedItems.forEach(item => {
-    //   promiseChain = promiseChain
-    //   .then(() => api.getMetadata({21116}))
-    //   .then(res => console.log('gotten metadata', res.data))
-    // })
-  }
-
-
   const generateRelatedItems = async (relatedItems) => {
     let renderedItems = [];
+    let renderedStarRatings = [];
     let renderedStyles = [];
 
     let promiseChain = Promise.resolve();
 
     relatedItems.forEach(item => {
-      console.log('item', item)
       promiseChain = promiseChain
         .then(() => api.getProduct(item))
         .catch(err => console.log('error retrieving the product information', err))
         .then(res => renderedItems.push(res.data))
-
+        .then(() => api.getMetadata({product_id: item}))
+        .then(res => {
+          renderedStarRatings.push({id: res.data.product_id, ratings: res.data.ratings})
+        })
         .then(() => api.getProductStyles(item))
         .then(res => {
           setRelatedItemsStyles(res.data)
           renderedStyles.push({id: res.data.product_id, image:res.data.results[0].photos[0].thumbnail_url})
 
-          if (renderedItems.length === relatedItems.length && renderedStyles.length === relatedItems.length) {
+          if (renderedItems.length === relatedItems.length && renderedStyles.length === relatedItems.length && renderedStarRatings.length === relatedItems.length) {
             for (let i = 0; i < renderedItems.length; i++) {
               for (let j = 0; j < renderedStyles.length; j++){
-                if (renderedItems[i].id == renderedStyles[j].id) {
-                  renderedItems[i]['image'] = renderedStyles[j].image
+                for (let k = 0; k < renderedStarRatings.length; k++) {
+                  if (renderedItems[i].id == renderedStyles[j].id && renderedItems[i].id == renderedStarRatings[k].id) {
+                    renderedItems[i]['image'] = renderedStyles[j].image
+                    renderedItems[i]['ratings'] = renderedStarRatings[k].ratings
+                  }
                 }
               }
             }
@@ -129,12 +117,9 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
               name = {relatedItem.name}
               category = {relatedItem.category}
               price = {relatedItem.default_price}
-              // starRating = {StaticRating(productReview)}
-
-              //pass in productReview value into StaticRating
+              starRating = {relatedItem.ratings}
               sendProductId = {sendProductId}
-
-              // // this information is for the modal
+              // this information is for the modal
               currentProductId = {product_id}
               relatedItemsStyles = {relatedItemsStyles}
               features = {relatedItem.features}

@@ -57,8 +57,8 @@ function getAnswers(question_id, params) {
   return handleGetRequests(`qa/questions/${question_id}/answers`, params)
 }
 
-// Handles all POST requests, requires a route and params object
-function handlePostRequests(route, params = null, data = null) {
+// Handles all POST requests, requires a route, params, and data object
+function handlePostRequests(route, params = {}, data = {}) {
   let options = {
     method: 'post',
     url: `https://app-hrsei-api.herokuapp.com/api/fec2/hratx/${route}`,
@@ -72,8 +72,8 @@ function handlePostRequests(route, params = null, data = null) {
   return axios(options)
 }
 
-function postReview(params) {
-  return handlePostRequests('reviews', params)
+function postReview(json) {
+  return handlePostRequests('reviews', {}, json)
 }
 
 function postQuestion(data) {

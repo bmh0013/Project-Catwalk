@@ -74,8 +74,8 @@ const YourOutfitList = ({product_id}) => {
            <Slide
               index = {0}
               style = {{
-                width: '500px',
-                height: '500px',
+                width: '540px',
+                height: '520px',
                 border: '2px solid',
                 marginLeft:'20px',
                 marginRight: '20px',

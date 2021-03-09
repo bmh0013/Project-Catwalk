@@ -10,7 +10,7 @@ class App extends React.Component{
   constructor() {
     super();
     this.state = {
-      product_id: 21116
+      product_id: 21112
     }
   }
 
@@ -23,11 +23,11 @@ class App extends React.Component{
   render() {
     return(
       <div>
-        <Overview />
+        {/* <Overview /> */}
         <RelatedList product_id = {this.state.product_id} renderNewProductId = {this.renderNewProductId.bind(this)}/>
         <YourOutfitList product_id = {this.state.product_id}/>
-        <Questions />
-        <Reviews />
+        {/* <Questions product_id = {this.state.product_id}/>
+        <Reviews product_id = {this.state.product_id}/> */}
      </div>
     )
   }
