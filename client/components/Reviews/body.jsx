@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 
 const Body = ({ body, id}) => {
   function showMore() {
-    let element = document.getElementById(id);
-    var dots = element.querySelector('.dots');
-    var moreText = element.querySelector('.show-more');
-    var btnText = element.querySelector('.moreBtn');
+    const element = document.getElementById(id);
+    const dots = element.querySelector('.dots');
+    const moreText = element.querySelector('.show-more');
+    const btnText = element.querySelector('.moreBtn');
 
     if (dots.style.display === "none") {
       dots.style.display = "inline";

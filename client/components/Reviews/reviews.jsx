@@ -8,11 +8,11 @@ const axios = require('axios').default;
 
 
 const Reviews = ({ product_id }) => {
-  var [product, setProduct] = useState();
-  var [reviewCards, setReviewCards] = useState([]);
-  var [metadata, setMetadata] = useState();
-  var [showCards, updateShowCards] = useState([]);
-  var [modal, setModal] = useState(false);
+  let [product, setProduct] = useState();
+  let [reviewCards, setReviewCards] = useState([]);
+  let [metadata, setMetadata] = useState();
+  let [count, updateCount] = useState(2);
+  let [modal, setModal] = useState(false);
 
   useEffect(() => {
     fetchProductInfo()
@@ -30,7 +30,9 @@ const Reviews = ({ product_id }) => {
 
   function fetchReviews() {
     API.getReviewCards({ product_id })
-    .then(res => loadReviews(res.data.results))
+    .then(res => {
+      setReviewCards(res.data.results);
+    })
     .catch(err => console.log(err));
   }
 
@@ -42,20 +44,8 @@ const Reviews = ({ product_id }) => {
     .catch(err => console.log(err));
   }
 
-  function loadReviews(data) {
-    let results = [];
-    let count = 0;
-
-    for (let i = 0; i < 2; i++) {
-      if (data[i]) {
-        count++;
-        results.push(data[i]);
-      }
-    }
-
-    data.splice(0, count)
-    setReviewCards(data);
-    updateShowCards(oldReview => [...oldReview, ...results]);
+  function loadMore() {
+    updateCount(count + 2);
   }
 
   return (
@@ -63,11 +53,11 @@ const Reviews = ({ product_id }) => {
       <h3>Ratings & Reviews</h3>
       <div className="flex-container">
         <div className="flex-left">
-          {metadata && <Ratings product={product} metadata={metadata} />}
+          {metadata && <Ratings metadata={metadata} reviewCards={reviewCards}/>}
         </div>
         <div className="flex-right">
-          {showCards.map(card => <ReviewCard key={card.review_id} reviewCard={card}/>)}
-          {!!reviewCards.length && <button onClick={() => {loadReviews(reviewCards)}}>Load More</button>}
+          {reviewCards.slice(0, count).map(card => <ReviewCard key={card.review_id} reviewCard={card}/>)}
+          {reviewCards.length > count && <button id="loadMoreBtn" onClick={loadMore}>Load More</button>}
           <button onClick={() => {setModal(true)}}>Add A Review</button>
         </div>
       </div>
