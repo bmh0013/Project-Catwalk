@@ -49,24 +49,15 @@ function HoverRating() {
 function StaticRating(props) {
   let reviewData = props.data;
 
-  // STATIC DEMO DATA
-  // let reviewData = {
-  //   1: 20,
-  //   2: 20,
-  //   3: 12,
-  //   4: 0,
-  //   5: 20,
-  // }
-
   let values = Object.entries(reviewData).map(e =>
     e[0] * e[1])
-    .reduce((a, b) => a + b, 0) /
-    Object.values(reviewData).reduce((a, b) => a + b, 0);
+    .reduce((a, b) => Number(a) + Number(b), 0) /
+    Object.values(reviewData).reduce((a, b) => Number(a) + Number(b), 0);
 
   const [value, setValue] = React.useState(values);
 
   return (
-    <div>
+    <div value={value}>
       <Rating
         name="read-only"
         value={value} readOnly

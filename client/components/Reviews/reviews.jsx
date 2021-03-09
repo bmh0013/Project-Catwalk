@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import TOKEN from '../../../token.js';
 import ReviewCard from './reviewCard.jsx';
+import Ratings from './ratings.jsx';
 import NewReview from './newReview.jsx';
 import API from '../../../api.js';
 const axios = require('axios').default;
 
 
 const Reviews = ({ product_id }) => {
-  var [product, setProduct] = useState({});
+  var [product, setProduct] = useState();
   var [reviewCards, setReviewCards] = useState([]);
-  var [metadata, setMetadata] = useState({});
+  var [metadata, setMetadata] = useState();
   var [showCards, updateShowCards] = useState([]);
   var [modal, setModal] = useState(false);
 
@@ -33,6 +34,14 @@ const Reviews = ({ product_id }) => {
     .catch(err => console.log(err));
   }
 
+  function fetchMetadata() {
+    API.getMetadata({ product_id })
+    .then(res => {
+      setMetadata(res.data);
+    })
+    .catch(err => console.log(err));
+  }
+
   function loadReviews(data) {
     let results = [];
     let count = 0;
@@ -49,20 +58,12 @@ const Reviews = ({ product_id }) => {
     updateShowCards(oldReview => [...oldReview, ...results]);
   }
 
-  function fetchMetadata() {
-    API.getMetadata({ product_id })
-    .then(res => {
-      setMetadata(res.data);
-    })
-    .catch(err => console.log(err));
-  }
-
   return (
     <div>
       <h3>Ratings & Reviews</h3>
       <div className="flex-container">
         <div className="flex-left">
-          This will have Star Rating information.
+          {metadata && <Ratings product={product} metadata={metadata} />}
         </div>
         <div className="flex-right">
           {showCards.map(card => <ReviewCard key={card.review_id} reviewCard={card}/>)}
