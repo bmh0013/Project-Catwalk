@@ -4,7 +4,7 @@ body{
 }
 
 .related-list{
-  height:45rem;
+  height:500px;
   overflow:hidden;
 }
 
@@ -17,8 +17,8 @@ body{
 .buttons{
   position:absolute;
   bottom:50%;
-  width:88rem;
-  margin-left:2%;
+  width:500px;
+  margin-left:5%;
   z-index: 1;
 }
 
@@ -32,55 +32,45 @@ body{
 .button-next{
   /* position: absolute; */
   /* top: 50%; */
-  left: 85rem;
+  right: 15rem;
   /* transform: translateY(-50%) */
 };
 
 /* gives us the illusion of a "centered" slide */
 .carousel__slider {
-  /* padding-left: 15%; */
+  padding-left: 15%;
   /* padding-right: 15%; */
   width:1000px;
 }
 
-/* product card styles */
-.product-card{
-  width:100%;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  background-color: #fcfcfc;
+/*this doesn't apply, but it does when i directly style in react...
+/* .inner-slide {
+  width: 400px;
+  height:400px;
+  border: 2px solid;
+  margin-left:20%;
+  margin-right:5%;
+  position: relative;
+} */
+/* related card styles */
+.related-card{
+  /* height: 20rem;
+  width: 10rem; */
+  padding-left:25%;
+  padding-right:25%;
+  position: relative;
+  margin: 0 0.5rem 0 0.5rem;
 }
 
-.product-image {
-  width: 100%;
-  height:24rem;
+.related-image {
+  height: 10rem;
+  width: 10rem;
 }
 
-.heading-list{
+.product-category, .product-name {
   font-size: 2rem;
 }
 
-.product-name, .product-category, .product-price{
-  text-align:left;
-}
-
-.product-name, .product-category{
-  font-size:1.5rem;
-}
-
-.product-name {
-  font-weight: bold;
-}
-
-.plus-card-caption{
-  text-align:center;
-  margin-top:21rem;
-  font-size:3rem;
-}
-
-/*modal styling */
 .mymodal {
   position: fixed;
   top: 50%;
@@ -89,9 +79,9 @@ body{
   border: 1px solid #ccc;
   background: #fff;
   overflow: auto;
-  border-radius: 2rem;
+  border-radius: 4px;
   outline: none;
-  /* padding: 11rem; */
+  padding: 20px;
 }
 
 .myoverlay {
@@ -116,28 +106,61 @@ body{
   opacity: 0;
 }
 
-.modal-container{
-  height:40rem;
-  width:50rem;
-}
 
-.modal-heading{
-  font-size: 2rem;
-  margin-left: 1.7rem;
-}
+/*
+#################
+RATINGS & REVIEWS
+#################
+*/
 
-.modal-comparison{
-  width: 100%;
+.flex-container {
+  display: flex;
+  overflow: scroll;
+  background-color: rgb(163, 163, 241);
 }
-
-.modal-names-row{
-  font-size: 1.7rem;
+.flex-left {
+  flex-direction: column;
+  width: 35%;
+  height: 600px;
 }
-
-.modal-comparison th{
-  text-align:center;
+.flex-right {
+  flex-direction: column;
+  width: 65%;
+  height: 600px;
 }
-
+.review-card {
+  border-bottom: 1px solid black;
+  margin: 15px;
+  padding: 15px;
+}
+.rating {
+  display: inline-block;
+}
+.user_date {
+  font-size: 14px;
+  float: right;
+}
+.helpful {
+  font-size: 12px;
+}
+a {
+  text-decoration: underline;
+}
+a:hover{
+  color: purple;
+  cursor: pointer;
+}
+.recommend {
+  float: right;
+}
+.thumbnail-container {
+  display: block;
+}
+.thumbnail {
+  width: 50px;
+  height: 50px;
+  margin-right: 5px;
+}
 .modal-outer {
   background-color: rgba(0, 0, 0, 0.5);
   position: fixed;
