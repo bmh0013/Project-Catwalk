@@ -11,19 +11,19 @@ const Ratings = ({ metadata, reviewCards }) => {
     totalReviews++;
   });
 
-  let percentage = Math.round(100 * (recommend / totalReviews));
-  let totalRatings = Object.values(metadata.ratings).reduce((a, b) => Number(a) + Number(b));
-  let stars5 = starBarFill(5);
-  let stars4 = starBarFill(4);
-  let stars3 = starBarFill(3);
-  let stars2 = starBarFill(2);
-  let stars1 = starBarFill(1);
+  const percentage = Math.round(100 * (recommend / totalReviews));
+  const totalRatings = Object.values(metadata.ratings).reduce((a, b) => Number(a) + Number(b));
+  const stars5 = starBarFill(5);
+  const stars4 = starBarFill(4);
+  const stars3 = starBarFill(3);
+  const stars2 = starBarFill(2);
+  const stars1 = starBarFill(1);
 
   function starBarFill(n) {
     return metadata.ratings[n] ? Math.round( 100 * ( Number(metadata.ratings[n]) / totalRatings ) ) : 0;
   }
 
-  let statistics = (
+  const ratingsBreakdown = (
     <div>
       <em>5 Stars:</em>
         <div
@@ -62,7 +62,7 @@ const Ratings = ({ metadata, reviewCards }) => {
       <span id='product-rating'>4</span>
       <StaticRating data={metadata.ratings}/>
       <span>{percentage}% of reviews recommend this product</span>
-      {statistics}
+      {ratingsBreakdown}
     </div>
   )
 }

@@ -7,23 +7,23 @@ const axios = require('axios').default;
 var moment = require('moment');
 
 const ReviewCard = ({ reviewCard }) => {
-  let date = moment(reviewCard.date, 'YYYY-MM-DD').format('MMMM D, YYYY');
+  const date = moment(reviewCard.date, 'YYYY-MM-DD').format('MMMM D, YYYY');
 
   function handleHelpful(e) {
-    let review_id = e.target.getAttribute('data');
+    const review_id = e.target.getAttribute('data');
     API.updateHelpful(review_id, {review_id})
     .then(res => console.log(res))
     .catch(err => console.log(err));
   }
 
   function handleReport(e) {
-    let review_id = e.target.getAttribute('data');
+    const review_id = e.target.getAttribute('data');
     API.updateReport(review_id, {review_id})
     .then(res => console.log(res))
     .catch(err => console.log(err));
   }
 
-  var thumbnails = (
+  const thumbnails = (
     <div className="thumbnail-container">
       {reviewCard.photos.map(photo =>
         <a key={photo.id}>
@@ -33,7 +33,7 @@ const ReviewCard = ({ reviewCard }) => {
     </div>
   );
 
-  var feedback = (
+  const feedback = (
     <span className='helpful'>
       Helpful? &nbsp;
       <a className='helpful-link' data={reviewCard.review_id} onClick={handleHelpful}>Yes </a>

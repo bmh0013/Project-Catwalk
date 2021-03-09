@@ -8,25 +8,17 @@ const axios = require('axios').default;
 
 
 const Reviews = ({ product_id }) => {
-  var [product, setProduct] = useState();
-  var [reviewCards, setReviewCards] = useState([]);
-  var [metadata, setMetadata] = useState();
-  var [count, updateCount] = useState(2);
-  var [modal, setModal] = useState(false);
+  let [product, setProduct] = useState();
+  let [reviewCards, setReviewCards] = useState([]);
+  let [metadata, setMetadata] = useState();
+  let [count, updateCount] = useState(2);
+  let [modal, setModal] = useState(false);
 
   useEffect(() => {
     fetchProductInfo()
     fetchReviews();
     fetchMetadata();
   }, []);
-
-  useEffect(() => {
-    return () => {
-      if (count >= reviewCards.length) {
-        document.getElementById("loadMoreBtn").style.display = "none";
-      }
-     }
-  }, [count]);
 
   function fetchProductInfo() {
     API.getProduct(product_id)
@@ -38,7 +30,10 @@ const Reviews = ({ product_id }) => {
 
   function fetchReviews() {
     API.getReviewCards({ product_id })
-    .then(res => setReviewCards(res.data.results))
+    .then(res => {
+      console.log(res.data.results);
+      setReviewCards(res.data.results);
+    })
     .catch(err => console.log(err));
   }
 
@@ -63,7 +58,7 @@ const Reviews = ({ product_id }) => {
         </div>
         <div className="flex-right">
           {reviewCards.slice(0, count).map(card => <ReviewCard key={card.review_id} reviewCard={card}/>)}
-          {!!reviewCards.length && <button id="loadMoreBtn" onClick={loadMore}>Load More</button>}
+          {reviewCards.length > count && <button id="loadMoreBtn" onClick={loadMore}>Load More</button>}
           <button onClick={() => {setModal(true)}}>Add A Review</button>
         </div>
       </div>
