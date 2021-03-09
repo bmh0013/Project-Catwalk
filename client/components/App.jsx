@@ -14,14 +14,20 @@ class App extends React.Component{
     }
   }
 
+  renderNewProductId(id) {
+    this.setState({
+      product_id: id
+    })
+  }
+
   render() {
     return(
       <div>
         <Overview />
-        <RelatedList />
-        <YourOutfitList />
-        <Questions product_id={this.state.product_id}/>
-        <Reviews product_id={this.state.product_id}/>
+        <RelatedList product_id = {this.state.product_id} renderNewProductId = {this.renderNewProductId.bind(this)}/>
+        <YourOutfitList product_id = {this.state.product_id}/>
+        <Questions />
+        <Reviews />
      </div>
     )
   }
