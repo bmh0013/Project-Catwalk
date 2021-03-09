@@ -40,7 +40,9 @@ const ModalDetails = props => {
       }
     }
 
-    return { compare_item_details: compareItemFeature, comparison, current_item_details: currentItemFeature};
+    if (compareItemFeature === '❌' && currentItemFeature === '❌') {
+      return;
+    } else return { compare_item_details: compareItemFeature, comparison, current_item_details: currentItemFeature};
   }
 
   const rows = [
@@ -61,6 +63,8 @@ const ModalDetails = props => {
     createData(props.relatedItemsStyles.results[0].name, 'Style Name', props.currentProductStyles.results[0].name),
   ];
 
+  let compareRows = rows.filter (row => row !== undefined);
+
   return (
     <TableContainer className = 'scroll-table'>
       <Table className={classes.table} aria-label="simple table">
@@ -72,7 +76,7 @@ const ModalDetails = props => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => (
+          {compareRows.map(row => (
             <TableRow>
               <TableCell align="center" style ={{fontSize: 16}}>{row.compare_item_details}</TableCell>
               <TableCell align="center" style ={{fontSize: 16}}>{row.comparison}</TableCell>

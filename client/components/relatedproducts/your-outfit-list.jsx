@@ -6,7 +6,6 @@ import {PlusCircle} from 'react-bootstrap-icons'
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import api from '../../../api.js';
 
-
 const YourOutfitList = ({product_id}) => {
   const [storageOutfitItems, setStorageOutfitItems] = useLocalStorageState('outfitItems', [])
   const [outfitItems, setOutfitItems] = useState(storageOutfitItems)
@@ -46,7 +45,7 @@ const YourOutfitList = ({product_id}) => {
   const removeListItem = (id) => {
     let filteredItems = outfitItems.filter(outfitItem => outfitItem.id !== id);
     setOutfitItems(filteredItems);
-  }
+  };
 
   return(
     <div className = 'outfit-section'>
@@ -71,8 +70,8 @@ const YourOutfitList = ({product_id}) => {
            <Slide
               index = {0}
               style = {{
-                width: '540px',
-                height: '520px',
+                width: '240px',
+                height: '120px',
                 border: '2px solid',
                 marginLeft:'20px',
                 marginRight: '20px',
