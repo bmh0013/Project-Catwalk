@@ -10,7 +10,6 @@ import api from '../../../api.js';
 const YourOutfitList = ({product_id}) => {
   const [storageOutfitItems, setStorageOutfitItems] = useLocalStorageState('outfitItems', [])
   const [outfitItems, setOutfitItems] = useState(storageOutfitItems)
-  const [starRating, setStarRating] = useState([]);
   //initialize outfit list array accordingly to the local storage data
   useEffect (() => setStorageOutfitItems(outfitItems),[]);
 
@@ -20,12 +19,10 @@ const YourOutfitList = ({product_id}) => {
   const getProductFunction = async () => {
     let productData;
 
-    console.log('product id', {product_id})
-
     await api.getProduct(product_id)
       .then(res => productData = res.data)
       .then(() => api.getMetadata({product_id}))
-      .then(res =>  setStarRating(res.data.ratings))
+      .then(res => productData['ratings'] = res.data.ratings)
       .then(() => api.getProductStyles(product_id))
       .catch(() => console.log('error, cannot fetch API', err))
       .then(res => productData['image'] = res.data.results[0].photos[0].thumbnail_url)
@@ -114,8 +111,8 @@ const YourOutfitList = ({product_id}) => {
               name = {outfitItem.name}
               category = {outfitItem.category}
               price = {outfitItem.default_price}
+              rating = {outfitItem.ratings}
               removeListItem = {removeListItem}
-              starRating = {starRating}
             />
           </Slide>
           ))}
