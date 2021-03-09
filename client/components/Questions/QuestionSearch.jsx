@@ -8,12 +8,12 @@ const QuestionSearch = ({ handleSearch }) => {
 
   return (
   <div>
-    <form className="qa-search" noValidate autoComplete="off">
+    <form className="qa-search" noValidate autoComplete="off" style={{resize: {fontSize: 16}}}>
       <Input
         id="qa-search-bar"
         defaultValue="Have a question? Search for answers..."
         variant="outlined"
-        size="small"
+        size="large"
         onChange={(e) => handleSearch(e.target.value)}
         fullWidth
         endAdornment={
