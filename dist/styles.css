@@ -161,3 +161,6 @@ body{
   content:" *";
   color: red;
 }
+.show-more {
+  display: none;
+}
