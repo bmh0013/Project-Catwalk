@@ -74,7 +74,7 @@ const Questions = ({ product_id, product_name }) => {
         <Grid item>
           <Typography
             variant="h5"
-            style={{ paddingBottom: "0", paddingTop: "4" }}
+            style={{ paddingBottom: 0, paddingTop: 4, margin: 10 }}
           >
             QUESTIONS AND ANSWERS
           </Typography>
@@ -95,11 +95,10 @@ const Questions = ({ product_id, product_name }) => {
               )
               .slice(0, questionsToShow)
               .map((q) => (
-                <Grid item>
+                <Grid key={q.question_id} item>
                   <Question
                     product_id={product_id}
                     question={q}
-                    key={q.question_id}
                     refresh={loadData}
                   />
                 </Grid>
