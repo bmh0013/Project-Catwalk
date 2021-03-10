@@ -27,6 +27,7 @@ const Question = ({ product_id, question, refresh }) => {
 
   const [answersToShow, setAnswersToShow] = useState(2);
   const [expanded, setExpanded] = useState(false);
+  const [markedHelpful, setMarkedHelpful] = useState(false);
 
   const classes = useStyles();
 
@@ -36,9 +37,9 @@ const Question = ({ product_id, question, refresh }) => {
   };
 
   const markHelpful = () => {
-    API.markQuestionHelpful(question.question_id).then(() =>
-      refresh(product_id)
-    );
+    API.markQuestionHelpful(question.question_id)
+      .then(() => setMarkedHelpful(true))
+      .then(() => refresh(product_id));
   };
 
   return (
@@ -65,14 +66,22 @@ const Question = ({ product_id, question, refresh }) => {
         >
           <Typography component="span" variant="h6">
             Helpful?
-            <Link
-              aria-label="qa-question-helpfulness"
-              onClick={markHelpful}
-              variant="h6"
-            >
-              {" "}
-              Yes{" "}
-            </Link>
+            {!markedHelpful && (
+              <Link
+                aria-label="qa-question-helpfulness"
+                onClick={markHelpful}
+                variant="h6"
+              >
+                {" "}
+                Yes{" "}
+              </Link>
+            )}
+            {markedHelpful && (
+              <Typography component="span" variant="h6">
+                {" "}
+                Yes{" "}
+              </Typography>
+            )}
             ({question.question_helpfulness}) |{" "}
             <AddAnswer
               product_id={product_id}
