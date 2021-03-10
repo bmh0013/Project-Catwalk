@@ -7,16 +7,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { red } from '@material-ui/core/colors';
 import Link from '@material-ui/core/Link';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: '80vw',
+    paddingLeft: 10,
+    paddingBottom: 0
   },
-  avatar: {
-    backgroundColor: red[500],
-  },
+  bold: {
+    fontWeight: 600
+  }
 }));
 
 const Question = ({ product_id, question, refresh }) => {
@@ -38,10 +39,13 @@ const Question = ({ product_id, question, refresh }) => {
   }
 
   return (
-    <Box>
-      <Grid container spacing={3} className={classes.root}>
-        <Grid item xs={8}>
-          <Typography variant='h5'>Q: {question.question_body}</Typography>
+    <Box elevation={0}>
+      <Grid container spacing={1} className={classes.root}>
+        <Grid item xs={1} style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Typography variant='h5' className={classes.bold}>Q:</Typography>
+        </Grid>
+        <Grid item xs={7}>
+          <Typography variant='h5' className={classes.bold}>{question.question_body}</Typography>
         </Grid>
         <Grid item xs={4} style={{ display: "flex", justifyContent: "flex-end" }}>
           <Typography component='span' variant='h6'>Helpful?
@@ -49,15 +53,34 @@ const Question = ({ product_id, question, refresh }) => {
              ({question.question_helpfulness})   |   <AddAnswer product_id={product_id} question_id={question.question_id} question={question.question_body} refresh={refresh}/>
           </Typography>
         </Grid>
-        <Grid item xs={12}>
-          <Grid container direction="column" spacing={3}>
-            {
-              answers.slice(0, answersToShow).map(a => {
-                return <Answer product_id={product_id} answer={a} key={a.id} refresh={refresh}/>
-              })
-            }
+        {answers.length ? (
+          <Grid item container direction="row" spacing={1}>
+            <Grid item xs={1} style={{ display: "flex", justifyContent: "flex-end" }}>
+              <Typography variant='h5' className={classes.bold}>A:</Typography>
+            </Grid>
+            <Grid item container direction="column" spacing={1} xs={11}>
+              {
+                answers.slice(0, answersToShow).map(a => {
+                  return <Answer product_id={product_id} answer={a} key={a.id} refresh={refresh}/>
+                })
+              }
+            </Grid>
           </Grid>
+              ) : null }
+        <Grid item xs={12} style={{ display: "flex", justifyContent: "center", paddingTop: '0px'}}>
+          {
+            answers.length > 2 ? (
+              <Button color="secondary" onClick={showMore} size="small" variant='outlined'>
+                {expanded ? (
+                  <span>Collapse answers</span>
+                ) : (
+                  <span>See more answers</span>
+                )}
+              </Button>
+            ) : null
+          }
         </Grid>
+
       </Grid>
     </Box>
   );
