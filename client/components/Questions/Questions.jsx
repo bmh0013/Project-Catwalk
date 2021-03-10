@@ -25,12 +25,11 @@ const Questions = ({ product_id, product_name }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [questionsToShow, setQuestionsToShow] = useState(4);
   const [expanded, setExpanded] = useState(false);
+  const classes = useStyles();
 
   useEffect(() => {
     loadData(product_id);
   }, []);
-
-  const classes = useStyles();
 
   var loadData = async (product_id) => {
     let options = {
@@ -50,8 +49,6 @@ const Questions = ({ product_id, product_name }) => {
       );
   };
 
-  loadData = loadData.bind(this);
-
   var handleSearch = (searchTerm) => {
     if (searchTerm.length > 2) {
       setSearchTerm(searchTerm);
@@ -61,12 +58,13 @@ const Questions = ({ product_id, product_name }) => {
     return;
   };
 
-  handleSearch = handleSearch.bind(this);
-
   const showMore = () => {
     expanded ? setQuestionsToShow(4) : setQuestionsToShow(data.length);
     setExpanded(!expanded);
   };
+
+  handleSearch = handleSearch.bind(this);
+  loadData = loadData.bind(this);
 
   return (
     <Box elevation={0} className={classes.root}>
