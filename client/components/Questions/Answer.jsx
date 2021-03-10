@@ -10,9 +10,18 @@ const useStyles = makeStyles((theme) => ({
   root: {
     paddingLeft: "10px",
   },
+  thumbnail: {
+    border: "1px solid #ddd",
+    borderRadius: 4,
+    padding: 5,
+    width: 150,
+  },
 }));
 
 const Answer = ({ product_id, answer, refresh }) => {
+  const classes = useStyles();
+  const hasPhotos = !!answer.photos.length;
+
   const markHelpful = () => {
     API.markAnswerHelpful(answer.id).then(() => refresh(product_id));
   };
@@ -20,8 +29,6 @@ const Answer = ({ product_id, answer, refresh }) => {
   const report = () => {
     API.reportAnswer(answer.id).then(() => refresh(product_id));
   };
-
-  const classes = useStyles();
 
   return (
     <Grid
@@ -34,6 +41,17 @@ const Answer = ({ product_id, answer, refresh }) => {
       <Grid item>
         <Typography variant="h6">{answer.body}</Typography>
       </Grid>
+      {hasPhotos && (
+        <Grid item container>
+          {answer.photos.map((img) => {
+            return (
+              <a target="_blank" href={img}>
+                <img className={classes.thumbnail} key={img} src={img} />
+              </a>
+            );
+          })}
+        </Grid>
+      )}
       <Grid item>
         <Typography component="span">
           {answer.answerer_name +
