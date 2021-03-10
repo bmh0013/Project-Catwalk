@@ -9,7 +9,7 @@ const OutfitCard = props => {
       <XCircle size = {23} onClick = {() => props.removeListItem(props.id)}
         style = {{
           position: 'absolute',
-          left: '16rem',
+          left: '18rem',
           top: '1.5rem'
         }}
       />

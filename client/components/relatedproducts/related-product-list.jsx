@@ -32,42 +32,22 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
 
   const generateRelatedItems = async (relatedItems) => {
     let renderedItems = [];
-    let renderedStarRatings = [];
-    let renderedStyles = [];
-
     let promiseChain = Promise.resolve();
 
-    relatedItems.forEach(item => { ['21111']
+    relatedItems.forEach(item => {
       promiseChain = promiseChain
         .then(() => api.getProduct(item))
         .catch(err => console.log('error retrieving the product information', err))
         .then(res => renderedItems.push(res.data))
         .then(() => api.getMetadata({product_id: item}))
-        .then(res => {
-          renderedStarRatings.push({id: res.data.product_id, ratings: res.data.ratings})
-        })
-        //instead of creating multiple arrays, try pushing everything into 1 array
-        //figure out a way to see if the pulled data exists in the renderedItems array, then push that corresponding data as a property into the array item
+        .then(res => renderedItems[renderedItems.length - 1]['ratings'] = res.data.ratings)
         .then(() => api.getProductStyles(item))
         .then(res => {
           setRelatedItemsStyles(res.data)
-          renderedStyles.push({id: res.data.product_id, image:res.data.results[0].photos[0].thumbnail_url})
+          renderedItems[renderedItems.length - 1]['image'] = res.data.results[0].photos[0].thumbnail_url
 
-          if (renderedItems.length === relatedItems.length && renderedStyles.length === relatedItems.length && renderedStarRatings.length === relatedItems.length) {
-            for (let i = 0; i < renderedItems.length; i++) {
-              for (let j = 0; j < renderedStyles.length; j++){
-                for (let k = 0; k < renderedStarRatings.length; k++) {
-                  if (renderedItems[i].id == renderedStyles[j].id && renderedItems[i].id == renderedStarRatings[k].id) {
-                    renderedItems[i]['image'] = renderedStyles[j].image
-                    renderedItems[i]['ratings'] = renderedStarRatings[k].ratings
-                  }
-                }
-              }
-            }
-            let checkImageProperty = renderedItems.some(obj => obj.image);
-              if (checkImageProperty) {
-                setRelatedItemsData(renderedItems)
-              }
+          if (renderedItems.length === relatedItems.length) {
+             setRelatedItemsData(renderedItems)
           }
         })
         .catch(err => console.log('error retrieving the product styles', err))
@@ -84,8 +64,8 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
       <h1 className = 'heading-list'>RELATED PRODUCTS</h1>
       <CarouselProvider
         className = 'items-carousel'
-        naturalSlideHeight = {100}
-        naturalSlideWidth = {100}
+        naturalSlideHeight = {200}
+        naturalSlideWidth = {200}
         totalSlides = {relatedItems.length}
         visibleSlides = {3}
         dragEnabled = {false}
@@ -99,17 +79,16 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
         <ButtonBack className = 'button-back'><i className="fas fa-arrow-left"></i></ButtonBack>
         <ButtonNext className = 'button-next'><i className="fas fa-arrow-right"></i></ButtonNext>
       </div>
-      {/* <div className = 'carousel__container'> */}
       <Slider className = 'carousel__slider'>
         {relatedItemsData.map((relatedItem) => (
           <Slide
             key = {relatedItem.id}
             index = {Math.random()}
             style = {{
-              width: '200px',
-              height: '120px',
+              width: '225px',
+              height: '160px',
               border: '2px solid',
-              marginRight: '20px',
+              marginRight: '25px',
               position: 'relative'
             }}
           >
@@ -130,7 +109,6 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
           </Slide>
         ))}
       </Slider>
-      {/* </div> */}
       </CarouselProvider>
     </div>
   )

@@ -35,7 +35,7 @@ const RelatedProductCard = ({id, currentProductId, relatedItemsStyles, name, cat
       <StarFill size = {21} className = 'star' onClick = {toggleModal}
         style = {{
           position: 'absolute',
-          left: '16rem',
+          left: '18rem',
           top: '1.5rem',
           color: '#e8e8e8'
         }}

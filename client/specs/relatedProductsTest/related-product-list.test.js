@@ -1,0 +1,2 @@
+const getRelatedProductIds = require('./')
+import
