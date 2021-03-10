@@ -191,9 +191,33 @@ a:hover{
   font-size: 60px;
   font-weight: bold;
 }
+.bar-graph-container {
+  width: 80%;
+  margin: auto;
+}
 .bar-graph {
-  width: 50%;
+  width: 75%;
   height: 12px;
   display: inline-block;
   color: rgb(155, 155, 155);
+  margin-left: 3%;
+}
+.slider-outer {
+  position: relative;
+  width: 75%;
+  margin: auto;
+  text-align: center;
+}
+.slider {
+  display: inline-block;
+  width: 32%;
+  height: 12px;
+}
+#triangle-down {
+  position: absolute;
+	width: 0;
+	height: 0;
+	border-left: 8px solid transparent;
+	border-right: 8px solid transparent;
+	border-top: 13px solid #555;
 }

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import CharBreakdown from './charBreakdown.jsx';
 import { StaticRating } from '../../starRating.jsx';
 
 const Ratings = ({ metadata, reviewCards }) => {
@@ -18,6 +19,7 @@ const Ratings = ({ metadata, reviewCards }) => {
   const stars3 = starBarFill(3);
   const stars2 = starBarFill(2);
   const stars1 = starBarFill(1);
+  const allStars = [stars5, stars4, stars3, stars2, stars1]
 
   const overallRating = Object.entries(metadata.ratings)
     .map(e => Number(e[0]) * Number(e[1]))
@@ -27,40 +29,6 @@ const Ratings = ({ metadata, reviewCards }) => {
     return metadata.ratings[n] ? Math.round( 100 * ( Number(metadata.ratings[n]) / totalRatings ) ) : 0;
   }
 
-  const ratingsBreakdown = (
-    <div>
-      <em>5 Stars:</em>
-        <div
-        className="bar-graph"
-        style={{background: `linear-gradient(to right, green ${stars5}%, lightgrey 0%)`}}>
-        </div><br/>
-
-        <em>4 Stars:</em>
-        <div
-        className="bar-graph"
-        style={{background: `linear-gradient(to right, green ${stars4}%, lightgrey 0%)`}}>
-        </div><br/>
-
-        <em>3 Stars:</em>
-        <div
-        className="bar-graph"
-        style={{background: `linear-gradient(to right, green ${stars3}%, lightgrey 0%)`}}>
-        </div><br/>
-
-        <em>2 Stars:</em>
-        <div
-        className="bar-graph"
-        style={{background: `linear-gradient(to right, green ${stars2}%, lightgrey 0%)`}}>
-        </div><br/>
-
-        <em>1 Stars:</em>
-        <div
-        className="bar-graph"
-        style={{background: `linear-gradient(to right, green ${stars1}%, lightgrey 0%)`}}>
-        </div><br/>
-    </div>
-  )
-
   return (
     <div>
       <div id='product-rating'>
@@ -68,7 +36,20 @@ const Ratings = ({ metadata, reviewCards }) => {
         <StaticRating data={metadata.ratings} id="overall-rating"/>
       </div>
       <span>{percentage}% of reviews recommend this product</span>
-      {ratingsBreakdown}
+      <div className="bar-graph-container">
+        {allStars.map((star, index) => {
+          return (
+            <div key={index}>
+              <em>{index + 1} Stars:</em>
+              <div
+              className="bar-graph"
+              style={{background: `linear-gradient(to right, green ${star}%, lightgrey 0%)`}}>
+              </div><br/>
+            </div>
+          )
+        })}
+      </div>
+      <CharBreakdown metadata={metadata} />
     </div>
   )
 }
