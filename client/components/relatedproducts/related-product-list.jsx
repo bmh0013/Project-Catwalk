@@ -37,7 +37,7 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
 
     let promiseChain = Promise.resolve();
 
-    relatedItems.forEach(item => {
+    relatedItems.forEach(item => { ['21111']
       promiseChain = promiseChain
         .then(() => api.getProduct(item))
         .catch(err => console.log('error retrieving the product information', err))
@@ -46,6 +46,8 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
         .then(res => {
           renderedStarRatings.push({id: res.data.product_id, ratings: res.data.ratings})
         })
+        //instead of creating multiple arrays, try pushing everything into 1 array
+        //figure out a way to see if the pulled data exists in the renderedItems array, then push that corresponding data as a property into the array item
         .then(() => api.getProductStyles(item))
         .then(res => {
           setRelatedItemsStyles(res.data)
