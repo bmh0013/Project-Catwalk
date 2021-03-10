@@ -84,14 +84,14 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
       <h1 className = 'heading-list'>RELATED PRODUCTS</h1>
       <CarouselProvider
         className = 'items-carousel'
-        naturalSlideHeight = {150}
-        naturalSlideWidth = {125}
+        naturalSlideHeight = {100}
+        naturalSlideWidth = {100}
         totalSlides = {relatedItems.length}
         visibleSlides = {3}
         dragEnabled = {false}
         style = {{
-          position:'absolute',
-          width: '100%',
+          position:'relative',
+          width: '70%',
           height: 'auto',
         }}
       >
@@ -99,17 +99,16 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
         <ButtonBack className = 'button-back'><i className="fas fa-arrow-left"></i></ButtonBack>
         <ButtonNext className = 'button-next'><i className="fas fa-arrow-right"></i></ButtonNext>
       </div>
-      <div className = 'carousel__container'>
+      {/* <div className = 'carousel__container'> */}
       <Slider className = 'carousel__slider'>
         {relatedItemsData.map((relatedItem) => (
           <Slide
             key = {relatedItem.id}
-            index = {0}
+            index = {Math.random()}
             style = {{
-              width: '240px',
+              width: '200px',
               height: '120px',
               border: '2px solid',
-              marginLeft:'20px',
               marginRight: '20px',
               position: 'relative'
             }}
@@ -131,7 +130,7 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
           </Slide>
         ))}
       </Slider>
-      </div>
+      {/* </div> */}
       </CarouselProvider>
     </div>
   )

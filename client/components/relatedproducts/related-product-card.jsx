@@ -35,7 +35,7 @@ const RelatedProductCard = ({id, currentProductId, relatedItemsStyles, name, cat
       <StarFill size = {21} className = 'star' onClick = {toggleModal}
         style = {{
           position: 'absolute',
-          left: '20.5rem',
+          left: '16rem',
           top: '1.5rem',
           color: '#e8e8e8'
         }}
@@ -45,7 +45,7 @@ const RelatedProductCard = ({id, currentProductId, relatedItemsStyles, name, cat
         <p className = 'product-category'>{category.toUpperCase()}</p>
         <p className = 'product-name'>{name}</p>
         <p className = 'product-price'>${price}</p>
-        <StaticRating data = {starRating} />
+        <div className = 'product-rating'><StaticRating data = {starRating} /></div>
       </div>
 
       <Modal
