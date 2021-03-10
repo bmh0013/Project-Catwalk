@@ -29,7 +29,10 @@ const Reviews = ({ product_id }) => {
   }
 
   function fetchReviews() {
-    API.getReviewCards({ product_id })
+    API.getReviewCards({
+      product_id : product_id,
+      sort: 'relevant'
+    })
     .then(res => {
       setReviewCards(res.data.results);
     })
@@ -56,9 +59,22 @@ const Reviews = ({ product_id }) => {
           {metadata && <Ratings metadata={metadata} reviewCards={reviewCards}/>}
         </div>
         <div className="flex-right">
-          {reviewCards.slice(0, count).map(card => <ReviewCard key={card.review_id} reviewCard={card}/>)}
-          {reviewCards.length > count && <button id="loadMoreBtn" onClick={loadMore}>Load More</button>}
-          <button onClick={() => {setModal(true)}}>Add A Review</button>
+          <div>
+            <h3>{reviewCards.length} reviews, sort by
+              <div className="dropdown">
+                <button className="dropbtn">relevant <span className="down-caret">></span></button>
+                <div className="dropdown-content">
+                  <a >helpful</a>
+                  <a >newest</a>
+                </div>
+              </div>
+            </h3>
+            <div className="review-cards-container">
+              {reviewCards.slice(0, count).map(card => <ReviewCard key={card.review_id} reviewCard={card}/>)}
+              {reviewCards.length > count && <button id="loadMoreBtn" onClick={loadMore}>Load More</button>}
+              <button onClick={() => {setModal(true)}}>Add A Review</button>
+            </div>
+          </div>
         </div>
       </div>
       {modal && <NewReview setModal={setModal} product={product} metadata={metadata} />}
