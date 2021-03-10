@@ -4,8 +4,9 @@ import Modal from 'react-modal';
 import ModalDetails from './modalDetails.jsx';
 import Rating from '../Overview/Rating.jsx';
 import api from '../../../api.js';
+import {StaticRating} from '../../starRating.jsx';
 
-const RelatedProductCard = ({id, currentProductId, name, category, image, price, sendProductId, features}) => {
+const RelatedProductCard = ({id, currentProductId, relatedItemsStyles, name, category, image, price, sendProductId, features, starRating}) => {
 
   const [openModal, setOpenModal] = useState(false);
   const [currentProduct, setCurrentProduct] = useState([]);
@@ -29,8 +30,6 @@ const RelatedProductCard = ({id, currentProductId, name, category, image, price,
     getCurrentProductInfo(currentProductId)
   },[currentProductId])
 
-  // console.log('star rating', starRating)
-
   return (
     <div className = 'product-card'>
       <Star size = {21} className = 'star' onClick = {toggleModal}
@@ -43,11 +42,10 @@ const RelatedProductCard = ({id, currentProductId, name, category, image, price,
       />
       <img className = 'product-image' src = {image} alt = {name} />
       <div className = 'bottom-half-card' onClick = {() => sendProductId(id)}>
-        <p className = 'product-category'>{category}</p>
+        <p className = 'product-category'>{category.toUpperCase()}</p>
         <p className = 'product-name'>{name}</p>
         <p className = 'product-price'>${price}</p>
-        <div className=  'star-rating'>Star rating goes here</div>
-        {/* <div className = 'star-rating'>{starRating}</div> */}
+        <StaticRating data = {starRating} />
       </div>
 
       <Modal
@@ -60,6 +58,7 @@ const RelatedProductCard = ({id, currentProductId, name, category, image, price,
       <ModalDetails
         currentProduct = {currentProduct}
         currentProductStyles = {currentProductStyles}
+        relatedItemsStyles = {relatedItemsStyles}
         name = {name}
         currentProductId = {currentProductId}
         category = {category}
