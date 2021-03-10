@@ -88,7 +88,9 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
         visibleSlides = {3}
         dragEnabled = {false}
         style = {{
-          position:'absolute'
+          position:'absolute',
+          width: '100%',
+          height: 'auto',
         }}
       >
       <div className = 'buttons'>

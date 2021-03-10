@@ -58,7 +58,9 @@ const YourOutfitList = ({product_id}) => {
         visibleSlides = {3}
         dragEnabled = {false}
         style = {{
-          position:'absolute'
+          position:'absolute',
+          width: '100%',
+          height: 'auto',
         }}
       >
       <div className = 'buttons'>
@@ -93,7 +95,7 @@ const YourOutfitList = ({product_id}) => {
           {outfitItems.map((outfitItem) => (
             <Slide
               key = {outfitItem.id}
-              index = {0}
+              index = {1}
               style = {{
                 width: '240px',
                 height: '120px',

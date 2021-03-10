@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Star} from 'react-bootstrap-icons';
+import {StarFill} from 'react-bootstrap-icons';
 import Modal from 'react-modal';
 import ModalDetails from './modalDetails.jsx';
 import Rating from '../Overview/Rating.jsx';
@@ -32,12 +32,12 @@ const RelatedProductCard = ({id, currentProductId, relatedItemsStyles, name, cat
 
   return (
     <div className = 'product-card'>
-      <Star size = {21} className = 'star' onClick = {toggleModal}
+      <StarFill size = {21} className = 'star' onClick = {toggleModal}
         style = {{
           position: 'absolute',
           left: '20.5rem',
           top: '1.5rem',
-          color: 'white'
+          color: '#e8e8e8'
         }}
       />
       <img className = 'product-image' src = {image} alt = {name} />
