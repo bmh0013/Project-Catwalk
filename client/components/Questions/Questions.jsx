@@ -1,115 +1,131 @@
-import React, { useState, useEffect } from 'react';
-import Question from './Question.jsx';
-import QuestionSearch from './QuestionSearch.jsx';
-import sampleData from './sampleData.js';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import AddQuestion from './AddQuestion.jsx';
-import API from '../../../api';
+import React, { useState, useEffect } from "react";
+import Question from "./Question.jsx";
+import QuestionSearch from "./QuestionSearch.jsx";
+import AddQuestion from "./AddQuestion.jsx";
+import API from "../../../api";
 
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import { blue } from '@material-ui/core/colors';
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 800
+    maxWidth: "80vw",
   },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
-  avatar: {
-    backgroundColor: blue[500],
+  questionsGridItem: {
+    maxHeight: "50vh",
+    overflow: "scroll",
   },
 }));
 
 const Questions = ({ product_id, product_name }) => {
   const [data, setData] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [questionsToShow, setQuestionsToShow] = useState(4);
   const [expanded, setExpanded] = useState(false);
+  const classes = useStyles();
 
   useEffect(() => {
     loadData(product_id);
   }, []);
 
-  const classes = useStyles();
-
   var loadData = async (product_id) => {
-      let options = {
-        product_id: product_id,
-        page: 1,
-        count: 200
-      }
+    let options = {
+      product_id: product_id,
+      page: 1,
+      count: 200,
+    };
 
-      API.getQuestions(options)
-      .catch(err => console.log('getQuestions', err))
-      .then(response => setData(response.data.results.sort((a, b) => (a.helpfulness > b.helpfulness) ? -1 : 1)));
+    API.getQuestions(options)
+      .catch((err) => console.log("getQuestions", err))
+      .then((response) =>
+        setData(
+          response.data.results.sort((a, b) =>
+            a.helpfulness > b.helpfulness ? -1 : 1
+          )
+        )
+      );
   };
-
-  loadData = loadData.bind(this);
 
   var handleSearch = (searchTerm) => {
     if (searchTerm.length > 2) {
       setSearchTerm(searchTerm);
     } else {
-      setSearchTerm('');
+      setSearchTerm("");
     }
     return;
-  }
-
-  handleSearch = handleSearch.bind(this);
+  };
 
   const showMore = () => {
     expanded ? setQuestionsToShow(4) : setQuestionsToShow(data.length);
     setExpanded(!expanded);
-  }
+  };
+
+  handleSearch = handleSearch.bind(this);
+  loadData = loadData.bind(this);
 
   return (
-    <Card className={classes.root}>
-      <CardHeader
-        titleTypographyProps={{variant: 'h5'}}
-        title='QUESTIONS AND ANSWERS'
-        style={{paddingBottom: '0', paddingTop: '4'}}
-      />
-      <CardContent style={{height: '200'}}>
-        <QuestionSearch handleSearch={handleSearch}/>
-        {data.filter(q => q.question_body.toLowerCase().includes(searchTerm.toLowerCase())).slice(0, questionsToShow).map(q => (
-          <Question product_id={product_id} question={q} key={q.question_id} refresh={loadData} />
-        ))}
-      </CardContent>
-      <CardActions style={{justifyContent: 'center'}}>
+    <Box elevation={0} className={classes.root}>
+      <Grid container direction="column" spacing={1}>
+        <Grid item>
+          <Typography
+            variant="h5"
+            style={{ paddingBottom: 0, paddingTop: 4, margin: 10 }}
+          >
+            QUESTIONS AND ANSWERS
+          </Typography>
+        </Grid>
+        <Grid item>
+          <QuestionSearch handleSearch={handleSearch} />
+        </Grid>
+        <Grid item className={classes.questionsGridItem}>
+          <Grid
+            container
+            direction="column"
+            spacing={3}
+            style={{ maxWidth: "97%" }}
+          >
+            {data
+              .filter((q) =>
+                q.question_body.toLowerCase().includes(searchTerm.toLowerCase())
+              )
+              .slice(0, questionsToShow)
+              .map((q) => (
+                <Grid key={q.question_id} item>
+                  <Question
+                    product_id={product_id}
+                    question={q}
+                    refresh={loadData}
+                  />
+                </Grid>
+              ))}
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid container justify="center" alignItems="center" spacing={1}>
         {data.length > 2 ? (
-            <span>
-              <Button color="primary" onClick={showMore} size="large" variant="outlined">
-                {expanded ? (
-                  <span>FEWER QUESTIONS</span>
-                ) : (
-                  <span>MORE ANSWERED QUESTIONS</span>
-                )}
-              </Button>
-
-            </span>
-            ) :  null
-          }
-        <AddQuestion product_id={product_id} refresh={loadData}/>
-      </CardActions>
-    </Card>
+          <Grid item>
+            <Button
+              color="primary"
+              onClick={showMore}
+              size="large"
+              variant="outlined"
+            >
+              {expanded ? (
+                <span>FEWER QUESTIONS</span>
+              ) : (
+                <span>MORE ANSWERED QUESTIONS</span>
+              )}
+            </Button>
+          </Grid>
+        ) : null}
+        <Grid item>
+          <AddQuestion product_id={product_id} refresh={loadData} />
+        </Grid>
+      </Grid>
+    </Box>
   );
 };
 
