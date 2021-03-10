@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Answer from "./Answer";
 import AddAnswer from "./AddAnswer";
 import API from "../../../api";

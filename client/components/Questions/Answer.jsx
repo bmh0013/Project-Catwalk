@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import API from "../../../api";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -21,9 +21,12 @@ const useStyles = makeStyles((theme) => ({
 const Answer = ({ product_id, answer, refresh }) => {
   const classes = useStyles();
   const hasPhotos = !!answer.photos.length;
+  const [markedHelpful, setMarkedHelpful] = useState(false);
 
   const markHelpful = () => {
-    API.markAnswerHelpful(answer.id).then(() => refresh(product_id));
+    API.markAnswerHelpful(answer.id)
+      .then(() => setMarkedHelpful(true))
+      .then(() => refresh(product_id));
   };
 
   const report = () => {
@@ -45,8 +48,8 @@ const Answer = ({ product_id, answer, refresh }) => {
         <Grid item container>
           {answer.photos.map((img) => {
             return (
-              <a target="_blank" href={img}>
-                <img className={classes.thumbnail} key={img} src={img} />
+              <a target="_blank" key={img} href={img}>
+                <img className={classes.thumbnail} src={img} />
               </a>
             );
           })}
@@ -61,14 +64,22 @@ const Answer = ({ product_id, answer, refresh }) => {
         </Typography>
         <Typography component="span" variant="body1">
           Helpful?
-          <Link
-            aria-label="qa-answer-helpfulness"
-            onClick={markHelpful}
-            variant="body1"
-          >
-            {" "}
-            Yes{" "}
-          </Link>
+          {!markedHelpful && (
+            <Link
+              aria-label="qa-answer-helpfulness"
+              onClick={markHelpful}
+              variant="body1"
+            >
+              {" "}
+              Yes{" "}
+            </Link>
+          )}
+          {markedHelpful && (
+            <Typography component="span" variant="body1">
+              {" "}
+              Yes{" "}
+            </Typography>
+          )}
           ({answer.helpfulness}) |{" "}
           <Link onClick={report} variant="body1">
             Report
