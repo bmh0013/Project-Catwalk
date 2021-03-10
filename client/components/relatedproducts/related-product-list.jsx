@@ -2,8 +2,6 @@ import React, {useState, useEffect} from 'react';
 import RelatedProductCard from './related-product-card.jsx';
 import {CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
-import {getReviewInfo} from '../Overview/serverRequests.js';
-import {StaticRating} from '../../starRating.jsx';
 import api from '../../../api.js';
 
 const RelatedList =  ({product_id, renderNewProductId}) => {
@@ -11,6 +9,7 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
   const [relatedItems, setRelatedItems] = useState([]);
   //array of objects in accordance to the relatedItems
   const [relatedItemsData, setRelatedItemsData] = useState([]);
+  const[relatedItemsStyles, setRelatedItemsStyles] = useState([]);
   const [productReview, updateReview] = useState(null);
 
   useEffect(() => {
@@ -33,6 +32,7 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
 
   const generateRelatedItems = async (relatedItems) => {
     let renderedItems = [];
+    let renderedStarRatings = [];
     let renderedStyles = [];
 
     let promiseChain = Promise.resolve();
@@ -42,16 +42,23 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
         .then(() => api.getProduct(item))
         .catch(err => console.log('error retrieving the product information', err))
         .then(res => renderedItems.push(res.data))
+        .then(() => api.getMetadata({product_id: item}))
+        .then(res => {
+          renderedStarRatings.push({id: res.data.product_id, ratings: res.data.ratings})
+        })
         .then(() => api.getProductStyles(item))
         .then(res => {
-          console.log('style responses', res.data)
+          setRelatedItemsStyles(res.data)
           renderedStyles.push({id: res.data.product_id, image:res.data.results[0].photos[0].thumbnail_url})
 
-          if (renderedItems.length === relatedItems.length && renderedStyles.length === relatedItems.length) {
+          if (renderedItems.length === relatedItems.length && renderedStyles.length === relatedItems.length && renderedStarRatings.length === relatedItems.length) {
             for (let i = 0; i < renderedItems.length; i++) {
               for (let j = 0; j < renderedStyles.length; j++){
-                if (renderedItems[i].id == renderedStyles[j].id) {
-                  renderedItems[i]['image'] = renderedStyles[j].image
+                for (let k = 0; k < renderedStarRatings.length; k++) {
+                  if (renderedItems[i].id == renderedStyles[j].id && renderedItems[i].id == renderedStarRatings[k].id) {
+                    renderedItems[i]['image'] = renderedStyles[j].image
+                    renderedItems[i]['ratings'] = renderedStarRatings[k].ratings
+                  }
                 }
               }
             }
@@ -71,7 +78,7 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
   };
 
   return (
-    <div className = 'related-list'>
+    <div className = 'product-list'>
       <h1 className = 'heading-list'>RELATED PRODUCTS</h1>
       <CarouselProvider
         className = 'items-carousel'
@@ -110,13 +117,11 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
               name = {relatedItem.name}
               category = {relatedItem.category}
               price = {relatedItem.default_price}
-              // starRating = {StaticRating(productReview)}
-
-              //pass in productReview value into StaticRating
+              starRating = {relatedItem.ratings}
               sendProductId = {sendProductId}
-
-              // // this information is for the modal
+              // this information is for the modal
               currentProductId = {product_id}
+              relatedItemsStyles = {relatedItemsStyles}
               features = {relatedItem.features}
             />
           </Slide>

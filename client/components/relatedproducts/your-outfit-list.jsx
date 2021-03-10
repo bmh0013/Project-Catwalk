@@ -9,19 +9,19 @@ import api from '../../../api.js';
 const YourOutfitList = ({product_id}) => {
   const [storageOutfitItems, setStorageOutfitItems] = useLocalStorageState('outfitItems', [])
   const [outfitItems, setOutfitItems] = useState(storageOutfitItems)
-
   //initialize outfit list array accordingly to the local storage data
   useEffect (() => setStorageOutfitItems(outfitItems),[]);
 
   //edit the localstorage array if the outfit list changes
   useEffect (() => setStorageOutfitItems(outfitItems),[outfitItems]);
 
-
   const getProductFunction = async () => {
     let productData;
 
     await api.getProduct(product_id)
       .then(res => productData = res.data)
+      .then(() => api.getMetadata({product_id}))
+      .then(res => productData['ratings'] = res.data.ratings)
       .then(() => api.getProductStyles(product_id))
       .catch(() => console.log('error, cannot fetch API', err))
       .then(res => productData['image'] = res.data.results[0].photos[0].thumbnail_url)
@@ -45,10 +45,10 @@ const YourOutfitList = ({product_id}) => {
   const removeListItem = (id) => {
     let filteredItems = outfitItems.filter(outfitItem => outfitItem.id !== id);
     setOutfitItems(filteredItems);
-  }
+  };
 
   return(
-    <div className = 'outfit-section'>
+    <div className = 'product-list'>
       <h1 className = 'heading-list'>YOUR OUTFITS</h1>
       <CarouselProvider
         className = 'items-carousel'
@@ -110,6 +110,7 @@ const YourOutfitList = ({product_id}) => {
               name = {outfitItem.name}
               category = {outfitItem.category}
               price = {outfitItem.default_price}
+              rating = {outfitItem.ratings}
               removeListItem = {removeListItem}
             />
           </Slide>

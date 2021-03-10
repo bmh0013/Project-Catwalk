@@ -50,7 +50,7 @@ function StaticRating(props) {
   let reviewData = props.data;
 
   let values = Object.entries(reviewData).map(e =>
-    e[0] * e[1])
+    Number(e[0]) * Number(e[1]))
     .reduce((a, b) => Number(a) + Number(b), 0) /
     Object.values(reviewData).reduce((a, b) => Number(a) + Number(b), 0);
 

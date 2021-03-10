@@ -1,22 +1,25 @@
 import React from 'react';
 import {XCircle} from 'react-bootstrap-icons';
+import {StaticRating} from '../../starRating.jsx';
 
-const OutfitCard = ({id, image, name, category, price, removeListItem}) => {
+const OutfitCard = props => {
 
   return(
     <div className = 'product-card'>
-      <XCircle size = {23} onClick = {() => removeListItem(id)}
+      <XCircle size = {23} onClick = {() => props.removeListItem(props.id)}
         style = {{
           position: 'absolute',
           left: '20rem',
           top: '1.5rem'
-          // color: 'white'
         }}
       />
-      <img className = 'product-image' src = {image} alt = {name} />
-      <p className = 'product-name'>{name}</p>
-      <p className = 'product-category'>{category}</p>
-      <p className = 'product-price'>${price}</p>
+      <img className = 'product-image' src = {props.image} alt = {props.name} />
+      <div className = 'bottom-half-card'>
+        <p className = 'product-category'>{props.category}</p>
+        <p className = 'product-name'>{props.name}</p>
+        <p className = 'product-price'>${props.price}</p>
+        <StaticRating data = {props.rating} />
+      </div>
     </div>
   )
 };
