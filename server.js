@@ -1,8 +1,5 @@
 const express = require('express');
 const path = require('path');
-const axios = require('axios');
-const proxy = require('express-http-proxy');
-const bodyparser = require('body-parser');
 
 const port = 3002;
 const app = express();
