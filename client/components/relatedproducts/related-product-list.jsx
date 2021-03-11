@@ -2,8 +2,6 @@ import React, {useState, useEffect} from 'react';
 import RelatedProductCard from './related-product-card.jsx';
 import {CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
-import {getReviewInfo} from '../Overview/serverRequests.js';
-import {StaticRating} from '../../starRating.jsx';
 import api from '../../../api.js';
 
 const RelatedList =  ({product_id, renderNewProductId}) => {
@@ -11,6 +9,7 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
   const [relatedItems, setRelatedItems] = useState([]);
   //array of objects in accordance to the relatedItems
   const [relatedItemsData, setRelatedItemsData] = useState([]);
+  const[relatedItemsStyles, setRelatedItemsStyles] = useState([]);
   const [productReview, updateReview] = useState(null);
 
   useEffect(() => {
@@ -33,8 +32,6 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
 
   const generateRelatedItems = async (relatedItems) => {
     let renderedItems = [];
-    let renderedStyles = [];
-
     let promiseChain = Promise.resolve();
 
     relatedItems.forEach(item => {
@@ -42,23 +39,15 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
         .then(() => api.getProduct(item))
         .catch(err => console.log('error retrieving the product information', err))
         .then(res => renderedItems.push(res.data))
+        .then(() => api.getMetadata({product_id: item}))
+        .then(res => renderedItems[renderedItems.length - 1]['ratings'] = res.data.ratings)
         .then(() => api.getProductStyles(item))
         .then(res => {
-          console.log('style responses', res.data)
-          renderedStyles.push({id: res.data.product_id, image:res.data.results[0].photos[0].thumbnail_url})
+          setRelatedItemsStyles(res.data) //for the modal
+          renderedItems[renderedItems.length - 1]['image'] = res.data.results[0].photos[0].thumbnail_url
 
-          if (renderedItems.length === relatedItems.length && renderedStyles.length === relatedItems.length) {
-            for (let i = 0; i < renderedItems.length; i++) {
-              for (let j = 0; j < renderedStyles.length; j++){
-                if (renderedItems[i].id == renderedStyles[j].id) {
-                  renderedItems[i]['image'] = renderedStyles[j].image
-                }
-              }
-            }
-            let checkImageProperty = renderedItems.some(obj => obj.image);
-              if (checkImageProperty) {
-                setRelatedItemsData(renderedItems)
-              }
+          if (renderedItems.length === relatedItems.length) {
+             setRelatedItemsData(renderedItems)
           }
         })
         .catch(err => console.log('error retrieving the product styles', err))
@@ -71,35 +60,35 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
   };
 
   return (
-    <div className = 'related-list'>
+    <div className = 'product-list'>
       <h1 className = 'heading-list'>RELATED PRODUCTS</h1>
       <CarouselProvider
         className = 'items-carousel'
-        naturalSlideHeight = {150}
-        naturalSlideWidth = {125}
+        naturalSlideHeight = {200}
+        naturalSlideWidth = {200}
         totalSlides = {relatedItems.length}
         visibleSlides = {3}
         dragEnabled = {false}
         style = {{
-          position:'absolute'
+          position:'relative',
+          width: '70%',
+          height: 'auto',
         }}
       >
       <div className = 'buttons'>
         <ButtonBack className = 'button-back'><i className="fas fa-arrow-left"></i></ButtonBack>
         <ButtonNext className = 'button-next'><i className="fas fa-arrow-right"></i></ButtonNext>
       </div>
-      <div className = 'carousel__container'>
       <Slider className = 'carousel__slider'>
-        {relatedItemsData.map((relatedItem) => (
+        {relatedItemsData.map(relatedItem => (
           <Slide
             key = {relatedItem.id}
-            index = {0}
+            index = {Math.random()}
             style = {{
-              width: '240px',
-              height: '120px',
+              width: '225px',
+              height: '160px',
               border: '2px solid',
-              marginLeft:'20px',
-              marginRight: '20px',
+              marginRight: '25px',
               position: 'relative'
             }}
           >
@@ -110,19 +99,16 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
               name = {relatedItem.name}
               category = {relatedItem.category}
               price = {relatedItem.default_price}
-              // starRating = {StaticRating(productReview)}
-
-              //pass in productReview value into StaticRating
+              starRating = {relatedItem.ratings}
               sendProductId = {sendProductId}
-
-              // // this information is for the modal
+              // this information is for the modal
               currentProductId = {product_id}
+              relatedItemsStyles = {relatedItemsStyles}
               features = {relatedItem.features}
             />
           </Slide>
         ))}
       </Slider>
-      </div>
       </CarouselProvider>
     </div>
   )

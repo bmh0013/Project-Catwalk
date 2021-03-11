@@ -1,52 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import Answer from './Answer';
-import AddAnswer from './AddAnswer';
-import API from '../../../api';
-import Button from '@material-ui/core/Button';
+import React, { useState, useEffect } from "react";
+import Answer from "./Answer";
+import AddAnswer from "./AddAnswer";
+import API from "../../../api";
 
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import Box from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Link from '@material-ui/core/Link';
+import { makeStyles } from "@material-ui/core/styles";
+import Box from "@material-ui/core/Card";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import Link from "@material-ui/core/Link";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 800
+    paddingLeft: 10,
+    paddingBottom: 0,
   },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
-  avatar: {
-    backgroundColor: red[500],
+  bold: {
+    fontWeight: 600,
   },
 }));
 
 const Question = ({ product_id, question, refresh }) => {
-  var answers = Object.entries(question.answers).map((a) => a[1]).sort((a, b) => (a.helpfulness > b.helpfulness) ? -1 : 1);
+  var answers = Object.entries(question.answers)
+    .map((a) => a[1])
+    .sort((a, b) => (a.helpfulness > b.helpfulness ? -1 : 1));
 
   const [answersToShow, setAnswersToShow] = useState(2);
   const [expanded, setExpanded] = useState(false);
@@ -56,78 +33,107 @@ const Question = ({ product_id, question, refresh }) => {
   const showMore = () => {
     expanded ? setAnswersToShow(2) : setAnswersToShow(answers.length);
     setExpanded(!expanded);
-  }
+  };
 
   const markHelpful = () => {
-    API.markQuestionHelpful(question.question_id)
-      .then(()=> refresh(product_id));
-  }
+    API.markQuestionHelpful(question.question_id).then(() =>
+      refresh(product_id)
+    );
+  };
 
   return (
-    <div>
-        <Card className={classes.root} variant='outlined'>
-            <CardHeader
-              avatar={
-                <Avatar aria-label="qa-question-avatar" className={classes.avatar}>
-                  Q
-                </Avatar>
-              }
-              action={
-                <h5>
-                  Helpful? <Link aria-label="qa-question-helpfulness" onClick={markHelpful} variant="h5">
-                    Yes
-                  </Link> ({question.question_helpfulness})   |   <AddAnswer product_id={product_id} question_id={question.question_id} question={question.question_body} refresh={refresh}/>
-                </h5>
-              }
-              titleTypographyProps={{variant: 'h5'}}
-              title={question.question_body}
-              subheaderTypographyProps={{variant: 'h6'}}
-              subheader={question.asker_name + ' | ' + new Date(question.question_date).toLocaleDateString('en-us')}
-              style={{paddingBottom: '0', paddingTop: '4'}}
+    <Box elevation={0}>
+      <Grid container spacing={1} className={classes.root}>
+        <Grid
+          item
+          xs={1}
+          style={{ display: "flex", justifyContent: "flex-end" }}
+        >
+          <Typography variant="h5" className={classes.bold}>
+            Q:
+          </Typography>
+        </Grid>
+        <Grid item xs={7}>
+          <Typography variant="h5" className={classes.bold}>
+            {question.question_body}
+          </Typography>
+        </Grid>
+        <Grid
+          item
+          xs={4}
+          style={{ display: "flex", justifyContent: "flex-end" }}
+        >
+          <Typography component="span" variant="h6">
+            Helpful?
+            <Link
+              aria-label="qa-question-helpfulness"
+              onClick={markHelpful}
+              variant="h6"
+            >
+              {" "}
+              Yes{" "}
+            </Link>
+            ({question.question_helpfulness}) |{" "}
+            <AddAnswer
+              product_id={product_id}
+              question_id={question.question_id}
+              question={question.question_body}
+              refresh={refresh}
             />
-          <CardContent>
-            <div className="qa-answers">
-              {
-                answers.slice(0, answersToShow).map(a => {
-                  return <Answer product_id={product_id} answer={a} key={a.id} refresh={refresh}/>
-                })
-              }
-            </div>
-          </CardContent>
-          <CardActions style={{justifyContent: 'flex-end', paddingTop: 0}}>
-            {answers.length > 2 ? (
-                <Button color="secondary" onClick={showMore} size="small" variant='outlined'>
-                  {expanded ? (
-                    <span>Collapse answers</span>
-                  ) : (
-                    <span>See more answers</span>
-                  )}
-                </Button>
-              ) : null
-            }
-          </CardActions>
-        </Card>
-    </div>
+          </Typography>
+        </Grid>
+        {answers.length ? (
+          <Grid item container direction="row" spacing={1}>
+            <Grid
+              item
+              xs={1}
+              style={{ display: "flex", justifyContent: "flex-end" }}
+            >
+              <Typography variant="h5" className={classes.bold}>
+                A:
+              </Typography>
+            </Grid>
+            <Grid item container direction="column" spacing={1} xs={11}>
+              {answers.slice(0, answersToShow).map((a) => {
+                return (
+                  <Answer
+                    product_id={product_id}
+                    answer={a}
+                    key={a.id}
+                    refresh={refresh}
+                  />
+                );
+              })}
+            </Grid>
+          </Grid>
+        ) : null}
+        <Grid
+          item
+          xs={12}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            paddingTop: "0px",
+          }}
+        >
+          {answers.length > 2 ? (
+            <Button
+              color="secondary"
+              onClick={showMore}
+              size="small"
+              variant="outlined"
+            >
+              {expanded ? (
+                <span>Collapse answers</span>
+              ) : (
+                <span>See more answers</span>
+              )}
+            </Button>
+          ) : null}
+        </Grid>
+      </Grid>
+    </Box>
   );
 };
 
 export default Question;
-
-{
-//   <span>
-//   Q: {question.question_body}   |   Helpful?  <a className="qa-link" onClick={markHelpful}>Yes</a> ({question.question_helpfulness})   |   <AddAnswer product_id={product_id} question_id={question.question_id} refresh={refresh}/>
-// </span>
-
-
-  /* <CardActions>
-{answers.length > 2 ? (
-    <Button color="default" onClick={showMore} size="small">
-      {expanded ? (
-        <span>show fewer answers</span>
-      ) : (
-        <span>show more answers</span>
-      )}
-    </Button>
-  ) : null
-}
-</CardActions> */}
