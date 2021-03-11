@@ -1,25 +1,26 @@
 import React from 'react';
-import { StaticRating } from '../../starRating.jsx';
 
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 
 const CharBreakdown = ({ metadata }) => {
   const charList = Object.keys(metadata.characteristics);
 
   return (
     <Grid container item>
-      {charList.map(char => {
-        const position = Math.round(100 * (metadata.characteristics[char].value / 5) )
+      {charList.map((char, index) => {
+        const position = Math.round(100 * (metadata.characteristics[char].value / 6) - 3)
+
         if (char === 'Quality' || char === 'Comfort') {
           return (
-            <Grid container item style={{marginTop: '10px'}}>
+            <Grid container item key={index} style={{marginTop: '10px'}}>
               <Grid item xs={1}></Grid>
               <Grid item xs={3} key={char}>
                 <h5>{char}:</h5>
               </Grid>
-              <Grid container item justify="center" spacing={1}>
+              <Grid container item justify="center" spacing={1} style={{position: 'relative'}}>
                 <Grid item xs={3}>
+                  <PlayArrowIcon style={{transform: 'rotate(90deg)', position: 'absolute', left: `${position}%`}}/>
                   <div className="slider s1" style={{
                     backgroundColor: 'lightgrey',
                     display: 'inline-block',
@@ -58,13 +59,14 @@ const CharBreakdown = ({ metadata }) => {
             </Grid>
           )} else {
             return (
-              <Grid container item style={{marginTop: '10px'}}>
+              <Grid container item key={index} style={{marginTop: '10px'}}>
                 <Grid item xs={1}></Grid>
                 <Grid item xs={3} key={char}>
                   <h5>{char}:</h5>
                 </Grid>
-                <Grid container item justify="center" spacing={1}>
+                <Grid container item justify="center" spacing={1} style={{position: 'relative'}}>
                   <Grid item xs={3}>
+                  <PlayArrowIcon style={{transform: 'rotate(90deg)', position: 'absolute', left: `${position}%`}}/>
                     <div className="slider s1" style={{
                       backgroundColor: 'lightgrey',
                       display: 'inline-block',
