@@ -47,59 +47,59 @@ const YourOutfitList = ({product_id}) => {
     setOutfitItems(filteredItems);
   };
 
+
   return(
     <div className = 'product-list'>
       <h1 className = 'heading-list'>YOUR OUTFITS</h1>
       <CarouselProvider
         className = 'items-carousel'
-        naturalSlideHeight = {150}
-        naturalSlideWidth = {125}
+        naturalSlideHeight = {200}
+        naturalSlideWidth = {200}
         totalSlides = {outfitItems.length + 1}
         visibleSlides = {3}
         dragEnabled = {false}
         style = {{
-          position:'absolute'
+          position:'relative',
+          width: '70%',
+          height: 'auto',
         }}
       >
       <div className = 'buttons'>
         <ButtonBack className = 'button-back'><i className="fas fa-arrow-left"></i></ButtonBack>
         <ButtonNext className = 'button-next'><i className="fas fa-arrow-right"></i></ButtonNext>
       </div>
-      <div className = 'carousel__container'>
       <Slider className = 'carousel__slider'>
            <Slide
               index = {0}
               style = {{
-                width: '240px',
-                height: '120px',
+                width: '225px',
+                height: '160px',
                 border: '2px solid',
-                marginLeft:'20px',
-                marginRight: '20px',
+                marginRight: '25px',
                 position: 'relative'
               }}
             >
-              <div className = 'product-card'>
-                <PlusCircle size = {75} onClick = {(event) => addNewOutfitClick(product_id)}
+              <div className = 'product-card'  onClick = {(event) => addNewOutfitClick(product_id)}>
+                <PlusCircle size = {55}
                    style = {{
                     position: 'absolute',
-                    left: '7.5rem',
-                    top: '12.5rem',
+                    left: '6.5rem',
+                    top: '10.5rem',
                     zIndex: '2'
                   }}
                 />
                 <p className = 'plus-card-caption'>Add to Outfit</p>
               </div>
           </Slide>
-          {outfitItems.map((outfitItem) => (
+          {outfitItems.map(outfitItem => (
             <Slide
               key = {outfitItem.id}
-              index = {0}
+              index = {Math.random()}
               style = {{
-                width: '240px',
-                height: '120px',
+                width: '225px',
+                height: '160px',
                 border: '2px solid',
-                marginLeft:'20px',
-                marginRight: '20px',
+                marginRight: '25px',
                 position: 'relative'
               }}
             >
@@ -116,7 +116,6 @@ const YourOutfitList = ({product_id}) => {
           </Slide>
           ))}
         </Slider>
-        </div>
       </CarouselProvider>
     </div>
   )
