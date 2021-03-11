@@ -10,7 +10,6 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
   //array of objects in accordance to the relatedItems
   const [relatedItemsData, setRelatedItemsData] = useState([]);
   const[relatedItemsStyles, setRelatedItemsStyles] = useState([]);
-  const [productReview, updateReview] = useState(null);
 
   useEffect(() => {
     relatedIdFunction();
@@ -86,7 +85,7 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
             index = {Math.random()}
             style = {{
               width: '225px',
-              height: '160px',
+              height: '310px',
               border: '2px solid',
               marginRight: '25px',
               position: 'relative'

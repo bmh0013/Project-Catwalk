@@ -72,7 +72,7 @@ const YourOutfitList = ({product_id}) => {
               index = {0}
               style = {{
                 width: '225px',
-                height: '160px',
+                height: '310px',
                 border: '2px solid',
                 marginRight: '25px',
                 position: 'relative',
@@ -94,7 +94,7 @@ const YourOutfitList = ({product_id}) => {
               index = {Math.random()}
               style = {{
                 width: '225px',
-                height: '160px',
+                height: '310px',
                 border: '2px solid',
                 marginRight: '25px',
                 position: 'relative'
