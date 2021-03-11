@@ -54,7 +54,6 @@ const RelatedProductCard = ({id, currentProductId, relatedItemsStyles, name, cat
         className = 'mymodal'
         overlayClassName = 'myoverlay'
       >
-      {/* import all the necessary modal data here */}
       <ModalDetails
         currentProduct = {currentProduct}
         currentProductStyles = {currentProductStyles}
