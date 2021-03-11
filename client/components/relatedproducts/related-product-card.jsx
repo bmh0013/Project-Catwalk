@@ -54,12 +54,6 @@ const RelatedProductCard = ({id, currentProductId, relatedItemsStyles, name, cat
         className = 'mymodal'
         overlayClassName = 'myoverlay'
       >
-      {/* <Modal.Header closeButton>
-        <Modal.Title>
-        <h1>Hello</h1>
-        </Modal.Title>
-      </Modal.Header> */}
-      {/* import all the necessary modal data here */}
       <ModalDetails
         currentProduct = {currentProduct}
         currentProductStyles = {currentProductStyles}

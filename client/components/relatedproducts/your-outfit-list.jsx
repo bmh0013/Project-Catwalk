@@ -47,7 +47,6 @@ const YourOutfitList = ({product_id}) => {
     setOutfitItems(filteredItems);
   };
 
-
   return(
     <div className = 'product-list'>
       <h1 className = 'heading-list'>YOUR OUTFITS</h1>
@@ -68,7 +67,7 @@ const YourOutfitList = ({product_id}) => {
         <ButtonBack className = 'button-back'><i className="fas fa-arrow-left"></i></ButtonBack>
         <ButtonNext className = 'button-next'><i className="fas fa-arrow-right"></i></ButtonNext>
       </div>
-      <Slider className = 'carousel__slider'>
+        <Slider className = 'carousel__slider'>
            <Slide
               index = {0}
               style = {{
@@ -80,7 +79,7 @@ const YourOutfitList = ({product_id}) => {
                 zIndex: '2'
               }}
             >
-              <div className = 'product-card add-card'  onClick = {(event) => addNewOutfitClick(product_id)}>
+              <div className = 'product-card add-card' onClick = {(event) => addNewOutfitClick(product_id)}>
                 <PlusCircle size = {55}
                    style = {{
                      display: 'block',
