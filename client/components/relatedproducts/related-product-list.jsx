@@ -43,7 +43,7 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
         .then(res => renderedItems[renderedItems.length - 1]['ratings'] = res.data.ratings)
         .then(() => api.getProductStyles(item))
         .then(res => {
-          setRelatedItemsStyles(res.data)
+          setRelatedItemsStyles(res.data) //for the modal
           renderedItems[renderedItems.length - 1]['image'] = res.data.results[0].photos[0].thumbnail_url
 
           if (renderedItems.length === relatedItems.length) {

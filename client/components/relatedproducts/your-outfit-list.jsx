@@ -9,7 +9,6 @@ import api from '../../../api.js';
 const YourOutfitList = ({product_id}) => {
   const [storageOutfitItems, setStorageOutfitItems] = useLocalStorageState('outfitItems', [])
   const [outfitItems, setOutfitItems] = useState(storageOutfitItems)
-  const [isDisabled, setDisabled] = useState(false);
   //initialize outfit list array accordingly to the local storage data
   useEffect (() => setStorageOutfitItems(outfitItems),[]);
 
@@ -92,7 +91,7 @@ const YourOutfitList = ({product_id}) => {
                 <p className = 'plus-card-caption'>Add to Outfit</p>
               </div>
           </Slide>
-          {outfitItems.map((outfitItem) => (
+          {outfitItems.map(outfitItem => (
             <Slide
               key = {outfitItem.id}
               index = {Math.random()}
