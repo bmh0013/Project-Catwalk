@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddQuestion = ({ product_id, refresh }) => {
+const AddQuestion = ({ product_id, product_name, refresh }) => {
   const classes = useStyles();
   const [modalStyle] = useState({
     top: `50%`,
@@ -102,7 +102,7 @@ const AddQuestion = ({ product_id, refresh }) => {
           <Typography variant="h4">Ask Your Question</Typography>
         </Grid>
         <Grid item>
-          <Typography variant="h5">About the product XXX</Typography>
+          <Typography variant="h5">About {product_name}</Typography>
         </Grid>
         <Grid item>
           <form onSubmit={handleSubmit}>
