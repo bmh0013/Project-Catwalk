@@ -16,12 +16,17 @@ const useStyles = makeStyles((theme) => ({
     padding: 5,
     width: 150,
   },
+  bold: {
+    fontWeight: 600,
+  },
 }));
 
 const Answer = ({ product_id, answer, refresh }) => {
   const classes = useStyles();
   const hasPhotos = !!answer.photos.length;
+  const isSeller = answer.answerer_name.toLowerCase() === "seller";
   const [markedHelpful, setMarkedHelpful] = useState(false);
+  const dateOptions = { month: "long", day: "numeric", year: "numeric" };
 
   const markHelpful = () => {
     API.markAnswerHelpful(answer.id)
@@ -56,10 +61,19 @@ const Answer = ({ product_id, answer, refresh }) => {
         </Grid>
       )}
       <Grid item>
+        {isSeller && (
+          <Typography component="span" className={classes.bold}>
+            by Seller
+          </Typography>
+        )}
+        {!isSeller && (
+          <Typography component="span">
+            {"by " + answer.answerer_name}
+          </Typography>
+        )}
         <Typography component="span">
-          {answer.answerer_name +
-            " | " +
-            new Date(answer.date).toLocaleDateString("en-us") +
+          {" | " +
+            new Date(answer.date).toLocaleDateString("en-us", dateOptions) +
             " | "}
         </Typography>
         <Typography component="span" variant="body1">

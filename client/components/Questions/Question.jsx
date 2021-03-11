@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Answer from "./Answer";
 import AddAnswer from "./AddAnswer";
 import API from "../../../api";
-
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
@@ -23,7 +22,15 @@ const useStyles = makeStyles((theme) => ({
 const Question = ({ product_id, question, refresh }) => {
   var answers = Object.entries(question.answers)
     .map((a) => a[1])
-    .sort((a, b) => (a.helpfulness > b.helpfulness ? -1 : 1));
+    .sort((a, b) => (a.helpfulness > b.helpfulness ? -1 : 1))
+    .sort((a, b) => {
+      if (a.answerer_name.toLowerCase() === "seller") {
+        return -1;
+      }
+      if (b.answerer_name.toLowerCase() === "seller") {
+        return 1;
+      }
+    });
 
   const [answersToShow, setAnswersToShow] = useState(2);
   const [expanded, setExpanded] = useState(false);
