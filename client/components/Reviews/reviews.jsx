@@ -4,8 +4,31 @@ import ReviewCard from './reviewCard.jsx';
 import Ratings from './ratings.jsx';
 import NewReview from './newReview.jsx';
 import API from '../../../api.js';
+
+
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import InputLabel from '@material-ui/core/InputLabel';
+import NativeSelect from '@material-ui/core/NativeSelect';
+
 const axios = require('axios').default;
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    marginTop: '20px',
+    maxWidth: "80vw",
+  },
+  reviewBreakdownContainer: {
+    border: '1px solid black',
+    overflow: "scroll",
+  },
+  ratingsBreakdownContainer: {
+    border: '1px solid red',
+  },
+}));
 
 const Reviews = ({ product_id }) => {
   let [product, setProduct] = useState();
@@ -13,10 +36,11 @@ const Reviews = ({ product_id }) => {
   let [metadata, setMetadata] = useState();
   let [count, updateCount] = useState(2);
   let [modal, setModal] = useState(false);
+  const classes = useStyles();
 
   useEffect(() => {
     fetchProductInfo()
-    fetchReviews();
+    fetchReviews('relevant');
     fetchMetadata();
   }, []);
 
@@ -28,10 +52,10 @@ const Reviews = ({ product_id }) => {
     .catch(err => console.log(err));
   }
 
-  function fetchReviews() {
+  function fetchReviews(sort) {
     API.getReviewCards({
       product_id : product_id,
-      sort: 'relevant'
+      sort: sort
     })
     .then(res => {
       setReviewCards(res.data.results);
@@ -53,33 +77,44 @@ const Reviews = ({ product_id }) => {
 
   return (
     <div>
-      <h3>Ratings & Reviews</h3>
-      <div className="flex-container">
-        <div className="flex-left">
-          {metadata && <Ratings metadata={metadata} reviewCards={reviewCards}/>}
-        </div>
-        <div className="flex-right">
-          <div>
-            <h3>{reviewCards.length} reviews, sort by
-              <div className="dropdown">
-                <button className="dropbtn">relevant <span className="down-caret">></span></button>
-                <div className="dropdown-content">
-                  <a >helpful</a>
-                  <a >newest</a>
-                </div>
-              </div>
-            </h3>
-            <div className="review-cards-container">
-              {reviewCards.slice(0, count).map(card => <ReviewCard key={card.review_id} reviewCard={card}/>)}
-              {reviewCards.length > count && <button id="loadMoreBtn" onClick={loadMore}>Load More</button>}
-              <button onClick={() => {setModal(true)}}>Add A Review</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      {modal && <NewReview setModal={setModal} product={product} metadata={metadata} />}
+      <Box elevation={0} className={classes.root}>
+        <Grid container spacing={1}>
+          <Grid container item xs={4} className={classes.ratingsBreakdownContainer}>
+            Hello
+          </Grid>
+          <Grid container item xs={8} className={classes.reviewBreakdownContainer}>
+            <Grid item xs={12}>
+              {reviewCards.length} reviews, sort by &nbsp;
+              <NativeSelect onChange={() => {console.log('Sorting...')}}>
+                <option value="relevant">relevant</option>
+                <option value="helpful">helpful</option>
+                <option value="newest">newest</option>
+              </NativeSelect>
+            </Grid>
+            {reviewCards.slice(0, count).map(card => <ReviewCard key={card.review_id} reviewCard={card}/>)}
+            <Grid item xs={4}>
+              <Button variant="outlined" style={{marginTop: '.5vw'}} onClick={() => {setModal(true)}}>Add A Review</Button>
+            </Grid>
+            <Grid item xs={4}>
+              {reviewCards.length > count &&
+              <Button variant="outlined" style={{marginTop: '.5vw'}} onClick={loadMore}>Load More</Button>}
+            </Grid>
+          </Grid>
+        </Grid>
+      </Box>
     </div>
     )
 };
 
 export default Reviews;
+
+
+
+  // <Grid item container direction="column" spacing={3} style={{ maxWidth: "97%" }}>
+  //   <Grid item xs={4}>
+  //     {/* {metadata && <Ratings metadata={metadata} reviewCards={reviewCards}/>} */}
+  //     </Grid>
+  //     <Grid item container xs={8}>
+  //       {reviewCards.slice(0, count).map(card => <ReviewCard key={card.review_id} reviewCard={card}/>)}
+  //     </Grid>
+  //   </Grid>
