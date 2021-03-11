@@ -2,6 +2,8 @@ import React from 'react';
 import CharBreakdown from './charBreakdown.jsx';
 import { StaticRating } from '../../starRating.jsx';
 
+import Grid from "@material-ui/core/Grid";
+
 const Ratings = ({ metadata, reviewCards }) => {
   let totalReviews = 0, recommend = 0;
 
@@ -31,25 +33,34 @@ const Ratings = ({ metadata, reviewCards }) => {
 
   return (
     <div>
-      <div id='product-rating'>
-        <span>{overallRating.toFixed(1)}</span>
-        <StaticRating data={metadata.ratings} id="overall-rating"/>
-      </div>
-      <span>{percentage}% of reviews recommend this product</span>
-      <div className="bar-graph-container">
-        {allStars.map((star, index) => {
-          return (
-            <div key={index}>
-              <em>{index + 1} Stars:</em>
-              <div
-              className="bar-graph"
-              style={{background: `linear-gradient(to right, green ${star}%, lightgrey 0%)`}}>
-              </div><br/>
-            </div>
-          )
-        })}
-      </div>
-      <CharBreakdown metadata={metadata} />
+      <Grid item container>
+        <Grid item xs={4} style={{fontSize: '40px', fontWeight: 'bold', textAlign: 'right'}}>
+          {overallRating.toFixed(1)}
+        </Grid>
+        <Grid item xs={4}>
+          <StaticRating data={metadata.ratings} id="overall-rating"/>
+        </Grid>
+        <Grid item xs={12} style={{fontSize: '14px', fontWeight: 600, textAlign: 'center'}}>
+          {percentage}% of reviews recommend this product
+        </Grid>
+        {allStars.map((star, index) => (
+          <Grid container item key={index}>
+            <Grid item xs={4} style={{textAlign: 'right', paddingRight: '5px'}}>
+              {index + 1} Stars:
+            </Grid>
+            <Grid item xs={8} style={{paddingTop: '3px'}}>
+              <div style={
+                {
+                  width: '75%',
+                  height: '12px',
+                  background: `linear-gradient(to right, green ${star}%, lightgrey 0%)`
+                }}>
+              </div>
+            </Grid>
+          </Grid>
+        ))}
+        <CharBreakdown metadata={metadata} />
+      </Grid>
     </div>
   )
 }
