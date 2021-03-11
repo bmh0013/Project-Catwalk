@@ -76,16 +76,14 @@ const YourOutfitList = ({product_id}) => {
                 height: '160px',
                 border: '2px solid',
                 marginRight: '25px',
-                position: 'relative'
+                position: 'relative',
+                zIndex: '2'
               }}
             >
-              <div className = 'product-card'  onClick = {(event) => addNewOutfitClick(product_id)}>
+              <div className = 'product-card add-card'  onClick = {(event) => addNewOutfitClick(product_id)}>
                 <PlusCircle size = {55}
                    style = {{
-                    position: 'absolute',
-                    left: '6.5rem',
-                    top: '10.5rem',
-                    zIndex: '2'
+                     display: 'block',
                   }}
                 />
                 <p className = 'plus-card-caption'>Add to Outfit</p>

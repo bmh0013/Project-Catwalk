@@ -80,7 +80,7 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
         <ButtonNext className = 'button-next'><i className="fas fa-arrow-right"></i></ButtonNext>
       </div>
       <Slider className = 'carousel__slider'>
-        {relatedItemsData.map((relatedItem) => (
+        {relatedItemsData.map(relatedItem => (
           <Slide
             key = {relatedItem.id}
             index = {Math.random()}

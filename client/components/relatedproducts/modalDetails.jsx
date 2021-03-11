@@ -7,15 +7,15 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-const ModalDetails = props => {
+const ModalDetails = ({currentProduct, currentProductStyles, relatedItemsStyles, name, currentProductId, category, price, features}) => {
   const useStyles = makeStyles({
     table: {
       minWidth: 700,
     },
   });
 
-    console.log('currentproductstyles', props.currentProductStyles)
-    console.log('realtedItemsStyles', props.relatedItemsStyles)
+    console.log('currentproductstyles', currentProductStyles)
+    console.log('realtedItemsStyles', relatedItemsStyles)
 
   const classes = useStyles();
 
@@ -46,33 +46,33 @@ const ModalDetails = props => {
   }
 
   const rows = [
-    createData(props.category, 'Category', props.currentProduct.category),
-    createData(props.price, 'Price', props.currentProduct.default_price),
-    createData(props.features.length, '# of Features', props.currentProduct['features'].length),
-    createData(props.features, 'Sole', props.currentProduct['features']),
-    createData(props.features, 'Material', props.currentProduct['features']),
-    createData(props.features, 'Mid-Sole', props.currentProduct['features']),
-    createData(props.features, 'Stitching', props.currentProduct['features']),
-    createData(props.features, 'Lenses', props.currentProduct['features']),
-    createData(props.features, 'UV Protection', props.currentProduct['features']),
-    createData(props.features, 'Frames', props.currentProduct['features']),
-    createData(props.features, 'Fabric', props.currentProduct['features']),
-    createData(props.features, 'Button', props.currentProduct['features']),
-    createData(props.features, 'Cut', props.currentProduct['features']),
-    createData(props.relatedItemsStyles.results.length, '# of Styles', props.currentProductStyles.results.length),
-    createData(props.relatedItemsStyles.results[0].name, 'Style Name', props.currentProductStyles.results[0].name),
+    createData(category, 'Category', currentProduct.category),
+    createData(price, 'Price', currentProduct.default_price),
+    createData(features.length, '# of Features', currentProduct['features'].length),
+    createData(features, 'Sole', currentProduct['features']),
+    createData(features, 'Material', currentProduct['features']),
+    createData(features, 'Mid-Sole', currentProduct['features']),
+    createData(features, 'Stitching', currentProduct['features']),
+    createData(features, 'Lenses', currentProduct['features']),
+    createData(features, 'UV Protection', currentProduct['features']),
+    createData(features, 'Frames', currentProduct['features']),
+    createData(features, 'Fabric', currentProduct['features']),
+    createData(features, 'Button', currentProduct['features']),
+    createData(features, 'Cut', currentProduct['features']),
+    createData(relatedItemsStyles.results.length, '# of Styles', currentProductStyles.results.length),
+    createData(relatedItemsStyles.results[0].name, 'Style Name', currentProductStyles.results[0].name),
   ];
 
   let compareRows = rows.filter (row => row !== undefined);
 
   return (
     <TableContainer className = 'scroll-table'>
-      <Table className={classes.table} aria-label="simple table">
+      <Table className={classes.table} stickyHeader = {true} aria-label="simple table">
         <TableHead>
           <TableRow style ={{padding:35}}>
-            <TableCell align="center" style ={{fontSize: 22}}>{props.name}</TableCell>
+            <TableCell align="center" style ={{fontSize: 22}}>{name}</TableCell>
             <TableCell align="center" style ={{padding: 40}}></TableCell>
-            <TableCell align="center" style ={{fontSize: 22}}>{props.currentProduct.name}</TableCell>
+            <TableCell align="center" style ={{fontSize: 22}}>{currentProduct.name}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
