@@ -8,9 +8,8 @@ import { ProductStyles } from './ProductStyles.jsx';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import PinterestIcon from '@material-ui/icons/Pinterest';
-import { Icon } from '@material-ui/core';
 import api from '../../../api.js';
-  import axios from 'axios';
+import axios from 'axios';
 
 export default function Overview({product_id}) {
     let [productReview, updateReview] = useState(null);
@@ -42,7 +41,6 @@ export default function Overview({product_id}) {
 
       api.getProductStyles(product_id)
         .then(res => {
-          console.log(res);
           updateStyles(productStyles = res.data.results);
         })
         .catch(err => {
@@ -53,12 +51,12 @@ export default function Overview({product_id}) {
     return(
       <div>
         <h1>Overview</h1>
-        <Rating reviewData={productReview}/>
-        <ProductCategory category={productCategory}/>
-        <ProductTitle title={productTitle}/>
-        <ProductPrice price={productPrice}/>
-        <ProductOverview overview={productOverview}/>
-        <ProductStyles styles={productStyles}/>
+        {productReview && <Rating reviewData={productReview}/>}
+        {productCategory && <ProductCategory category={productCategory}/>}
+        {productTitle && <ProductTitle title={productTitle}/>}
+        {productPrice && <ProductPrice price={productPrice}/>}
+        {productOverview && <ProductOverview overview={productOverview}/>}
+        {productStyles && <ProductStyles styles={productStyles}/>}
         <FacebookIcon />
         <TwitterIcon />
         <PinterestIcon />
