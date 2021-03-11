@@ -46,7 +46,8 @@ const Question = ({ product_id, question, refresh }) => {
   const markHelpful = () => {
     API.markQuestionHelpful(question.question_id)
       .then(() => setMarkedHelpful(true))
-      .then(() => refresh(product_id));
+      .then(() => refresh(product_id))
+      .catch((err) => console.log("markHelpful", err));
   };
 
   return (
