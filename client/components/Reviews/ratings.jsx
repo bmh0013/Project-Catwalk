@@ -46,7 +46,7 @@ const Ratings = ({ metadata, reviewCards }) => {
         {allStars.map((star, index) => (
           <Grid container item key={index}>
             <Grid item xs={4} style={{textAlign: 'right', paddingRight: '5px'}}>
-              {index + 1} Stars:
+              {5 - index} Stars:
             </Grid>
             <Grid item xs={8} style={{paddingTop: '3px'}}>
               <div style={
