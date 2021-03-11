@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import CharBreakdown from './charBreakdown.jsx';
 import { StaticRating } from '../../starRating.jsx';
+
+import Grid from "@material-ui/core/Grid";
 
 const Ratings = ({ metadata, reviewCards }) => {
   let totalReviews = 0, recommend = 0;
@@ -18,6 +21,7 @@ const Ratings = ({ metadata, reviewCards }) => {
   const stars3 = starBarFill(3);
   const stars2 = starBarFill(2);
   const stars1 = starBarFill(1);
+  const allStars = [stars5, stars4, stars3, stars2, stars1]
 
   const overallRating = Object.entries(metadata.ratings)
     .map(e => Number(e[0]) * Number(e[1]))
@@ -27,48 +31,36 @@ const Ratings = ({ metadata, reviewCards }) => {
     return metadata.ratings[n] ? Math.round( 100 * ( Number(metadata.ratings[n]) / totalRatings ) ) : 0;
   }
 
-  const ratingsBreakdown = (
-    <div>
-      <em>5 Stars:</em>
-        <div
-        className="bar-graph"
-        style={{background: `linear-gradient(to right, green ${stars5}%, lightgrey 0%)`}}>
-        </div><br/>
-
-        <em>4 Stars:</em>
-        <div
-        className="bar-graph"
-        style={{background: `linear-gradient(to right, green ${stars4}%, lightgrey 0%)`}}>
-        </div><br/>
-
-        <em>3 Stars:</em>
-        <div
-        className="bar-graph"
-        style={{background: `linear-gradient(to right, green ${stars3}%, lightgrey 0%)`}}>
-        </div><br/>
-
-        <em>2 Stars:</em>
-        <div
-        className="bar-graph"
-        style={{background: `linear-gradient(to right, green ${stars2}%, lightgrey 0%)`}}>
-        </div><br/>
-
-        <em>1 Stars:</em>
-        <div
-        className="bar-graph"
-        style={{background: `linear-gradient(to right, green ${stars1}%, lightgrey 0%)`}}>
-        </div><br/>
-    </div>
-  )
-
   return (
     <div>
-      <div id='product-rating'>
-        <span>{overallRating.toFixed(1)}</span>
-        <StaticRating data={metadata.ratings} id="overall-rating"/>
-      </div>
-      <span>{percentage}% of reviews recommend this product</span>
-      {ratingsBreakdown}
+      <Grid item container>
+        <Grid item xs={4} style={{fontSize: '40px', fontWeight: 'bold', textAlign: 'right'}}>
+          {overallRating.toFixed(1)}
+        </Grid>
+        <Grid item xs={4}>
+          <StaticRating data={metadata.ratings} id="overall-rating"/>
+        </Grid>
+        <Grid item xs={12} style={{fontSize: '14px', fontWeight: 600, textAlign: 'center'}}>
+          {percentage}% of reviews recommend this product
+        </Grid>
+        {allStars.map((star, index) => (
+          <Grid container item key={index}>
+            <Grid item xs={4} style={{textAlign: 'right', paddingRight: '5px'}}>
+              {5 - index} Stars:
+            </Grid>
+            <Grid item xs={8} style={{paddingTop: '3px'}}>
+              <div style={
+                {
+                  width: '75%',
+                  height: '12px',
+                  background: `linear-gradient(to right, green ${star}%, lightgrey 0%)`
+                }}>
+              </div>
+            </Grid>
+          </Grid>
+        ))}
+        <CharBreakdown metadata={metadata} />
+      </Grid>
     </div>
   )
 }

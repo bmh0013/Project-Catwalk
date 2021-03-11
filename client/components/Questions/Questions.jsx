@@ -24,6 +24,7 @@ const Questions = ({ product_id, product_name }) => {
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [questionsToShow, setQuestionsToShow] = useState(4);
+  const [productName, setProductName] = useState("");
   const [expanded, setExpanded] = useState(false);
   const classes = useStyles();
 
@@ -47,6 +48,12 @@ const Questions = ({ product_id, product_name }) => {
           )
         )
       );
+
+    API.getProduct(product_id)
+      .then((res) => {
+        setProductName(res.data.name);
+      })
+      .catch((err) => console.log("ERROR: ", err));
   };
 
   var handleSearch = (searchTerm) => {
@@ -122,7 +129,11 @@ const Questions = ({ product_id, product_name }) => {
           </Grid>
         ) : null}
         <Grid item>
-          <AddQuestion product_id={product_id} refresh={loadData} />
+          <AddQuestion
+            product_id={product_id}
+            product_name={productName}
+            refresh={loadData}
+          />
         </Grid>
       </Grid>
     </Box>
