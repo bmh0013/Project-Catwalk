@@ -79,7 +79,11 @@ const Questions = ({ product_id, product_name }) => {
         <Grid item>
           <Typography
             variant="h5"
-            style={{ paddingBottom: 0, paddingTop: 4, margin: 10 }}
+            style={{
+              paddingBottom: 0,
+              paddingTop: 4,
+              margin: "10px 0px 0px 10px",
+            }}
           >
             QUESTIONS AND ANSWERS
           </Typography>
