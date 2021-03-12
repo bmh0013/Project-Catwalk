@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import RelatedProductCard from './related-product-card.jsx';
 import {CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
+import regeneratorRuntime from 'regenerator-runtime';
 import api from '../../../api.js';
 
 const RelatedList =  ({product_id, renderNewProductId}) => {
@@ -28,6 +29,8 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
   useEffect(() => {
     generateRelatedItems(relatedItems);
   }, [relatedItems])
+
+  //try to incorporate useEffect
 
   const generateRelatedItems = async (relatedItems) => {
     let renderedItems = [];
