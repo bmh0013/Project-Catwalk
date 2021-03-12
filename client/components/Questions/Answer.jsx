@@ -54,7 +54,7 @@ const Answer = ({ product_id, answer, refresh }) => {
       {hasPhotos && (
         <Grid item container>
           {answer.photos.map((img) => {
-            return <ImageModal imageUrl={img} />;
+            return <ImageModal imageUrl={img} key={img} />;
           })}
         </Grid>
       )}
