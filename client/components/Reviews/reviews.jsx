@@ -100,11 +100,25 @@ const Reviews = ({ product_id }) => {
               {reviewCards.slice(0, count).map(card => <ReviewCard key={card.review_id} reviewCard={card}/>)}
             </Grid>
             <Grid item xs={4}>
-              <Button variant="outlined" style={{marginTop: '.5vw'}} onClick={openModal}>Add A Review</Button>
+              <Button
+                variant="outlined"
+                color="primary"
+                size="large"
+                style={{marginTop: '.5vw'}}
+                onClick={openModal}>
+                Add A Review
+              </Button>
             </Grid>
             <Grid item xs={4}>
               {reviewCards.length > count &&
-              <Button variant="outlined" style={{marginTop: '.5vw'}} onClick={loadMore}>Load More</Button>}
+              <Button
+                variant="outlined"
+                color="primary"
+                size="large"
+                style={{marginTop: '.5vw'}}
+                onClick={loadMore}>
+                Load More
+              </Button>}
             </Grid>
           </Grid>
         </Grid>

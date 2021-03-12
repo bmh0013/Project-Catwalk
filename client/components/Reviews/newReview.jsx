@@ -39,6 +39,7 @@ const NewReview = ({ product, metadata, setModal }) => {
     left: `50%`,
     transform: `translate(-50%, -50%)`,
   });
+  let [formValidation, setFormValidation] = useState(true)
   let [reviewImages, setReviewImages] = useState([]);
   let characteristicList = Object.keys(metadata.characteristics);
 
@@ -58,12 +59,19 @@ const NewReview = ({ product, metadata, setModal }) => {
   function handleSubmitReview(e) {
     e.preventDefault();
     const rating = document.getElementById('hover-rating').getAttribute('value');
+    const form = document.getElementById('newReview').elements;
+
+    // Checks email validation
+    if (!/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(form.email.value)) {
+      setFormValidation(false)
+      return
+    }
 
     if (rating === null) {
       alert('Please select a rating');
+      return
     } else {
       setModal(false);
-      const form = document.getElementById('newReview').elements;
       let characteristics = {};
       const charList = Object.keys(metadata.characteristics);
 
@@ -99,31 +107,39 @@ const NewReview = ({ product, metadata, setModal }) => {
             <Typography variant="h4">Overall Rating</Typography>
           </Grid>
           <Grid item>
-            <HoverRating />
+            <HoverRating size="large"/>
           </Grid>
           <Grid item>
             <Typography variant="h4">Do you recommend this product?</Typography>
           </Grid>
           <Grid item>
             <FormControl component="fieldset">
-              <RadioGroup aria-label="recommend" name="recommend" row={true} required>
-                <FormControlLabel value="true" control={<Radio />} label="True"/>
-                <FormControlLabel value="false" control={<Radio />} label="False"/>
+              <RadioGroup name="recommend" row={true}>
+                <FormControlLabel
+                  value="true"
+                  control={<Radio required />}
+                  label={<Typography variant="h5">True</Typography>}
+                />
+                <FormControlLabel
+                  value="false"
+                  control={<Radio required/>}
+                  label={<Typography variant="h5">False</Typography>}
+                />
               </RadioGroup>
             </FormControl>
           </Grid>
           <Grid item>
             <Typography variant="h4" style={{marginBottom: '10px'}}>Characteristics</Typography>
-            {characteristicList.map(char => (
-                <div>
+            {characteristicList.map((char, index) => (
+                <div key={index}>
                   <Typography variant="h5">{char}:</Typography>
                   <FormControl component="fieldset">
-                    <RadioGroup aria-label={char} name={char} row={true} required>
-                      <FormControlLabel value="1" control={<Radio />} label="1"/>
-                      <FormControlLabel value="2" control={<Radio />} label="2"/>
-                      <FormControlLabel value="3" control={<Radio />} label="3"/>
-                      <FormControlLabel value="4" control={<Radio />} label="4"/>
-                      <FormControlLabel value="5" control={<Radio />} label="5"/>
+                    <RadioGroup name={char} row={true} >
+                      <FormControlLabel value="1" control={<Radio required/>} label={<Typography variant="h5">1</Typography>}/>
+                      <FormControlLabel value="2" control={<Radio required/>} label={<Typography variant="h5">2</Typography>}/>
+                      <FormControlLabel value="3" control={<Radio required/>} label={<Typography variant="h5">3</Typography>}/>
+                      <FormControlLabel value="4" control={<Radio required/>} label={<Typography variant="h5">4</Typography>}/>
+                      <FormControlLabel value="5" control={<Radio required/>} label={<Typography variant="h5">5</Typography>}/>
                     </RadioGroup>
                   </FormControl>
                 </div>
@@ -168,6 +184,7 @@ const NewReview = ({ product, metadata, setModal }) => {
             <Typography variant="h5">Nickname:</Typography>
             <TextField
               name="nickname"
+              id="nickname"
               variant='outlined'
               inputProps={{style: {fontSize: 18, maxLength: '60'}}}
               style={{width: '80%'}}
@@ -178,9 +195,12 @@ const NewReview = ({ product, metadata, setModal }) => {
             <Typography variant="h5">Email:</Typography>
             <TextField
               name="email"
+              id="email"
               variant='outlined'
               inputProps={{style: {fontSize: 18, maxLength: '60'}}}
               style={{width: '80%'}}
+              error={!formValidation}
+              helperText={!formValidation && 'Please enter a valid email'}
               required
             />
           </Grid>

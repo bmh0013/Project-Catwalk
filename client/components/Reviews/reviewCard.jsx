@@ -41,7 +41,7 @@ const ReviewCard = ({ reviewCard }) => {
     <div className="thumbnail-container">
       {reviewCard.photos.map(photo =>
         <a key={photo.id}>
-          <img className="thumbnail" src={photo.url} width="60px" height="60px"/>
+          <img src={photo.url} margin="5px" width="60px" height="60px"/>
         </a>
       )}
     </div>
