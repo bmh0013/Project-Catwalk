@@ -104,6 +104,7 @@ const Questions = ({ product_id, product_name }) => {
                   <Question
                     product_id={product_id}
                     question={q}
+                    searchTerm={searchTerm}
                     refresh={loadData}
                   />
                 </Grid>

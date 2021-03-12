@@ -17,9 +17,18 @@ const useStyles = makeStyles((theme) => ({
   bold: {
     fontWeight: 600,
   },
+  highlighted: {
+    fontWeight: 600,
+    backgroundColor: "yellow",
+  },
 }));
 
-const Question = ({ product_id, question, refresh }) => {
+const Question = ({ product_id, question, searchTerm, refresh }) => {
+  const [answersToShow, setAnswersToShow] = useState(2);
+  const [expanded, setExpanded] = useState(false);
+  const [markedHelpful, setMarkedHelpful] = useState(false);
+  const classes = useStyles();
+
   var answers = Object.entries(question.answers)
     .map((a) => a[1])
     .sort((a, b) => (a.helpfulness > b.helpfulness ? -1 : 1))
@@ -32,11 +41,33 @@ const Question = ({ product_id, question, refresh }) => {
       }
     });
 
-  const [answersToShow, setAnswersToShow] = useState(2);
-  const [expanded, setExpanded] = useState(false);
-  const [markedHelpful, setMarkedHelpful] = useState(false);
+  var getHighlightedText = (text, highlight) => {
+    const parts = text.split(new RegExp(`(${highlight})`, "gi"));
+    return (
+      <span>
+        {parts.map((part) =>
+          part.toLowerCase() === highlight.toLowerCase() ? (
+            <Typography
+              component="span"
+              variant="h5"
+              className={classes.highlighted}
+            >
+              {part}
+            </Typography>
+          ) : (
+            <Typography component="span" variant="h5" className={classes.bold}>
+              {part}
+            </Typography>
+          )
+        )}
+      </span>
+    );
+  };
 
-  const classes = useStyles();
+  var questionBodyHighlighted = getHighlightedText(
+    question.question_body,
+    searchTerm
+  );
 
   const showMore = () => {
     expanded ? setAnswersToShow(2) : setAnswersToShow(answers.length);
@@ -63,9 +94,7 @@ const Question = ({ product_id, question, refresh }) => {
           </Typography>
         </Grid>
         <Grid item xs={7}>
-          <Typography variant="h5" className={classes.bold}>
-            {question.question_body}
-          </Typography>
+          {questionBodyHighlighted}
         </Grid>
         <Grid
           item
