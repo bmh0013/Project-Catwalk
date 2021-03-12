@@ -37,8 +37,8 @@ const Ratings = ({ metadata, reviewCards }) => {
         <Grid item xs={4} style={{fontSize: '40px', fontWeight: 'bold', textAlign: 'right'}}>
           {overallRating.toFixed(1)}
         </Grid>
-        <Grid item xs={4}>
-          <StaticRating data={metadata.ratings} id="overall-rating"/>
+        <Grid item xs={4} style={{fontSize: '40px', fontWeight: 'bold', textAlign: 'center'}}>
+          <StaticRating data={metadata.ratings} size="large"/>
         </Grid>
         <Grid item xs={12} style={{fontSize: '14px', fontWeight: 600, textAlign: 'center'}}>
           {percentage}% of reviews recommend this product
@@ -59,7 +59,7 @@ const Ratings = ({ metadata, reviewCards }) => {
             </Grid>
           </Grid>
         ))}
-        <CharBreakdown metadata={metadata} />
+        <CharBreakdown metadata={metadata}/>
       </Grid>
     </div>
   )
