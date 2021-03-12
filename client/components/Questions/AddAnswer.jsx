@@ -183,7 +183,12 @@ const AddAnswer = ({ product_id, question_id, question, refresh }) => {
 
   return (
     <span>
-      <Link variant="h6" onClick={handleOpen}>
+      <Link
+        variant="h6"
+        onClick={handleOpen}
+        underline="always"
+        style={{ cursor: "pointer" }}
+      >
         Add Answer
       </Link>
       <Modal

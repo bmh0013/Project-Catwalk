@@ -102,15 +102,16 @@ const Question = ({ product_id, question, searchTerm, refresh }) => {
           style={{ display: "flex", justifyContent: "flex-end" }}
         >
           <Typography component="span" variant="h6">
-            Helpful?
+            Helpful?{" "}
             {!markedHelpful && (
               <Link
                 aria-label="qa-question-helpfulness"
                 onClick={markHelpful}
+                underline="always"
                 variant="h6"
+                style={{ cursor: "pointer" }}
               >
-                {" "}
-                Yes{" "}
+                Yes
               </Link>
             )}
             {markedHelpful && (
@@ -118,7 +119,7 @@ const Question = ({ product_id, question, searchTerm, refresh }) => {
                 {" "}
                 Yes{" "}
               </Typography>
-            )}
+            )}{" "}
             ({question.question_helpfulness}) |{" "}
             <AddAnswer
               product_id={product_id}
@@ -128,7 +129,7 @@ const Question = ({ product_id, question, searchTerm, refresh }) => {
             />
           </Typography>
         </Grid>
-        {answers.length ? (
+        {!!answers.length && (
           <Grid item container direction="row" spacing={1}>
             <Grid
               item
@@ -152,29 +153,19 @@ const Question = ({ product_id, question, searchTerm, refresh }) => {
               })}
             </Grid>
           </Grid>
-        ) : null}
-        <Grid
-          item
-          xs={12}
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            paddingTop: "0px",
-          }}
-        >
+        )}
+        <Grid item xs={1}></Grid>
+        <Grid item xs={11}>
           {answers.length > 2 ? (
-            <Button
-              color="secondary"
+            <Link
+              color="primary"
               onClick={showMore}
-              size="small"
-              variant="outlined"
+              variant="h6"
+              underline="none"
+              style={{ cursor: "pointer" }}
             >
-              {expanded ? (
-                <span>Collapse answers</span>
-              ) : (
-                <span>See more answers</span>
-              )}
-            </Button>
+              {expanded ? "COLLAPSE ANSWERS" : "SEE MORE ANSWERS"}
+            </Link>
           ) : null}
         </Grid>
       </Grid>

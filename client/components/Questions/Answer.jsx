@@ -75,15 +75,16 @@ const Answer = ({ product_id, answer, refresh }) => {
             " | "}
         </Typography>
         <Typography component="span" variant="body1">
-          Helpful?
+          Helpful?{" "}
           {!markedHelpful && (
             <Link
               aria-label="qa-answer-helpfulness"
               onClick={markHelpful}
               variant="body1"
+              underline="always"
+              style={{ cursor: "pointer" }}
             >
-              {" "}
-              Yes{" "}
+              Yes
             </Link>
           )}
           {markedHelpful && (
@@ -91,9 +92,14 @@ const Answer = ({ product_id, answer, refresh }) => {
               {" "}
               Yes{" "}
             </Typography>
-          )}
+          )}{" "}
           ({answer.helpfulness}) |{" "}
-          <Link onClick={report} variant="body1">
+          <Link
+            onClick={report}
+            variant="body1"
+            underline="always"
+            style={{ cursor: "pointer" }}
+          >
             Report
           </Link>
         </Typography>
