@@ -28,6 +28,12 @@ const Questions = ({ product_id, product_name }) => {
   const [expanded, setExpanded] = useState(false);
   const classes = useStyles();
 
+  var filteredData = data
+    .filter((q) =>
+      q.question_body.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .slice(0, questionsToShow);
+
   useEffect(() => {
     loadData(product_id);
   }, []);
@@ -98,26 +104,27 @@ const Questions = ({ product_id, product_name }) => {
             spacing={3}
             style={{ maxWidth: "97%" }}
           >
-            {data
-              .filter((q) =>
-                q.question_body.toLowerCase().includes(searchTerm.toLowerCase())
-              )
-              .slice(0, questionsToShow)
-              .map((q) => (
-                <Grid key={q.question_id} item>
-                  <Question
-                    product_id={product_id}
-                    question={q}
-                    searchTerm={searchTerm}
-                    refresh={loadData}
-                  />
-                </Grid>
-              ))}
+            {!filteredData.length && (
+              <Grid item style={{ margin: 15 }}>
+                Sorry, there are no results which match your search. Consider
+                adding a question for others to answer.
+              </Grid>
+            )}
+            {filteredData.map((q) => (
+              <Grid key={q.question_id} item>
+                <Question
+                  product_id={product_id}
+                  question={q}
+                  searchTerm={searchTerm}
+                  refresh={loadData}
+                />
+              </Grid>
+            ))}
           </Grid>
         </Grid>
       </Grid>
       <Grid container justify="center" alignItems="center" spacing={1}>
-        {data.length > 2 ? (
+        {filteredData.length > 2 ? (
           <Grid item>
             <Button
               color="primary"
