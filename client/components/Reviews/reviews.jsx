@@ -10,7 +10,6 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
-import InputLabel from '@material-ui/core/InputLabel';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import Modal from "@material-ui/core/Modal";
 
@@ -19,16 +18,8 @@ const axios = require('axios').default;
 const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: '20px',
-    maxWidth: "80vw",
-  },
-  reviewBreakdownContainer: {
-    maxHeight: '800px',
-    border: '1px solid black',
-    overflow: "scroll",
-  },
-  ratingsBreakdownContainer: {
-    border: '1px solid red',
-  },
+    maxWidth: '80vw',
+  }
 }));
 
 const Reviews = ({ product_id }) => {
@@ -73,6 +64,10 @@ const Reviews = ({ product_id }) => {
     .catch(err => console.log(err));
   }
 
+  function handleSort(e) {
+    fetchReviews(e.target.value);
+  }
+
   function loadMore() {
     updateCount(count + 2);
   }
@@ -89,19 +84,21 @@ const Reviews = ({ product_id }) => {
     <div>
       <Box elevation={0} className={classes.root}>
         <Grid container spacing={1}>
-          <Grid container item xs={4} className={classes.ratingsBreakdownContainer}>
+          <Grid container item xs={4} style={{maxHeight: '800px', overflow: "scroll"}}>
             {metadata && <Ratings metadata={metadata} reviewCards={reviewCards}/>}
           </Grid>
-          <Grid container item xs={8} className={classes.reviewBreakdownContainer}>
-            <Grid item xs={12}>
+          <Grid container item xs={8}>
+            <Grid item xs={12} style={{fontSize: '20px'}}>
               {reviewCards.length} reviews, sort by &nbsp;
-              <NativeSelect onChange={() => {console.log('Sorting...')}}>
+              <NativeSelect onChange={handleSort} style={{fontSize: '20px'}}>
                 <option value="relevant">relevant</option>
                 <option value="helpful">helpful</option>
                 <option value="newest">newest</option>
               </NativeSelect>
             </Grid>
-            {reviewCards.slice(0, count).map(card => <ReviewCard key={card.review_id} reviewCard={card}/>)}
+            <Grid container item style={{height: '400px', maxHeight: '400px', overflow: "scroll"}}>
+              {reviewCards.slice(0, count).map(card => <ReviewCard key={card.review_id} reviewCard={card}/>)}
+            </Grid>
             <Grid item xs={4}>
               <Button variant="outlined" style={{marginTop: '.5vw'}} onClick={openModal}>Add A Review</Button>
             </Grid>

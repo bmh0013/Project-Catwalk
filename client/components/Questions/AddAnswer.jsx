@@ -62,10 +62,10 @@ const AddAnswer = ({ product_id, question_id, question, refresh }) => {
           refresh(product_id);
         });
     } else {
-      let newFormValidation = JSON.parse(JSON.stringify(formValidation));
-      newFormValidation.email[0] = true;
-      newFormValidation.email[1] = "Please enter a valid email address";
-      setFormValidation(newFormValidation);
+      setFormValidation({
+        ...formValidation,
+        email: [true, "Please enter a valid email address"],
+      });
     }
   };
 
