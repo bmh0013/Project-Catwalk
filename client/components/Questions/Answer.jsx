@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import API from "../../../api";
+import ImageModal from "./ImageModal.jsx";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -53,11 +54,7 @@ const Answer = ({ product_id, answer, refresh }) => {
       {hasPhotos && (
         <Grid item container>
           {answer.photos.map((img) => {
-            return (
-              <a target="_blank" key={img} href={img}>
-                <img className={classes.thumbnail} src={img} />
-              </a>
-            );
+            return <ImageModal imageUrl={img} />;
           })}
         </Grid>
       )}
