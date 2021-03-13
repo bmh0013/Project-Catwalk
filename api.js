@@ -1,5 +1,4 @@
 import { TOKEN } from './token.js';
-import { IMG_UPLOAD } from './token.js';
 const axios = require('axios').default;
 
 // Handles all GET requests, requires a route and a params

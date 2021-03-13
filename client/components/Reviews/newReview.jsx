@@ -130,13 +130,17 @@ const NewReview = ({ product, metadata, setModal }) => {
       <form id="newReview" onSubmit={handleSubmitReview}>
         <Grid container direction="column" spacing={1}>
           <Grid item>
-            <Typography variant="h4">Overall Rating</Typography>
+            <Typography variant="h4">Overall Rating
+              <Typography variant="body" style={{color: 'red'}}>*</Typography>
+            </Typography>
           </Grid>
           <Grid item>
             <HoverRating size="large"/>
           </Grid>
           <Grid item>
-            <Typography variant="h4">Do you recommend this product?</Typography>
+            <Typography variant="h4">Do you recommend this product?
+              <Typography variant="body" style={{color: 'red'}}>*</Typography>
+            </Typography>
           </Grid>
           <Grid item>
             <FormControl component="fieldset">
@@ -155,7 +159,9 @@ const NewReview = ({ product, metadata, setModal }) => {
             </FormControl>
           </Grid>
           <Grid item>
-            <Typography variant="h4" style={{marginBottom: '10px'}}>Characteristics</Typography>
+            <Typography variant="h4" style={{marginBottom: '10px'}}>Characteristics
+              <Typography variant="body" style={{color: 'red'}}>*</Typography>
+            </Typography>
             {characteristicList.map((char, index) => (
                 <div key={index}>
                   <Typography variant="h5">{char}:</Typography>
@@ -177,15 +183,16 @@ const NewReview = ({ product, metadata, setModal }) => {
             <TextField
               name="summary"
               inputProps={{style: {fontSize: 18, fontWeight: 'bold'}, maxLength: '60'}}
-              style={{width: '80%'}}
+              style={{width: '80%', marginBottom: '7px'}}
             />
           </Grid>
           <Grid item>
-            <Typography variant="h5">Review Body:</Typography>
+            <Typography variant="h5">Review Body:
+              <Typography variant="body" style={{color: 'red'}}>*</Typography>
+            </Typography>
             <TextField
               name="body"
               multiline
-              margin='normal'
               variant='outlined'
               inputProps={{style: {fontSize: 14}, maxLength: '1000'}}
               style={{width: '80%'}}
@@ -207,7 +214,9 @@ const NewReview = ({ product, metadata, setModal }) => {
             </span>
           </Grid>
           <Grid item>
-            <Typography variant="h5">Nickname:</Typography>
+            <Typography variant="h5">Nickname:
+              <Typography variant="body" style={{color: 'red'}}>*</Typography>
+            </Typography>
             <TextField
               name="nickname"
               id="nickname"
@@ -218,7 +227,9 @@ const NewReview = ({ product, metadata, setModal }) => {
             />
           </Grid>
           <Grid item>
-            <Typography variant="h5">Email:</Typography>
+            <Typography variant="h5">Email:
+              <Typography variant="body" style={{color: 'red'}}>*</Typography>
+            </Typography>
             <TextField
               name="email"
               id="email"
