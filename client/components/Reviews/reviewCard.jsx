@@ -3,12 +3,14 @@ import TOKEN from '../../../token.js'
 import API from '../../../api.js';
 import { StaticRating } from '../../starRating.jsx';
 import Body from './body.jsx';
+import ImageModal from './ImageModal.jsx';
 const axios = require('axios').default;
 var moment = require('moment');
 
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+import CheckIcon from '@material-ui/icons/Check';
 
 const useStyles = makeStyles((theme) => ({
   reviewCard: {
@@ -16,10 +18,10 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '1vw',
     paddingBottom: '.5vw',
     borderBottom: '3px solid black',
-  },
+  }
 }));
 
-const ReviewCard = ({ reviewCard }) => {
+const ReviewCard = ({ reviewCard, setReviewCards, product_id }) => {
   const classes = useStyles();
   const date = moment(reviewCard.date, 'YYYY-MM-DD').format('MMMM D, YYYY');
 
@@ -33,16 +35,25 @@ const ReviewCard = ({ reviewCard }) => {
   function handleReport(e) {
     const review_id = e.target.getAttribute('data');
     API.updateReport(review_id, {review_id})
-    .then(res => console.log(res))
+    .then(res => {
+      console.log(res);
+      API.getReviewCards({
+        product_id : product_id,
+        sort: document.getElementById('sort').value,
+        count: 100
+      })
+        .then(res => {
+          setReviewCards(res.data.results);
+        })
+        .catch(err => console.log(err));
+    })
     .catch(err => console.log(err));
   }
 
   const thumbnails = (
     <div className="thumbnail-container">
-      {reviewCard.photos.map(photo =>
-        <a key={photo.id}>
-          <img className="thumbnail" src={photo.url} width="60px" height="60px"/>
-        </a>
+      {reviewCard.photos.map((photo, index) =>
+        <ImageModal className={classes.testing} imageUrl={photo.url} key={photo.id}/>
       )}
     </div>
   );
@@ -58,7 +69,7 @@ const ReviewCard = ({ reviewCard }) => {
 
   return (
     <div>
-      <Grid container spacing={1} item xs={12} className={classes.reviewCard}>
+      <Grid container spacing={1} item xs={12} className={classes.reviewCard} id={reviewCard.review_id}>
         <Grid item xs={6}>
           <StaticRating data={{[reviewCard.rating]: 1}} />
         </Grid>
@@ -69,22 +80,27 @@ const ReviewCard = ({ reviewCard }) => {
           {reviewCard.summary}
         </Grid>
         <Grid item xs={12}>
-          {reviewCard.body}
+          <Body body={reviewCard.body} id={reviewCard.review_id} />
         </Grid>
         {!!reviewCard.photos.length &&
         <Grid item xs={12}>
           {thumbnails}
         </Grid>}
         {!!reviewCard.response &&
-        <Grid item xs={12}>
-          Response: {reviewCard.response}
+        <Grid item xs={12} style={{
+          background: 'radial-gradient(circle, rgba(187,187,187,1) 0%, rgba(172,172,172,1) 100%)', padding: '20px',
+          borderRadius: '15px',
+          margin: '5px'
+        }}>
+          <b>Response:</b><br/>
+          {reviewCard.response}
         </Grid>}
         <Grid item xs={6}>
           {feedback}
         </Grid>
         {!!reviewCard.recommend &&
         <Grid item xs={6} style={{textAlign: 'right', fontWeight: 'bold'}}>
-          I recommend this product!
+          <CheckIcon fontSize="large" style={{transform: 'translate(0px, 6px)'}}/>I recommend this product!
         </Grid>}
       </Grid>
     </div>
