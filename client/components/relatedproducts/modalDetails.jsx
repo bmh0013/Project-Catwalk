@@ -14,8 +14,8 @@ const ModalDetails = ({currentProduct, currentProductStyles, relatedItemsStyles,
     },
   });
 
-    console.log('currentproductstyles', currentProductStyles)
-    console.log('realtedItemsStyles', relatedItemsStyles)
+    // console.log('currentproductstyles', currentProductStyles)
+    // console.log('realtedItemsStyles', relatedItemsStyles)
 
   const classes = useStyles();
 

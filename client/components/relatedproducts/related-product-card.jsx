@@ -2,9 +2,9 @@ import React, {useState, useEffect} from 'react';
 import {StarFill} from 'react-bootstrap-icons';
 import Modal from 'react-modal';
 import ModalDetails from './modalDetails.jsx';
-import Rating from '../Overview/Rating.jsx';
 import api from '../../../api.js';
 import {StaticRating} from '../../starRating.jsx';
+import regeneratorRuntime from 'regenerator-runtime';
 
 const RelatedProductCard = ({id, currentProductId, relatedItemsStyles, name, category, image, price, sendProductId, features, starRating}) => {
 
@@ -12,7 +12,7 @@ const RelatedProductCard = ({id, currentProductId, relatedItemsStyles, name, cat
   const [currentProduct, setCurrentProduct] = useState([]);
   const [currentProductStyles, setCurrentProductStyles] = useState([]);
 
-  Modal.setAppElement('#root');
+  Modal.setAppElement('body');
 
   const toggleModal = () => {
     setOpenModal(!openModal);
@@ -29,6 +29,11 @@ const RelatedProductCard = ({id, currentProductId, relatedItemsStyles, name, cat
   useEffect(() => {
     getCurrentProductInfo(currentProductId)
   },[currentProductId])
+
+  // let uppercaseCategory;
+  // if (category === undefined) {
+  //   uppercaseCategory = category
+  // } else uppercaseCategory = category.toUpperCase();
 
   return (
     <div className = 'product-card'>
