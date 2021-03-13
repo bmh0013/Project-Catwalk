@@ -6,7 +6,7 @@
 
 .product-list{
   height:38rem;
-  width:55%;
+  width:50%;
   overflow:hidden;
 }
 
@@ -18,8 +18,8 @@
 .buttons{
   position:absolute;
   bottom:50%;
-  width:107%;
-  margin-left:2%;
+  width:84%;
+  /* margin-left:2%; */
   z-index: 1;
   display:flex;
   justify-content:space-between;

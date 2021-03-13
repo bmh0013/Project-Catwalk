@@ -60,7 +60,7 @@ const YourOutfitList = ({product_id}) => {
         dragEnabled = {false}
         style = {{
           position:'relative',
-          width: '70%',
+          width: '100%',
           height: 'auto',
         }}
       >
@@ -73,8 +73,8 @@ const YourOutfitList = ({product_id}) => {
               index = {0}
               style = {{
                 width: '225px',
-                height: '310px',
-                border: '2px solid',
+                height: '325px',
+                border: '1px solid',
                 marginRight: '25px',
                 position: 'relative',
                 zIndex: '2'
@@ -95,8 +95,8 @@ const YourOutfitList = ({product_id}) => {
               index = {Math.random()}
               style = {{
                 width: '225px',
-                height: '310px',
-                border: '2px solid',
+                height: '325px',
+                border: '1px solid',
                 marginRight: '25px',
                 position: 'relative'
               }}
