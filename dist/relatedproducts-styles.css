@@ -19,15 +19,20 @@
 .buttons{
   position:absolute;
   top:50%;
-  width:81%;
+  max-width:825px;
+  width:100%;
   z-index: 1;
   display:flex;
   justify-content:space-between;
 }
 
+.items-carousel{
+  width:100%;
+}
+
 .button-back, .button-next{
    border-radius:50%;
-   opacity: 0.5;
+   opacity: 0.4;
 };
 
 .button-back:disabled{
@@ -40,7 +45,7 @@ button[disabled]{
 }
 
 .carousel__slider {
-  width:40vw;
+  width:825px;
 }
 
 /* product card styles */
