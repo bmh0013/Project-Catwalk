@@ -44,9 +44,10 @@ const Question = ({ product_id, question, searchTerm, refresh }) => {
     const parts = text.split(new RegExp(`(${highlight})`, "gi"));
     return (
       <span>
-        {parts.map((part) =>
+        {parts.map((part, i) =>
           part.toLowerCase() === highlight.toLowerCase() ? (
             <Typography
+              key={i}
               component="span"
               variant="h5"
               className={classes.highlighted}
@@ -54,7 +55,12 @@ const Question = ({ product_id, question, searchTerm, refresh }) => {
               {part}
             </Typography>
           ) : (
-            <Typography component="span" variant="h5" className={classes.bold}>
+            <Typography
+              key={i}
+              component="span"
+              variant="h5"
+              className={classes.bold}
+            >
               {part}
             </Typography>
           )
