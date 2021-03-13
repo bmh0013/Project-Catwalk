@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import TOKEN from '../../../token.js'
+import { TOKEN } from '../../../token.js'
 import API from '../../../api.js';
 import { StaticRating } from '../../starRating.jsx';
 import Body from './body.jsx';
+import ImageModal from './ImageModal.jsx';
 const axios = require('axios').default;
 var moment = require('moment');
 
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+import CheckIcon from '@material-ui/icons/Check';
 
 const useStyles = makeStyles((theme) => ({
   reviewCard: {
@@ -16,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '1vw',
     paddingBottom: '.5vw',
     borderBottom: '3px solid black',
-  },
+  }
 }));
 
 const ReviewCard = ({ reviewCard }) => {
@@ -39,10 +41,8 @@ const ReviewCard = ({ reviewCard }) => {
 
   const thumbnails = (
     <div className="thumbnail-container">
-      {reviewCard.photos.map(photo =>
-        <a key={photo.id}>
-          <img className="thumbnail" src={photo.url} width="60px" height="60px"/>
-        </a>
+      {reviewCard.photos.map((photo, index) =>
+        <ImageModal className={classes.testing} imageUrl={photo.url} key={photo.id}/>
       )}
     </div>
   );
@@ -84,7 +84,7 @@ const ReviewCard = ({ reviewCard }) => {
         </Grid>
         {!!reviewCard.recommend &&
         <Grid item xs={6} style={{textAlign: 'right', fontWeight: 'bold'}}>
-          I recommend this product!
+          <CheckIcon fontSize="large" style={{transform: 'translate(0px, 6px)'}}/>I recommend this product!
         </Grid>}
       </Grid>
     </div>
