@@ -1,4 +1,4 @@
-import { TOKEN } from './token.js';
+import TOKEN from './token.js';
 const axios = require('axios').default;
 
 // Handles all GET requests, requires a route and a params
