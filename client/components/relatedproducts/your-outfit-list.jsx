@@ -58,24 +58,16 @@ const YourOutfitList = ({product_id}) => {
         totalSlides = {outfitItems.length + 1}
         visibleSlides = {3}
         dragEnabled = {false}
-        style = {{
-          position:'relative',
-          width: '100%',
-          height: 'auto',
-        }}
       >
-      <div className = 'buttons'>
-        <ButtonBack className = 'button-back'><i className="fas fa-arrow-left"></i></ButtonBack>
-        <ButtonNext className = 'button-next'><i className="fas fa-arrow-right"></i></ButtonNext>
-      </div>
+
         <Slider className = 'carousel__slider'>
            <Slide
               index = {0}
               style = {{
-                width: '225px',
-                height: '325px',
+                width: '23rem',
+                height: '32rem',
                 border: '1px solid',
-                marginRight: '25px',
+                marginRight: '3rem',
                 position: 'relative',
                 zIndex: '2'
               }}
@@ -94,10 +86,10 @@ const YourOutfitList = ({product_id}) => {
               key = {outfitItem.id}
               index = {Math.random()}
               style = {{
-                width: '225px',
-                height: '325px',
+                width: '23rem',
+                height: '32rem',
                 border: '1px solid',
-                marginRight: '25px',
+                marginRight: '3rem',
                 position: 'relative'
               }}
             >
@@ -114,6 +106,10 @@ const YourOutfitList = ({product_id}) => {
           </Slide>
           ))}
         </Slider>
+        <div className = 'buttons'>
+          <ButtonBack className = 'button-back'><i className="fas fa-arrow-left"></i></ButtonBack>
+          <ButtonNext className = 'button-next'><i className="fas fa-arrow-right"></i></ButtonNext>
+      </div>
       </CarouselProvider>
     </div>
   )
