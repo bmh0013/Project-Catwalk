@@ -2,8 +2,9 @@ import React, {useState, useEffect} from 'react';
 import useLocalStorageState from 'use-local-storage-state';
 import OutfitCard from './your-outfit-card.jsx';
 import {CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
-import {PlusCircle} from 'react-bootstrap-icons'
-import 'pure-react-carousel/dist/react-carousel.es.css';
+import {PlusCircle} from 'react-bootstrap-icons';
+// import 'pure-react-carousel/dist/react-carousel.es.css';
+import regeneratorRuntime from 'regenerator-runtime';
 import api from '../../../api.js';
 
 const YourOutfitList = ({product_id}) => {
@@ -72,14 +73,14 @@ const YourOutfitList = ({product_id}) => {
               index = {0}
               style = {{
                 width: '225px',
-                height: '160px',
+                height: '310px',
                 border: '2px solid',
                 marginRight: '25px',
                 position: 'relative',
                 zIndex: '2'
               }}
             >
-              <div className = 'product-card add-card' onClick = {(event) => addNewOutfitClick(product_id)}>
+              <div data-testid="addition-card" className = 'product-card add-card' onClick = {(event) => addNewOutfitClick(product_id)}>
                 <PlusCircle size = {55}
                    style = {{
                      display: 'block',
@@ -94,7 +95,7 @@ const YourOutfitList = ({product_id}) => {
               index = {Math.random()}
               style = {{
                 width: '225px',
-                height: '160px',
+                height: '310px',
                 border: '2px solid',
                 marginRight: '25px',
                 position: 'relative'
