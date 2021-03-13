@@ -10,7 +10,7 @@
 
 ## Team Members & Roles
 - [Lukas Schweter](https://github.com/lukas-schweter) - Product Overview
-- [Alex Lee](https://github.com/acerslee) - Related Product and User Outfit Lists
+- [Alex Lee](https://github.com/acerslee) - Related Product & User Outfit Lists
 - [Mike Kolarik](https://github.com/koalarick) - Questions & Answers
 - [Brandon Harden](https://github.com/bmh0013) - Ratings & Reviews
 
