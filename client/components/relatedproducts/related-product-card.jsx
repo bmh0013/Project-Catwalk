@@ -30,6 +30,11 @@ const RelatedProductCard = ({id, currentProductId, relatedItemsStyles, name, cat
     getCurrentProductInfo(currentProductId)
   },[currentProductId])
 
+  // let uppercaseCategory;
+  // if (category === undefined) {
+  //   uppercaseCategory = category
+  // } else uppercaseCategory = category.toUpperCase();
+
   return (
     <div className = 'product-card'>
       <StarFill size = {21} className = 'star' onClick = {toggleModal}

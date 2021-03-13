@@ -31,6 +31,7 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
   }, [relatedItems])
 
   //try to incorporate useEffect
+  //you can write export before const here to import the function into another file (ex. testing file). needs to be outside the functional component in order to export it
 
   const generateRelatedItems = async (relatedItems) => {
     let renderedItems = [];
