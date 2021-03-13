@@ -34,7 +34,7 @@ const Reviews = ({ product_id }) => {
     fetchProductInfo()
     fetchReviews('relevant');
     fetchMetadata();
-  }, []);
+  }, [product_id]);
 
   function fetchProductInfo() {
     API.getProduct(product_id)
