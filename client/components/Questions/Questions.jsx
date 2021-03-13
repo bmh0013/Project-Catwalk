@@ -36,7 +36,7 @@ const Questions = ({ product_id, product_name }) => {
 
   useEffect(() => {
     loadData(product_id);
-  }, []);
+  }, [product_id]);
 
   var loadData = async (product_id) => {
     let options = {
