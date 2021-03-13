@@ -20,36 +20,36 @@ Project Catwalk comprises a complete redesign of the retail portal designed to a
 ## Technologies Used
 
 ### Front-End Development
-<img align="left" alt="JavaScript" width="40px" src="https://raw.githubusercontent.com/jmnote/z-icons/master/svg/javascript.svg" />
-<img align="left" alt="React" width="40px" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/react/react.png" />
+<img align="left" alt="JavaScript" width="30px" src="https://raw.githubusercontent.com/jmnote/z-icons/master/svg/javascript.svg" />
+<img align="left" alt="React" width="30px" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/react/react.png" />
 <br />
 
 ### Back-End Development
-<img align="left" alt="Node JS" width="40px" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/nodejs/nodejs.png" />
-<img align="left" alt="Express" width="40px" src="https://github.com/devicons/devicon/blob/master/icons/express/express-original.svg" />
+<img align="left" alt="Node JS" width="30px" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/nodejs/nodejs.png" />
+<img align="left" alt="Express" width="30px" src="https://github.com/devicons/devicon/blob/master/icons/express/express-original.svg" />
 <br />
 
 ### Compiler
-<img align="left" alt="Webpack" width="40px" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/webpack/webpack-original.svg" />
+<img align="left" alt="Webpack" width="30px" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/webpack/webpack-original.svg" />
 <br />
 
 ### Styling
-<img align="left" alt="CSS3" width="40px" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/css/css.png" />
-<img align="left" alt="Bootstrap" width="40px" src="https://raw.githubusercontent.com/jmnote/z-icons/master/svg/bootstrap.svg" />
-<img align="left" alt="Material UI" width="40px" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/materialui/materialui-original.svg" />
+<img align="left" alt="CSS3" width="30px" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/css/css.png" />
+<img align="left" alt="Bootstrap" width="30px" src="https://raw.githubusercontent.com/jmnote/z-icons/master/svg/bootstrap.svg" />
+<img align="left" alt="Material UI" width="30px" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/materialui/materialui-original.svg" />
 <br />
 
 ### Testing
-<img align="left" alt="Jest" width="40px" src="https://raw.githubusercontent.com/vscode-icons/vscode-icons/master/icons/file_type_jest.svg?sanitize=true" />
+<img align="left" alt="Jest" width="30px" src="https://raw.githubusercontent.com/vscode-icons/vscode-icons/master/icons/file_type_jest.svg?sanitize=true" />
 <br />
 
 ### Server Hosting
-<img align="left" alt="AWS" width="40px" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-original.svg" />
+<img align="left" alt="AWS" width="30px" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-original.svg" />
 <br />
 
 ### Project Management
-<img align="left" alt="Trello" width="40px" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/trello/trello-plain.svg" />
-<img align="left" alt="Slack" width="40px" src="https://github.com/devicons/devicon/blob/master/icons/slack/slack-original.svg" />
+<img align="left" alt="Trello" width="30px" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/trello/trello-plain.svg" />
+<img align="left" alt="Slack" width="30px" src="https://github.com/devicons/devicon/blob/master/icons/slack/slack-original.svg" />
 <br />
 <br />
 
