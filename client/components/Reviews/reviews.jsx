@@ -34,7 +34,7 @@ const Reviews = ({ product_id }) => {
     fetchProductInfo()
     fetchReviews('relevant');
     fetchMetadata();
-  }, []);
+  }, [product_id]);
 
   function fetchProductInfo() {
     API.getProduct(product_id)
@@ -84,6 +84,11 @@ const Reviews = ({ product_id }) => {
     <div>
       <Box elevation={0} className={classes.root}>
         <Grid container spacing={1}>
+          <Grid item xs={12}>
+            <Typography variant="h5" style={{marginLeft: "10px"}}>
+              RATINGS & REVIEWS
+            </Typography>
+          </Grid>
           <Grid container item xs={4} style={{maxHeight: '800px', overflow: "scroll"}}>
             {metadata && <Ratings metadata={metadata} reviewCards={reviewCards}/>}
           </Grid>
