@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TOKEN } from '../../../token.js'
+import TOKEN from '../../../token.js'
 import API from '../../../api.js';
 import { StaticRating } from '../../starRating.jsx';
 import Body from './body.jsx';
@@ -87,8 +87,13 @@ const ReviewCard = ({ reviewCard, setReviewCards, product_id }) => {
           {thumbnails}
         </Grid>}
         {!!reviewCard.response &&
-        <Grid item xs={12}>
-          Response: {reviewCard.response}
+        <Grid item xs={12} style={{
+          background: 'radial-gradient(circle, rgba(187,187,187,1) 0%, rgba(172,172,172,1) 100%)', padding: '20px',
+          borderRadius: '15px',
+          margin: '5px'
+        }}>
+          <b>Response:</b><br/>
+          {reviewCard.response}
         </Grid>}
         <Grid item xs={6}>
           {feedback}
