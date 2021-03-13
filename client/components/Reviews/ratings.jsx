@@ -3,6 +3,7 @@ import CharBreakdown from './charBreakdown.jsx';
 import { StaticRating } from '../../starRating.jsx';
 
 import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
 
 const Ratings = ({ metadata, reviewCards }) => {
   let totalReviews = 0, recommend = 0;
