@@ -18,9 +18,14 @@ Project Catwalk comprises a complete redesign of the retail portal designed to a
 ## Installation
 Fork the repo and clone to your local machine. After completion, follow these steps to install.
 
-1. Run `npm init` to initialize node package management setup.
+1. Create a new React environemnt using a [Webpack](https://webpack.js.org) bundler. 
 2. Run `npm install` to download dependencies.
 3. You will need to either set up a `.env` or a JS file that's attached to the `.gitignore` file. This file will house the private Github Authentication Token in the following form in your root directory. You can read more about creating a token [here](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
+
+## Development
+After installation is complete, proceed to setup the development environment
+1. Run `npm init` to initialize node package management setup.
+2. Run `npm install` to download dependencies.
 
 
 ## Team Members & Roles
@@ -28,6 +33,3 @@ Fork the repo and clone to your local machine. After completion, follow these st
 - [Alex Lee](https://github.com/acerslee) - Related Product and User Outfit Lists
 - [Mike Kolarik](https://github.com/koalarick) - Questions & Answers
 - [Brandon Harden](https://github.com/bmh0013) - Ratings & Reviews
-
-
-1. Creating a brand new React server with Babel
