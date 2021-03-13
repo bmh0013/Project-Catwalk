@@ -47,14 +47,16 @@ const AddAnswer = ({ product_id, question_id, question, refresh }) => {
     setOpen(false);
   };
 
+  const verifyEmail = (email) => {
+    return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+      email
+    );
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-        formData.email
-      )
-    ) {
+    if (verifyEmail(formData.email)) {
       API.postAnswer(formData)
         .catch((err) => console.log(err))
         .then(() => {
@@ -80,11 +82,7 @@ const AddAnswer = ({ product_id, question_id, question, refresh }) => {
       for (const prop in newFormValidation) {
         newFormValidation[prop][1] = false;
       }
-      if (
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-          formData.email
-        )
-      ) {
+      if (verifyEmail(formData.email)) {
         newFormValidation.email[0] = false;
         newFormValidation.email[1] = null;
       }
@@ -185,7 +183,12 @@ const AddAnswer = ({ product_id, question_id, question, refresh }) => {
 
   return (
     <span>
-      <Link variant="h6" onClick={handleOpen}>
+      <Link
+        variant="h6"
+        onClick={handleOpen}
+        underline="always"
+        style={{ cursor: "pointer" }}
+      >
         Add Answer
       </Link>
       <Modal

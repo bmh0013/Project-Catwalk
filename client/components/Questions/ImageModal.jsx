@@ -44,7 +44,12 @@ const ImageModal = ({ imageUrl }) => {
 
   return (
     <span>
-      <Link target="_blank" key={imageUrl} onClick={handleOpen}>
+      <Link
+        target="_blank"
+        key={imageUrl}
+        onClick={handleOpen}
+        style={{ cursor: "zoom-in" }}
+      >
         <img className={classes.thumbnail} src={imageUrl} />
       </Link>
       <Modal open={open} onClose={handleClose}>
