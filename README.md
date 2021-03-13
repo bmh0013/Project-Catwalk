@@ -1,7 +1,5 @@
 # Team Emu - Hack Reactor Front End Capstone Project (Project Catwalk)
 
-## Overview
-
 ## Table of Contents
 - [Team Members](#team-members)
 - [Description](#description)
