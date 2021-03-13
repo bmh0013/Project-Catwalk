@@ -67,31 +67,23 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
       <h1 className = 'heading-list'>RELATED PRODUCTS</h1>
       <CarouselProvider
         className = 'items-carousel'
-        naturalSlideHeight = {200}
-        naturalSlideWidth = {200}
+        naturalSlideHeight = {150}
+        naturalSlideWidth = {150}
         totalSlides = {relatedItems.length}
         visibleSlides = {3}
         dragEnabled = {false}
-        style = {{
-          position:'relative',
-          width: '70%',
-          height: 'auto',
-        }}
       >
-      <div className = 'buttons'>
-        <ButtonBack className = 'button-back'><i className="fas fa-arrow-left"></i></ButtonBack>
-        <ButtonNext className = 'button-next'><i className="fas fa-arrow-right"></i></ButtonNext>
-      </div>
+
       <Slider className = 'carousel__slider'>
         {relatedItemsData.map(relatedItem => (
           <Slide
             key = {relatedItem.id}
             index = {Math.random()}
             style = {{
-              width: '225px',
-              height: '310px',
-              border: '2px solid',
-              marginRight: '25px',
+              width: '23rem',
+              height: '32rem',
+              border: '1px solid',
+              marginRight: '3rem',
               position: 'relative'
             }}
           >
@@ -112,6 +104,10 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
           </Slide>
         ))}
       </Slider>
+      <div className = 'buttons'>
+        <ButtonBack className = 'button-back'><i className="fas fa-arrow-left"></i></ButtonBack>
+        <ButtonNext className = 'button-next'><i className="fas fa-arrow-right"></i></ButtonNext>
+      </div>
       </CarouselProvider>
     </div>
   )
