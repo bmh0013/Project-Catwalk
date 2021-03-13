@@ -1,8 +1,8 @@
 {
   "name": "fec",
-  "jest":{
+  "jest": {
     "moduleNameMapper": {
-     "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
     }
   },
   "version": "1.0.0",
