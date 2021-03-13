@@ -24,10 +24,10 @@ Fork the repo and clone to your local machine. After completion, follow these st
 
 
 ## Team Members & Roles
-- [Lukas Schweter](https://github.com/lukas-schweter)
-- [Alex Lee](https://github.com/acerslee)
-- [Mike Kolarik](https://github.com/koalarick)
-- [Brandon Harden](https://github.com/bmh0013)
+- [Lukas Schweter](https://github.com/lukas-schweter) - Product Overview
+- [Alex Lee](https://github.com/acerslee) - Related Product and User Outfit Lists
+- [Mike Kolarik](https://github.com/koalarick) - Questions & Answers
+- [Brandon Harden](https://github.com/bmh0013) - Ratings & Reviews
 
 
 1. Creating a brand new React server with Babel
