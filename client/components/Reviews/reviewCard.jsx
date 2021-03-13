@@ -15,9 +15,9 @@ import CheckIcon from '@material-ui/icons/Check';
 const useStyles = makeStyles((theme) => ({
   reviewCard: {
     width: '100%',
-    marginTop: '1vw',
-    paddingBottom: '.5vw',
-    borderBottom: '3px solid black',
+    margin: '10px',
+    padding: '5px',
+    borderBottom: '2px solid black'
   }
 }));
 
@@ -69,7 +69,7 @@ const ReviewCard = ({ reviewCard, setReviewCards, product_id }) => {
 
   return (
     <div>
-      <Grid container spacing={1} item xs={12} className={classes.reviewCard} id={reviewCard.review_id}>
+      <Grid container item spacing={1} xs={12} className={classes.reviewCard} id={reviewCard.review_id}>
         <Grid item xs={6}>
           <StaticRating data={{[reviewCard.rating]: 1}} />
         </Grid>

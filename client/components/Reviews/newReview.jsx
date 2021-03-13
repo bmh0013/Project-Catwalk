@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 const NewReview = ({ product, metadata, setModal }) => {
   const classes = useStyles();
   const [modalStyle] = useState({
