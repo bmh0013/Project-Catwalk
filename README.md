@@ -3,13 +3,19 @@
 ## Overview
 
 ## Table of Contents
+- [Team Members](#team-members)
 - [Description](#description)
 - [Technologies Used](#tools)
 - [Installation](#installation)
 - [Development](#development)
 - [Launch](#launch)
 - [Installation](#installation)
-- [Team Members](#team-members)
+
+## Team Members & Roles
+- [Lukas Schweter](https://github.com/lukas-schweter) - Product Overview
+- [Alex Lee](https://github.com/acerslee) - Related Product and User Outfit Lists
+- [Mike Kolarik](https://github.com/koalarick) - Questions & Answers
+- [Brandon Harden](https://github.com/bmh0013) - Ratings & Reviews
 
 ## Description
 Project Catwalk comprises a complete redesign of the retail portal designed to address the concern of an outdated UI. The requirements provided in the given Business Requirement Documentation define the new user interface required for customers to browse items in our retail catalog.
@@ -36,10 +42,3 @@ After installation is complete, proceed to setup the development environment.
 After development is complete, proceed to launch application into the browser. Ensure that the run scripts are correct within the package.JSON file.
 1. Run `npm run react-dev` to launch the Webpack bundler.
 2. Run `npm run server` or `nodemon server.js` to launch the server environment.
-
-
-## Team Members & Roles
-- [Lukas Schweter](https://github.com/lukas-schweter) - Product Overview
-- [Alex Lee](https://github.com/acerslee) - Related Product and User Outfit Lists
-- [Mike Kolarik](https://github.com/koalarick) - Questions & Answers
-- [Brandon Harden](https://github.com/bmh0013) - Ratings & Reviews
