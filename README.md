@@ -7,7 +7,6 @@
 - [Installation](#installation)
 - [Development](#development)
 - [Launch](#launch)
-- [Installation](#installation)
 
 ## Team Members & Roles
 - [Lukas Schweter](https://github.com/lukas-schweter) - Product Overview
