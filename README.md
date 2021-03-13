@@ -18,8 +18,9 @@ Project Catwalk comprises a complete redesign of the retail portal designed to a
 ## Installation
 Fork the repo and clone to your local machine. After completion, follow these steps to install.
 
-1. Run `npm install` to download dependencies.
-2. You will need to either set up a `.env` or a JS file that's attached to the `.gitignore` file. This file will house the private Github Authentication Token in the following form in your root directory. You can read more about creating a token [here](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
+1. Run `npm init` to initialize node package management setup.
+2. Run `npm install` to download dependencies.
+3. You will need to either set up a `.env` or a JS file that's attached to the `.gitignore` file. This file will house the private Github Authentication Token in the following form in your root directory. You can read more about creating a token [here](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
 
 
 ## Team Members & Roles
