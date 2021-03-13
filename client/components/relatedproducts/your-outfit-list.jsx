@@ -59,7 +59,6 @@ const YourOutfitList = ({product_id}) => {
         visibleSlides = {3}
         dragEnabled = {false}
       >
-
         <Slider className = 'carousel__slider'>
            <Slide
               index = {0}

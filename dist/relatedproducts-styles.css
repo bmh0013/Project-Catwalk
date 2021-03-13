@@ -132,7 +132,7 @@ button[disabled]{
   padding-bottom: 0.3rem;
 }
 
-/*styling for iPhone X screen */
+/*styling for mobile screen */
 @media screen and (max-width: 500px){
   .heading-list{
     font-size: 1.7rem;
