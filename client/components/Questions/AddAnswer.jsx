@@ -9,7 +9,6 @@ import API from "../../../api";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
-import { ImageSearchSharp } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
