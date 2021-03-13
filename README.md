@@ -15,7 +15,7 @@
 Project Catwalk comprises a complete redesign of the retail portal designed to address the concern of an outdated UI. The requirements provided in the given Business Requirement Documentation define the new user interface required for customers to browse items in our retail catalog.
 
 ## Technologies Used
-[<img align="left" alt="Java" width="30px" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/java/java.png" />][blog]
+[<img align="left" alt="JavaScript" width="40px" src="https://raw.githubusercontent.com/jmnote/z-icons/master/svg/javascript.svg/>]
 
 ## Installation
 Fork the repo and clone to your local machine. After completion, follow these steps to install.
