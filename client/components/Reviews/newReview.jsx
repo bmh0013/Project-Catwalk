@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import TOKEN from '../../../token.js';
+import { TOKEN } from '../../../token.js';
 import API from '../../../api.js';
 import { HoverRating } from '../../starRating.jsx';
 const axios = require('axios').default;
@@ -38,9 +38,11 @@ const NewReview = ({ product, metadata, setModal }) => {
     top: `50%`,
     left: `50%`,
     transform: `translate(-50%, -50%)`,
+    overflow: 'scroll'
   });
   let [formValidation, setFormValidation] = useState(true)
   let [reviewImages, setReviewImages] = useState([]);
+  let [base64Images, setbase64Images] = useState([]);
   let characteristicList = Object.keys(metadata.characteristics);
 
   function closeModal() {
@@ -49,10 +51,25 @@ const NewReview = ({ product, metadata, setModal }) => {
 
   function handleUploadImages(e) {
     document.getElementById('thumbnails').innerHTML = '';
-    let image;
+    let images = [];
+    let base64 = [];
     for (let i = 0; i < e.target.files.length; i++) {
-      image = URL.createObjectURL(e.target.files[i]);
-      setReviewImages(prevImages => [...prevImages, image]);
+      images.push(URL.createObjectURL(e.target.files[i]));
+      getBase64(e.target.files[i])
+        .then(data => {
+          base64.push(data.split(',')[1]);
+        });
+      setbase64Images(base64);
+      setReviewImages(images);
+    }
+
+    function getBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
     }
   }
 
@@ -72,9 +89,18 @@ const NewReview = ({ product, metadata, setModal }) => {
       return
     } else {
       setModal(false);
+
+      let imageURLs = [];
+      base64Images.forEach(photo => {
+        API.uploadImages(photo)
+          .then(res => {
+            imageURLs.push(res.data.data.url);
+          })
+          .catch(err => {console.log(err)});
+      })
+
       let characteristics = {};
       const charList = Object.keys(metadata.characteristics);
-
       charList.forEach(char => {
         const char_id = metadata.characteristics[char].id
         const value = form[char].value;
@@ -89,7 +115,7 @@ const NewReview = ({ product, metadata, setModal }) => {
         recommend: form.recommend.value === 'true' ? true : false,
         name: form.nickname.value,
         email: form.email.value,
-        photos: [],
+        photos: imageURLs,
         characteristics: characteristics
       };
 

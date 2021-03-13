@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import TOKEN from '../../../token.js';
+import { TOKEN } from '../../../token.js';
 import ReviewCard from './reviewCard.jsx';
 import Ratings from './ratings.jsx';
 import NewReview from './newReview.jsx';

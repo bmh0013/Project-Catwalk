@@ -1,4 +1,5 @@
-import TOKEN from './token.js';
+import { TOKEN } from './token.js';
+import { IMG_UPLOAD } from './token.js';
 const axios = require('axios').default;
 
 // Handles all GET requests, requires a route and a params
@@ -117,6 +118,18 @@ function reportAnswer(answer_id) {
   return handlePutRequests(`qa/answers/${answer_id}/report`);
 }
 
+function uploadImages(imageURL) {
+  let options = {
+    method: 'post',
+    url: '/upload_images',
+    data: {
+      image: imageURL
+    }
+  };
+
+  return axios(options);
+}
+
 export default{
   getAllProducts,
   getProduct,
@@ -133,5 +146,6 @@ export default{
   updateReport,
   markQuestionHelpful,
   markAnswerHelpful,
-  reportAnswer
+  reportAnswer,
+  uploadImages
 }
