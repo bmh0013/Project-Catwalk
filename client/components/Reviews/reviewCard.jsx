@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ReviewCard = ({ reviewCard }) => {
+const ReviewCard = ({ reviewCard, setReviewCards, product_id }) => {
   const classes = useStyles();
   const date = moment(reviewCard.date, 'YYYY-MM-DD').format('MMMM D, YYYY');
 
@@ -35,7 +35,18 @@ const ReviewCard = ({ reviewCard }) => {
   function handleReport(e) {
     const review_id = e.target.getAttribute('data');
     API.updateReport(review_id, {review_id})
-    .then(res => console.log(res))
+    .then(res => {
+      console.log(res);
+      API.getReviewCards({
+        product_id : product_id,
+        sort: document.getElementById('sort').value,
+        count: 100
+      })
+        .then(res => {
+          setReviewCards(res.data.results);
+        })
+        .catch(err => console.log(err));
+    })
     .catch(err => console.log(err));
   }
 
@@ -58,7 +69,7 @@ const ReviewCard = ({ reviewCard }) => {
 
   return (
     <div>
-      <Grid container spacing={1} item xs={12} className={classes.reviewCard}>
+      <Grid container spacing={1} item xs={12} className={classes.reviewCard} id={reviewCard.review_id}>
         <Grid item xs={6}>
           <StaticRating data={{[reviewCard.rating]: 1}} />
         </Grid>
@@ -69,7 +80,7 @@ const ReviewCard = ({ reviewCard }) => {
           {reviewCard.summary}
         </Grid>
         <Grid item xs={12}>
-          {reviewCard.body}
+          <Body body={reviewCard.body} id={reviewCard.review_id} />
         </Grid>
         {!!reviewCard.photos.length &&
         <Grid item xs={12}>

@@ -90,14 +90,20 @@ const Reviews = ({ product_id }) => {
           <Grid container item xs={8}>
             <Grid item xs={12} style={{fontSize: '20px'}}>
               {reviewCards.length} reviews, sort by &nbsp;
-              <NativeSelect onChange={handleSort} style={{fontSize: '20px'}}>
+              <NativeSelect id="sort" onChange={handleSort} style={{fontSize: '20px'}}>
                 <option value="relevant">relevant</option>
                 <option value="helpful">helpful</option>
                 <option value="newest">newest</option>
               </NativeSelect>
             </Grid>
             <Grid container item style={{height: '400px', maxHeight: '400px', overflow: "scroll"}}>
-              {reviewCards.slice(0, count).map(card => <ReviewCard key={card.review_id} reviewCard={card}/>)}
+              {reviewCards.slice(0, count).map(card =>
+                <ReviewCard
+                  key={card.review_id}
+                  reviewCard={card}
+                  setReviewCards={setReviewCards}
+                  product_id={product_id}
+                />)}
             </Grid>
             <Grid item xs={4}>
               <Button

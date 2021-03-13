@@ -19,7 +19,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: "absolute",
-    width: '70%',
+    width: '60%',
     height: '70%',
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #000",
@@ -131,15 +131,15 @@ const NewReview = ({ product, metadata, setModal }) => {
         <Grid container direction="column" spacing={1}>
           <Grid item>
             <Typography variant="h4">Overall Rating
-              <Typography variant="body" style={{color: 'red'}}>*</Typography>
+              <Typography variant="inherit" style={{color: 'red'}}>*</Typography>
             </Typography>
           </Grid>
           <Grid item>
             <HoverRating size="large"/>
           </Grid>
           <Grid item>
-            <Typography variant="h4">Do you recommend this product?
-              <Typography variant="body" style={{color: 'red'}}>*</Typography>
+            <Typography variant="h5">Do you recommend this product?
+              <Typography variant="inherit" style={{color: 'red'}}>*</Typography>
             </Typography>
           </Grid>
           <Grid item>
@@ -159,12 +159,12 @@ const NewReview = ({ product, metadata, setModal }) => {
             </FormControl>
           </Grid>
           <Grid item>
-            <Typography variant="h4" style={{marginBottom: '10px'}}>Characteristics
-              <Typography variant="body" style={{color: 'red'}}>*</Typography>
+            <Typography variant="h5" style={{marginBottom: '10px'}}>Characteristics
+              <Typography variant="inherit" style={{color: 'red'}}>*</Typography>
             </Typography>
             {characteristicList.map((char, index) => (
                 <div key={index}>
-                  <Typography variant="h5">{char}:</Typography>
+                  <Typography variant="h6">{char}:</Typography>
                   <FormControl component="fieldset">
                     <RadioGroup name={char} row={true} >
                       <FormControlLabel value="1" control={<Radio required/>} label={<Typography variant="h5">1</Typography>}/>
@@ -182,13 +182,14 @@ const NewReview = ({ product, metadata, setModal }) => {
             <Typography variant="h5">Review Summary:</Typography>
             <TextField
               name="summary"
+              variant="outlined"
               inputProps={{style: {fontSize: 18, fontWeight: 'bold'}, maxLength: '60'}}
               style={{width: '80%', marginBottom: '7px'}}
             />
           </Grid>
           <Grid item>
             <Typography variant="h5">Review Body:
-              <Typography variant="body" style={{color: 'red'}}>*</Typography>
+              <Typography variant="inherit" style={{color: 'red'}}>*</Typography>
             </Typography>
             <TextField
               name="body"
@@ -196,6 +197,34 @@ const NewReview = ({ product, metadata, setModal }) => {
               variant='outlined'
               inputProps={{style: {fontSize: 14}, maxLength: '1000'}}
               style={{width: '80%'}}
+              required
+            />
+          </Grid>
+          <Grid item>
+            <Typography variant="h5">Nickname:
+              <Typography variant="inherit" style={{color: 'red'}}>*</Typography>
+            </Typography>
+            <TextField
+              name="nickname"
+              id="nickname"
+              variant='outlined'
+              inputProps={{style: {fontSize: 18, maxLength: '60'}}}
+              style={{width: '80%'}}
+              required
+            />
+          </Grid>
+          <Grid item>
+            <Typography variant="h5">Email:
+              <Typography variant="inherit" style={{color: 'red'}}>*</Typography>
+            </Typography>
+            <TextField
+              name="email"
+              id="email"
+              variant='outlined'
+              inputProps={{style: {fontSize: 18, maxLength: '60'}}}
+              style={{width: '80%'}}
+              error={!formValidation}
+              helperText={!formValidation && 'Please enter a valid email'}
               required
             />
           </Grid>
@@ -214,35 +243,7 @@ const NewReview = ({ product, metadata, setModal }) => {
             </span>
           </Grid>
           <Grid item>
-            <Typography variant="h5">Nickname:
-              <Typography variant="body" style={{color: 'red'}}>*</Typography>
-            </Typography>
-            <TextField
-              name="nickname"
-              id="nickname"
-              variant='outlined'
-              inputProps={{style: {fontSize: 18, maxLength: '60'}}}
-              style={{width: '80%'}}
-              required
-            />
-          </Grid>
-          <Grid item>
-            <Typography variant="h5">Email:
-              <Typography variant="body" style={{color: 'red'}}>*</Typography>
-            </Typography>
-            <TextField
-              name="email"
-              id="email"
-              variant='outlined'
-              inputProps={{style: {fontSize: 18, maxLength: '60'}}}
-              style={{width: '80%'}}
-              error={!formValidation}
-              helperText={!formValidation && 'Please enter a valid email'}
-              required
-            />
-          </Grid>
-          <Grid item>
-            <Button type="submit" color="primary" variant="outlined">
+            <Button type="submit" color="primary" variant="outlined" size="large">
               Submit Review
             </Button>
           </Grid>
