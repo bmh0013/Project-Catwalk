@@ -40,6 +40,7 @@ const ReviewCard = ({ reviewCard, setReviewCards, product_id }) => {
           count: 100
         })
         .then(res => setReviewCards(res.data.results))
+        .catch(err => console.log(err));
       })
       .catch(err => console.log(err));
     }
@@ -47,17 +48,15 @@ const ReviewCard = ({ reviewCard, setReviewCards, product_id }) => {
 
   function handleReport(e) {
     const review_id = e.target.getAttribute('data');
+
     API.updateReport(review_id, {review_id})
     .then(res => {
-      console.log(res);
       API.getReviewCards({
         product_id : product_id,
         sort: document.getElementById('sort').value,
         count: 100
       })
-        .then(res => {
-          setReviewCards(res.data.results);
-        })
+        .then(res => setReviewCards(res.data.results))
         .catch(err => console.log(err));
     })
     .catch(err => console.log(err));
