@@ -4,7 +4,6 @@ import YourOutfitList from "./relatedproducts/your-outfit-list.jsx";
 import Questions from "./Questions/Questions.jsx";
 import Reviews from "./Reviews/reviews.jsx";
 import Overview from "./Overview/Overview.jsx";
-import API from "../../api.js";
 import Box from "@material-ui/core/Box";
 
 class App extends React.Component {
