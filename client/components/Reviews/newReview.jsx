@@ -4,8 +4,45 @@ import API from '../../../api.js';
 import { HoverRating } from '../../starRating.jsx';
 const axios = require('axios').default;
 
+import { makeStyles } from "@material-ui/core/styles";
+import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControl from "@material-ui/core/FormControl";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormLabel from "@material-ui/core/FormLabel";
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    position: "absolute",
+    width: '60%',
+    height: '70%',
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid #000",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
+  helperText: {
+    color: "blue",
+  },
+}));
+
 const NewReview = ({ product, metadata, setModal }) => {
+  const classes = useStyles();
+  const [modalStyle] = useState({
+    top: `50%`,
+    left: `50%`,
+    transform: `translate(-50%, -50%)`,
+    overflow: 'scroll'
+  });
+  let [formValidation, setFormValidation] = useState(true)
   let [reviewImages, setReviewImages] = useState([]);
+  let [base64Images, setbase64Images] = useState([]);
+  let characteristicList = Object.keys(metadata.characteristics);
 
   function closeModal() {
     setModal(false);
@@ -13,25 +50,56 @@ const NewReview = ({ product, metadata, setModal }) => {
 
   function handleUploadImages(e) {
     document.getElementById('thumbnails').innerHTML = '';
-    let image;
+    let images = [];
+    let base64 = [];
     for (let i = 0; i < e.target.files.length; i++) {
-      image = URL.createObjectURL(e.target.files[i]);
-      setReviewImages(prevImages => [...prevImages, image]);
+      images.push(URL.createObjectURL(e.target.files[i]));
+      getBase64(e.target.files[i])
+        .then(data => {
+          base64.push(data.split(',')[1]);
+        });
+      setbase64Images(base64);
+      setReviewImages(images);
+    }
+
+    function getBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
     }
   }
 
   function handleSubmitReview(e) {
     e.preventDefault();
     const rating = document.getElementById('hover-rating').getAttribute('value');
+    const form = document.getElementById('newReview').elements;
+
+    // Checks email validation
+    if (!/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(form.email.value)) {
+      setFormValidation(false)
+      return
+    }
 
     if (rating === null) {
       alert('Please select a rating');
+      return
     } else {
       setModal(false);
-      const form = document.getElementById('newReview').elements;
+
+      let imageURLs = [];
+      base64Images.forEach(photo => {
+        API.uploadImages(photo)
+          .then(res => {
+            imageURLs.push(res.data.data.url);
+          })
+          .catch(err => {console.log(err)});
+      })
+
       let characteristics = {};
       const charList = Object.keys(metadata.characteristics);
-
       charList.forEach(char => {
         const char_id = metadata.characteristics[char].id
         const value = form[char].value;
@@ -43,10 +111,10 @@ const NewReview = ({ product, metadata, setModal }) => {
         rating: Number(rating),
         summary: form.summary.value || '',
         body: form.body.value,
-        recommend: Boolean(form.recommend.value),
+        recommend: form.recommend.value === 'true' ? true : false,
         name: form.nickname.value,
         email: form.email.value,
-        photos: [],
+        photos: imageURLs,
         characteristics: characteristics
       };
 
@@ -56,130 +124,132 @@ const NewReview = ({ product, metadata, setModal }) => {
     }
   }
 
-  const form = (
-    <form id="newReview" onSubmit={handleSubmitReview}>
-    <div className="field">
-      <label className="label required">Overall Rating</label><br/>
-      <HoverRating />
-    </div>
-
-    <div className="field">
-      <label className="label required">Do you recommend this product?</label><br/>
-      <input name="recommend" type="radio" value="true" required/>Yes
-      <input name="recommend" type="radio" value="false" required/>No
-    </div>
-
-    <div className="field">
-      <h5 className="label required">Characteristics:</h5><br/>
-      {!!metadata.characteristics.Size &&
-        <span>
-          <label className="label" required>Size</label><br/>
-          <input name="Size" type="radio" value="1" required/>1
-          <input name="Size" type="radio" value="2" required/>2
-          <input name="Size" type="radio" value="3" required/>3
-          <input name="Size" type="radio" value="4" required/>4
-          <input name="Size" type="radio" value="5" required/>5
-          <br/>
-        </span>
-      }
-      {!!metadata.characteristics.Width &&
-        <span>
-          <label className="label" required>Width</label><br/>
-          <input name="Width" type="radio" value="1" required/>1
-          <input name="Width" type="radio" value="2" required/>2
-          <input name="Width" type="radio" value="3" required/>3
-          <input name="Width" type="radio" value="4" required/>4
-          <input name="Width" type="radio" value="5" required/>5
-          <br/>
-        </span>
-      }
-      {!!metadata.characteristics.Comfort &&
-        <span>
-          <label className="label" required>Comfort</label><br/>
-          <input name="Comfort" type="radio" value="1" required/>1
-          <input name="Comfort" type="radio" value="2" required/>2
-          <input name="Comfort" type="radio" value="3" required/>3
-          <input name="Comfort" type="radio" value="4" required/>4
-          <input name="Comfort" type="radio" value="5" required/>5
-          <br/>
-        </span>
-      }
-      {!!metadata.characteristics.Quality &&
-        <span>
-          <label className="label" required>Quality</label><br/>
-          <input name="Quality" type="radio" value="1" required/>1
-          <input name="Quality" type="radio" value="2" required/>2
-          <input name="Quality" type="radio" value="3" required/>3
-          <input name="Quality" type="radio" value="4" required/>4
-          <input name="Quality" type="radio" value="5" required/>5
-          <br/>
-        </span>
-      }
-      {!!metadata.characteristics.Length &&
-        <span>
-          <label className="label" required>Length</label><br/>
-          <input name="Length" type="radio" value="1" required/>1
-          <input name="Length" type="radio" value="2" required/>2
-          <input name="Length" type="radio" value="3" required/>3
-          <input name="Length" type="radio" value="4" required/>4
-          <input name="Length" type="radio" value="5" required/>5
-          <br/>
-        </span>
-      }
-      {!!metadata.characteristics.Fit &&
-        <span>
-          <label className="label" required>Fit</label><br/>
-          <input name="Fit" type="radio" value="1" required/>1
-          <input name="Fit" type="radio" value="2" required/>2
-          <input name="Fit" type="radio" value="3" required/>3
-          <input name="Fit" type="radio" value="4" required/>4
-          <input name="Fit" type="radio" value="5" required/>5
-        </span>
-      }
-    </div>
-
-    <div className="field">
-      <label className="label">Review Summary</label><br/>
-      <input type="text" name="summary" maxLength="60" placeholder="Enter text here..." />
-    </div>
-
-    <div className="field">
-      <label className="label required">Review Body</label><br/>
-      <textarea maxLength="1000" name="body" placeholder="Why did you like the product or not?" required></textarea>
-    </div>
-
-    <div className="field">
-      <label className="label">Upload Images:</label>
-      <input type="file" name="photos" onChange={handleUploadImages} accept="image/*" multiple />
-      <span id="thumbnails">
-        {reviewImages.map(image => <img src={image} key={image} className="thumbnail"></img>)}
-      </span>
-    </div>
-
-    <div className="field">
-      <label className="label required">Nickname:</label><br/>
-      <input type="text" name="nickname" maxLength="60" placeholder="Example: jackson11!" required />
-    </div>
-
-    <div className="field">
-      <label className="label required">Email:</label><br/>
-      <input type="text" name="email" maxLength="60" placeholder="Example: jackson11@email.com" required />
-    </div>
-
-    <input type="submit" />
-
-    </form>
-  );
-
   return (
-    <div className='modal-outer'>
-      <div className='modal-inner'>
-        <button className="close" onClick={closeModal}>X</button>
-        <h3>Write Your Review About: {product.name}</h3>
-        {form}
-      </div>
+    <div style={modalStyle} className={classes.paper}>
+      <form id="newReview" onSubmit={handleSubmitReview}>
+        <Grid container direction="column" spacing={1}>
+          <Grid item>
+            <Typography variant="h4">Overall Rating
+              <Typography variant="inherit" style={{color: 'red'}}>*</Typography>
+            </Typography>
+          </Grid>
+          <Grid item>
+            <HoverRating size="large"/>
+          </Grid>
+          <Grid item>
+            <Typography variant="h5">Do you recommend this product?
+              <Typography variant="inherit" style={{color: 'red'}}>*</Typography>
+            </Typography>
+          </Grid>
+          <Grid item>
+            <FormControl component="fieldset">
+              <RadioGroup name="recommend" row={true}>
+                <FormControlLabel
+                  value="true"
+                  control={<Radio required />}
+                  label={<Typography variant="h5">True</Typography>}
+                />
+                <FormControlLabel
+                  value="false"
+                  control={<Radio required/>}
+                  label={<Typography variant="h5">False</Typography>}
+                />
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+          <Grid item>
+            <Typography variant="h5" style={{marginBottom: '10px'}}>Characteristics
+              <Typography variant="inherit" style={{color: 'red'}}>*</Typography>
+            </Typography>
+            {characteristicList.map((char, index) => (
+                <div key={index}>
+                  <Typography variant="h6">{char}:</Typography>
+                  <FormControl component="fieldset">
+                    <RadioGroup name={char} row={true} >
+                      <FormControlLabel value="1" control={<Radio required/>} label={<Typography variant="h5">1</Typography>}/>
+                      <FormControlLabel value="2" control={<Radio required/>} label={<Typography variant="h5">2</Typography>}/>
+                      <FormControlLabel value="3" control={<Radio required/>} label={<Typography variant="h5">3</Typography>}/>
+                      <FormControlLabel value="4" control={<Radio required/>} label={<Typography variant="h5">4</Typography>}/>
+                      <FormControlLabel value="5" control={<Radio required/>} label={<Typography variant="h5">5</Typography>}/>
+                    </RadioGroup>
+                  </FormControl>
+                </div>
+              )
+            )}
+          </Grid>
+          <Grid item>
+            <Typography variant="h5">Review Summary:</Typography>
+            <TextField
+              name="summary"
+              variant="outlined"
+              inputProps={{style: {fontSize: 18, fontWeight: 'bold'}, maxLength: '60'}}
+              style={{width: '80%', marginBottom: '7px'}}
+            />
+          </Grid>
+          <Grid item>
+            <Typography variant="h5">Review Body:
+              <Typography variant="inherit" style={{color: 'red'}}>*</Typography>
+            </Typography>
+            <TextField
+              name="body"
+              multiline
+              variant='outlined'
+              inputProps={{style: {fontSize: 14}, maxLength: '1000'}}
+              style={{width: '80%'}}
+              required
+            />
+          </Grid>
+          <Grid item>
+            <Typography variant="h5">Nickname:
+              <Typography variant="inherit" style={{color: 'red'}}>*</Typography>
+            </Typography>
+            <TextField
+              name="nickname"
+              id="nickname"
+              variant='outlined'
+              inputProps={{style: {fontSize: 18, maxLength: '60'}}}
+              style={{width: '80%'}}
+              required
+            />
+          </Grid>
+          <Grid item>
+            <Typography variant="h5">Email:
+              <Typography variant="inherit" style={{color: 'red'}}>*</Typography>
+            </Typography>
+            <TextField
+              name="email"
+              id="email"
+              variant='outlined'
+              inputProps={{style: {fontSize: 18, maxLength: '60'}}}
+              style={{width: '80%'}}
+              error={!formValidation}
+              helperText={!formValidation && 'Please enter a valid email'}
+              required
+            />
+          </Grid>
+          <Grid item>
+            <Typography variant="h5">Upload Images:</Typography>
+            <input type="file" name="photos" onChange={handleUploadImages} accept="image/*" multiple />
+            <span id="thumbnails">
+              {reviewImages.map(image =>
+                <img
+                  src={image}
+                  key={image}
+                  width="60px"
+                  height="60px"
+                  style={{margin: "5px", border: "2px solid grey"}}>
+                </img>)}
+            </span>
+          </Grid>
+          <Grid item>
+            <Button type="submit" color="primary" variant="outlined" size="large">
+              Submit Review
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
     </div>
-    )
+  )
 };
 
 export default NewReview;

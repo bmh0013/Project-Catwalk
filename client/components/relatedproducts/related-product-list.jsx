@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import RelatedProductCard from './related-product-card.jsx';
 import {CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
+import regeneratorRuntime from 'regenerator-runtime';
 import api from '../../../api.js';
 
 const RelatedList =  ({product_id, renderNewProductId}) => {
@@ -10,7 +11,6 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
   //array of objects in accordance to the relatedItems
   const [relatedItemsData, setRelatedItemsData] = useState([]);
   const[relatedItemsStyles, setRelatedItemsStyles] = useState([]);
-  const [productReview, updateReview] = useState(null);
 
   useEffect(() => {
     relatedIdFunction();
@@ -29,6 +29,9 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
   useEffect(() => {
     generateRelatedItems(relatedItems);
   }, [relatedItems])
+
+  //try to incorporate useEffect
+  //you can write export before const here to import the function into another file (ex. testing file). needs to be outside the functional component in order to export it
 
   const generateRelatedItems = async (relatedItems) => {
     let renderedItems = [];
@@ -64,31 +67,23 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
       <h1 className = 'heading-list'>RELATED PRODUCTS</h1>
       <CarouselProvider
         className = 'items-carousel'
-        naturalSlideHeight = {200}
-        naturalSlideWidth = {200}
+        naturalSlideHeight = {150}
+        naturalSlideWidth = {150}
         totalSlides = {relatedItems.length}
         visibleSlides = {3}
         dragEnabled = {false}
-        style = {{
-          position:'relative',
-          width: '70%',
-          height: 'auto',
-        }}
       >
-      <div className = 'buttons'>
-        <ButtonBack className = 'button-back'><i className="fas fa-arrow-left"></i></ButtonBack>
-        <ButtonNext className = 'button-next'><i className="fas fa-arrow-right"></i></ButtonNext>
-      </div>
+
       <Slider className = 'carousel__slider'>
         {relatedItemsData.map(relatedItem => (
           <Slide
             key = {relatedItem.id}
             index = {Math.random()}
             style = {{
-              width: '225px',
-              height: '160px',
-              border: '2px solid',
-              marginRight: '25px',
+              width: '23rem',
+              height: '32rem',
+              border: '1px solid',
+              marginRight: '3rem',
               position: 'relative'
             }}
           >
@@ -109,6 +104,10 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
           </Slide>
         ))}
       </Slider>
+      <div className = 'buttons'>
+        <ButtonBack className = 'button-back'><i className="fas fa-arrow-left"></i></ButtonBack>
+        <ButtonNext className = 'button-next'><i className="fas fa-arrow-right"></i></ButtonNext>
+      </div>
       </CarouselProvider>
     </div>
   )

@@ -33,6 +33,8 @@ const AddAnswer = ({ product_id, question_id, question, refresh }) => {
   });
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({ question_id: question_id });
+  let [images, setImages] = useState([]);
+  let [base64Images, setbase64Images] = useState([]);
   const [formValidation, setFormValidation] = useState({
     body: [false, null],
     name: [false, null],
@@ -45,27 +47,52 @@ const AddAnswer = ({ product_id, question_id, question, refresh }) => {
 
   var handleClose = () => {
     setOpen(false);
+    setbase64Images([]);
+    setImages([]);
+  };
+
+  const verifyEmail = (email) => {
+    return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+      email
+    );
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-        formData.email
-      )
-    ) {
-      API.postAnswer(formData)
-        .catch((err) => console.log(err))
+    if (verifyEmail(formData.email)) {
+      let imagePromises = [];
+      let formDataWithPhotos = JSON.parse(JSON.stringify(formData));
+
+      base64Images.forEach((photo) => {
+        imagePromises.push(API.uploadImages(photo));
+      });
+
+      Promise.all(imagePromises)
+        .then((responses) => {
+          return responses.map((response) => {
+            return response.data.data.url;
+          });
+        })
+        .then((imageUrls) => {
+          formDataWithPhotos.photos = imageUrls;
+          setFormData(formDataWithPhotos);
+        })
+        .then(() => {
+          API.postAnswer(formDataWithPhotos);
+        })
         .then(() => {
           setOpen(false);
           refresh(product_id);
+        })
+        .catch((err) => {
+          console.log(err);
         });
     } else {
-      let newFormValidation = JSON.parse(JSON.stringify(formValidation));
-      newFormValidation.email[0] = true;
-      newFormValidation.email[1] = "Please enter a valid email address";
-      setFormValidation(newFormValidation);
+      setFormValidation({
+        ...formValidation,
+        email: [true, "Please enter a valid email address"],
+      });
     }
   };
 
@@ -80,11 +107,7 @@ const AddAnswer = ({ product_id, question_id, question, refresh }) => {
       for (const prop in newFormValidation) {
         newFormValidation[prop][1] = false;
       }
-      if (
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-          formData.email
-        )
-      ) {
+      if (verifyEmail(formData.email)) {
         newFormValidation.email[0] = false;
         newFormValidation.email[1] = null;
       }
@@ -94,6 +117,29 @@ const AddAnswer = ({ product_id, question_id, question, refresh }) => {
       setFormData(newFormData);
     }
   };
+
+  function handleUpload(e) {
+    document.getElementById("thumbnails").innerHTML = "";
+    let images = [];
+    let base64 = [];
+    for (let i = 0; i < e.target.files.length; i++) {
+      images.push(URL.createObjectURL(e.target.files[i]));
+      getBase64(e.target.files[i]).then((data) => {
+        base64.push(data.split(",")[1]);
+      });
+      setbase64Images(base64);
+      setImages(images);
+    }
+
+    function getBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = (error) => reject(error);
+      });
+    }
+  }
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
@@ -150,6 +196,36 @@ const AddAnswer = ({ product_id, question_id, question, refresh }) => {
                 />
               </Grid>
               <Grid item>
+                <InputLabel color="primary" htmlFor="photos-input">
+                  Photos
+                </InputLabel>
+                <Button color="primary" variant="outlined" component="label">
+                  Upload
+                  <input
+                    type="file"
+                    id="photos-input"
+                    onChange={handleUpload}
+                    accept="image/*"
+                    style={{ display: "none" }}
+                    multiple
+                    hidden
+                  />
+                </Button>
+              </Grid>
+              <Grid item>
+                <span id="thumbnails">
+                  {images.map((image) => (
+                    <img
+                      src={image}
+                      key={image}
+                      width="60px"
+                      height="60px"
+                      style={{ margin: "5px", border: "2px solid grey" }}
+                    ></img>
+                  ))}
+                </span>
+              </Grid>
+              <Grid item>
                 <InputLabel htmlFor="add-answer-email">Email*</InputLabel>
                 <Typography component="span" variant="body1">
                   <Box fontStyle="italic">
@@ -185,7 +261,12 @@ const AddAnswer = ({ product_id, question_id, question, refresh }) => {
 
   return (
     <span>
-      <Link variant="h6" onClick={handleOpen}>
+      <Link
+        variant="h6"
+        onClick={handleOpen}
+        underline="always"
+        style={{ cursor: "pointer" }}
+      >
         Add Answer
       </Link>
       <Modal

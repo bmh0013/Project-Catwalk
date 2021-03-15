@@ -1,5 +1,10 @@
 {
   "name": "fec",
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+    }
+  },
   "version": "1.0.0",
   "description": "",
   "main": "webpack.config.js",
@@ -26,10 +31,11 @@
     "@material-ui/lab": "^4.0.0-alpha.57",
     "axios": "^0.21.1",
     "babel-polyfill": "^6.26.0",
+    "body-parser": "^1.19.0",
     "css-loader": "^5.1.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "express-http-proxy": "^1.6.2",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^26.6.3",
     "jquery": "^3.6.0",
     "lodash": "^4.17.21",
@@ -37,21 +43,59 @@
     "nodemon": "^2.0.7",
     "path": "^0.12.7",
     "pure-react-carousel": "^1.27.6",
+    "qs": "^6.5.2",
     "react": "^16.13.1",
     "react-bootstrap": "^1.5.0",
     "react-bootstrap-icons": "^1.4.0",
     "react-dom": "^16.13.1",
     "react-modal": "^3.12.1",
+    "regenerator-runtime": "^0.10.5",
     "use-local-storage-state": "^9.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
+    "@babel/plugin-syntax-jsx": "^7.12.13",
+    "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-react": "^7.10.4",
+    "@testing-library/jest-dom": "^5.11.9",
+    "@testing-library/react": "^11.2.5",
+    "babel-jest": "^26.6.3",
     "babel-loader": "^8.1.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
+    "enzyme-to-json": "^3.6.1",
     "jest": "^26.6.3",
+    "react-test-renderer": "^16.14.0",
     "style-loader": "^2.0.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "modules": false
+        },
+        "jest"
+      ]
+    ],
+    "env": {
+      "test": {
+        "presets": [
+          [
+            "@babel/preset-react"
+          ],
+          [
+            "@babel/preset-env",
+            {
+              "modules": "auto"
+            },
+            "jest"
+          ]
+        ]
+      }
+    }
   }
 }

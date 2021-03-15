@@ -24,12 +24,19 @@ const Questions = ({ product_id, product_name }) => {
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [questionsToShow, setQuestionsToShow] = useState(4);
+  const [productName, setProductName] = useState("");
   const [expanded, setExpanded] = useState(false);
   const classes = useStyles();
 
+  var filteredData = data
+    .filter((q) =>
+      q.question_body.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .slice(0, questionsToShow);
+
   useEffect(() => {
     loadData(product_id);
-  }, []);
+  }, [product_id]);
 
   var loadData = async (product_id) => {
     let options = {
@@ -47,6 +54,12 @@ const Questions = ({ product_id, product_name }) => {
           )
         )
       );
+
+    API.getProduct(product_id)
+      .then((res) => {
+        setProductName(res.data.name);
+      })
+      .catch((err) => console.log("ERROR: ", err));
   };
 
   var handleSearch = (searchTerm) => {
@@ -72,7 +85,11 @@ const Questions = ({ product_id, product_name }) => {
         <Grid item>
           <Typography
             variant="h5"
-            style={{ paddingBottom: 0, paddingTop: 4, margin: 10 }}
+            style={{
+              paddingBottom: 0,
+              paddingTop: 4,
+              margin: "10px 0px 0px 10px",
+            }}
           >
             QUESTIONS AND ANSWERS
           </Typography>
@@ -87,25 +104,27 @@ const Questions = ({ product_id, product_name }) => {
             spacing={3}
             style={{ maxWidth: "97%" }}
           >
-            {data
-              .filter((q) =>
-                q.question_body.toLowerCase().includes(searchTerm.toLowerCase())
-              )
-              .slice(0, questionsToShow)
-              .map((q) => (
-                <Grid key={q.question_id} item>
-                  <Question
-                    product_id={product_id}
-                    question={q}
-                    refresh={loadData}
-                  />
-                </Grid>
-              ))}
+            {!filteredData.length && (
+              <Grid item style={{ margin: 15 }}>
+                Sorry, there are no results which match your search. Consider
+                adding a question for others to answer.
+              </Grid>
+            )}
+            {filteredData.map((q) => (
+              <Grid key={q.question_id} item>
+                <Question
+                  product_id={product_id}
+                  question={q}
+                  searchTerm={searchTerm}
+                  refresh={loadData}
+                />
+              </Grid>
+            ))}
           </Grid>
         </Grid>
       </Grid>
       <Grid container justify="center" alignItems="center" spacing={1}>
-        {data.length > 2 ? (
+        {filteredData.length > 2 ? (
           <Grid item>
             <Button
               color="primary"
@@ -122,7 +141,11 @@ const Questions = ({ product_id, product_name }) => {
           </Grid>
         ) : null}
         <Grid item>
-          <AddQuestion product_id={product_id} refresh={loadData} />
+          <AddQuestion
+            product_id={product_id}
+            product_name={productName}
+            refresh={loadData}
+          />
         </Grid>
       </Grid>
     </Box>

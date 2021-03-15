@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddQuestion = ({ product_id, refresh }) => {
+const AddQuestion = ({ product_id, product_name, refresh }) => {
   const classes = useStyles();
   const [modalStyle] = useState({
     top: `50%`,
@@ -47,14 +47,16 @@ const AddQuestion = ({ product_id, refresh }) => {
     setOpen(false);
   };
 
+  const verifyEmail = (email) => {
+    return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+      email
+    );
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-        formData.email
-      )
-    ) {
+    if (verifyEmail(formData.email)) {
       API.postQuestion(formData)
         .catch((err) => console.log(err))
         .then(() => {
@@ -62,10 +64,10 @@ const AddQuestion = ({ product_id, refresh }) => {
           refresh(product_id);
         });
     } else {
-      let newFormValidation = JSON.parse(JSON.stringify(formValidation));
-      newFormValidation.email[0] = true;
-      newFormValidation.email[1] = "Please enter a valid email address";
-      setFormValidation(newFormValidation);
+      setFormValidation({
+        ...formValidation,
+        email: [true, "Please enter a valid email address"],
+      });
     }
   };
 
@@ -80,11 +82,7 @@ const AddQuestion = ({ product_id, refresh }) => {
       for (const prop in newFormValidation) {
         newFormValidation[prop][1] = false;
       }
-      if (
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-          formData.email
-        )
-      ) {
+      if (verifyEmail(formData.email)) {
         newFormValidation.email[0] = false;
         newFormValidation.email[1] = null;
       }
@@ -102,7 +100,7 @@ const AddQuestion = ({ product_id, refresh }) => {
           <Typography variant="h4">Ask Your Question</Typography>
         </Grid>
         <Grid item>
-          <Typography variant="h5">About the product XXX</Typography>
+          <Typography variant="h5">About {product_name}</Typography>
         </Grid>
         <Grid item>
           <form onSubmit={handleSubmit}>
