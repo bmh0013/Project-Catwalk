@@ -11,7 +11,6 @@ class App extends React.Component {
     super();
     this.state = {
       product_id: 21112,
-    };
   }
 
   renderNewProductId(id) {
