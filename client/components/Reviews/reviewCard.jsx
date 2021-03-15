@@ -24,20 +24,25 @@ const useStyles = makeStyles((theme) => ({
 const ReviewCard = ({ reviewCard, setReviewCards, product_id }) => {
   const classes = useStyles();
   const date = moment(reviewCard.date, 'YYYY-MM-DD').format('MMMM D, YYYY');
+  const [helpful, setHelpful] = useState([]);
 
   function handleHelpful(e) {
     const review_id = e.target.getAttribute('data');
-    // console.log(e.target.value);
-    API.updateHelpful(review_id, {review_id})
-    .then(res => {
-      API.getReviewCards({
-        product_id : product_id,
-        sort: document.getElementById('sort').value,
-        count: 100
+
+    if (!helpful.includes(review_id)) {
+      setHelpful(review_id);
+
+      API.updateHelpful(review_id, {review_id})
+      .then(res => {
+        API.getReviewCards({
+          product_id : product_id,
+          sort: document.getElementById('sort').value,
+          count: 100
+        })
+        .then(res => setReviewCards(res.data.results))
       })
-      .then(res => setReviewCards(res.data.results))
-    })
-    .catch(err => console.log(err));
+      .catch(err => console.log(err));
+    }
   }
 
   function handleReport(e) {
