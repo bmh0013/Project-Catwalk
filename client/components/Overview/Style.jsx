@@ -6,7 +6,6 @@ import Avatar from '@material-ui/core/Avatar';
 import HelpIcon from '@material-ui/icons/Help';
 
 function Style(props) {
-  let category = props;
   if (props.image !== null) {
     return(
       <div id="style">

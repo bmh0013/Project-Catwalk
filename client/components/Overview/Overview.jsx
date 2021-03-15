@@ -11,6 +11,7 @@ import PinterestIcon from '@material-ui/icons/Pinterest';
 import api from '../../../api.js';
 import axios from 'axios';
 
+
 export default function Overview({product_id}) {
     let [productReview, updateReview] = useState(null);
     let [productCategory, updateCategory] = useState(null);
@@ -50,6 +51,7 @@ export default function Overview({product_id}) {
 
     return(
       <div>
+        
         <h1>Overview</h1>
         {productReview && <Rating reviewData={productReview}/>}
         {productCategory && <ProductCategory category={productCategory}/>}
