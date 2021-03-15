@@ -9,7 +9,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      product_id: 21112,
+      product_id: 21111,
     };
   }
 
@@ -22,13 +22,13 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Overview product_id={this.state.product_id} />
-        <div className = "product-lists-container">
-          <RelatedList
-            product_id={this.state.product_id}
-            renderNewProductId={this.renderNewProductId.bind(this)}
-          />
-          <YourOutfitList product_id={this.state.product_id} />
+        <div className = 'component-flexbox'>
+          <Overview product_id={this.state.product_id} />
+            <RelatedList
+              product_id={this.state.product_id}
+              renderNewProductId={this.renderNewProductId.bind(this)}
+            />
+            <YourOutfitList product_id={this.state.product_id} />
         </div>
         <Questions product_id={this.state.product_id} />
         <Reviews product_id={this.state.product_id} />
