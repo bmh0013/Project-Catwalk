@@ -35,13 +35,13 @@ const Ratings = ({ metadata, reviewCards }) => {
   return (
     <div>
       <Grid item container>
-        <Grid item xs={4} style={{fontSize: '40px', fontWeight: 'bold', textAlign: 'right'}}>
+        <Grid item xs={6} style={{fontSize: '60px', fontWeight: 'bold', textAlign: 'right'}}>
           {overallRating.toFixed(1)}
         </Grid>
-        <Grid item xs={4} style={{fontSize: '40px', fontWeight: 'bold', textAlign: 'center'}}>
+        <Grid item xs={6} style={{fontSize: '50px'}}>
           <StaticRating data={metadata.ratings} size="large"/>
         </Grid>
-        <Grid item xs={12} style={{fontSize: '14px', fontWeight: 600, textAlign: 'center'}}>
+        <Grid item xs={12} style={{fontSize: '14px', fontWeight: 600, textAlign: 'center', letterSpacing: '0px'}}>
           {percentage}% of reviews recommend this product
         </Grid>
         {allStars.map((star, index) => (
