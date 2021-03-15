@@ -22,13 +22,15 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <div className = 'component-flexbox'>
+        <div className = 'overview-flexbox'>
           <Overview product_id={this.state.product_id} />
-            <RelatedList
-              product_id={this.state.product_id}
-              renderNewProductId={this.renderNewProductId.bind(this)}
-            />
-            <YourOutfitList product_id={this.state.product_id} />
+        </div>
+        <div className = 'component-flexbox'>
+          <RelatedList
+            product_id={this.state.product_id}
+            renderNewProductId={this.renderNewProductId.bind(this)}
+          />
+          <YourOutfitList product_id={this.state.product_id} />
         </div>
         <Questions product_id={this.state.product_id} />
         <Reviews product_id={this.state.product_id} />

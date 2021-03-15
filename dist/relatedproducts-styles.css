@@ -1,13 +1,17 @@
-/* html{
+html{
   width:85%;
   padding: 0;
   margin: 0 auto 0 auto;
-} */
+}
+
+.overview-flexbox{
+  margin-left: 47vh;
+}
 
 .component-flexbox{
   display:flex;
   flex-direction:column;
-  /* align-items: center; */
+  align-items: center;
 }
 
 .product-list{
