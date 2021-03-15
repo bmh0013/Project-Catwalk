@@ -53,7 +53,6 @@ export default function Overview({ product_id }) {
 
   return (
     <div>
-      <h1>Overview</h1>
       {productReview && <Rating reviewData={productReview} />}
       {productCategory && <ProductCategory category={productCategory} />}
       {productTitle && <ProductTitle title={productTitle} />}
