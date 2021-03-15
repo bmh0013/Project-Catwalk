@@ -4,7 +4,6 @@ import YourOutfitList from "./relatedproducts/your-outfit-list.jsx";
 import Questions from "./Questions/Questions.jsx";
 import Reviews from "./Reviews/reviews.jsx";
 import Overview from "./Overview/Overview.jsx";
-import Box from "@material-ui/core/Box";
 
 class App extends React.Component {
   constructor() {
@@ -24,18 +23,13 @@ class App extends React.Component {
     return (
       <div>
         <Overview product_id={this.state.product_id} />
-        <Box
-          className="product-lists-container"
-          alignItems="start"
-          justifyContent="center"
-          marginLeft="10px"
-        >
+        <div className = "product-lists-container">
           <RelatedList
             product_id={this.state.product_id}
             renderNewProductId={this.renderNewProductId.bind(this)}
           />
           <YourOutfitList product_id={this.state.product_id} />
-        </Box>
+        </div>
         <Questions product_id={this.state.product_id} />
         <Reviews product_id={this.state.product_id} />
         <div style={{ marginBottom: "200px" }}></div>
