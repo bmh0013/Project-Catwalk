@@ -11,7 +11,7 @@ const OutfitCard = props => (
         top: '1.5rem'
       }}
     />
-    <img className = 'product-image' src = {props.image} alt = {props.name} />
+    <img className = 'product-image' src = {props.image} alt = {props.name} loading = 'lazy'/>
     <div className = 'bottom-half-card'>
       <p className = 'product-category'>{props.category.toUpperCase()}</p>
       <p className = 'product-name'>{props.name}</p>
