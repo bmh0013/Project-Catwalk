@@ -28,6 +28,7 @@ class App extends React.Component {
           className="product-lists-container"
           alignItems="start"
           justifyContent="center"
+          marginLeft="10px"
         >
           <RelatedList
             product_id={this.state.product_id}
