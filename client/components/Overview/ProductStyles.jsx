@@ -126,7 +126,7 @@ function ProductStyles(props) {
                   function={currentStyle}
                 />}
                 </div>
-                }
+                
               </div>
               <div>
                 <MainImage currentStyle={selectedStyle}/>
