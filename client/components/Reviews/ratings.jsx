@@ -15,7 +15,7 @@ const Ratings = ({ metadata, reviewCards }) => {
     totalReviews++;
   });
 
-  const percentage = Math.round(100 * (recommend / totalReviews));
+  const percentage = Math.round(100 * (recommend / totalReviews)) || 0;
   const totalRatings = Object.values(metadata.ratings).reduce((a, b) => Number(a) + Number(b));
   const stars5 = starBarFill(5);
   const stars4 = starBarFill(4);
