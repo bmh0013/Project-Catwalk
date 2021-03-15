@@ -10,13 +10,8 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-<<<<<<< HEAD
-      product_id: 21114
-    }
-=======
       product_id: 21112,
     };
->>>>>>> 618a5181d60ffffe70891d05e3d84a14778071f5
   }
 
   renderNewProductId(id) {
