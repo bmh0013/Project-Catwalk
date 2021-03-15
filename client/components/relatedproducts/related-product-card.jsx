@@ -45,7 +45,7 @@ const RelatedProductCard = ({id, currentProductId, relatedItemsStyles, name, cat
           color: '#e8e8e8'
         }}
       />
-      <img className = 'product-image' src = {image} alt = {name} />
+      <img className = 'product-image' src = {image} alt = {name} loading = 'lazy'/>
       <div className = 'bottom-half-card' onClick = {() => sendProductId(id)}>
         <p className = 'product-category'>{category.toUpperCase()}</p>
         <p className = 'product-name'>{name}</p>
