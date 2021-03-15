@@ -19,8 +19,11 @@ const RelatedList =  ({product_id, renderNewProductId}) => {
   const relatedIdFunction = async () => {
     await api.getRelatedProductIds(product_id)
       .then(res => {
-        const distinctRelatedItems = [...new Set(res.data)]
-          return distinctRelatedItems
+          let distinctRelatedItems = [...new Set(res.data)]
+          //removeDuplicateRender ensures the current product DOES NOT appear in the relatedproducts list
+          let removeDuplicateRender = distinctRelatedItems.filter(outfitId => outfitId !== product_id);
+
+          return removeDuplicateRender;
       })
       .then(res => setRelatedItems(res))
       .catch(err => console.log ('error retrieving the relevant product ids', err))
