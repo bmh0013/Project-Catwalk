@@ -27,8 +27,16 @@ const ReviewCard = ({ reviewCard, setReviewCards, product_id }) => {
 
   function handleHelpful(e) {
     const review_id = e.target.getAttribute('data');
+    // console.log(e.target.value);
     API.updateHelpful(review_id, {review_id})
-    .then(res => console.log(res))
+    .then(res => {
+      API.getReviewCards({
+        product_id : product_id,
+        sort: document.getElementById('sort').value,
+        count: 100
+      })
+      .then(res => setReviewCards(res.data.results))
+    })
     .catch(err => console.log(err));
   }
 
@@ -59,11 +67,15 @@ const ReviewCard = ({ reviewCard, setReviewCards, product_id }) => {
   );
 
   const feedback = (
-    <span className='helpful'>
+    <span >
       Helpful? &nbsp;
-      <a className='helpful-link' data={reviewCard.review_id} onClick={handleHelpful}>Yes </a>
-      ({ reviewCard.helpfulness }) &nbsp; |  &nbsp;
-      <a className='report-link' data={reviewCard.review_id} onClick={handleReport}>Report</a>
+      <a data={reviewCard.review_id} onClick={handleHelpful}>
+        Yes ({ reviewCard.helpfulness })
+      </a>
+      &nbsp; |  &nbsp;
+      <a data={reviewCard.review_id} onClick={handleReport}>
+        Report
+      </a>
     </span>
   );
 
