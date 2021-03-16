@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
 
 const Body = ({ body, id}) => {
   function showMore() {
@@ -21,9 +24,11 @@ const Body = ({ body, id}) => {
   if (body.length > 250) {
     return (
       <div>
-        <p>{body.substring(0, 250)}<span className="dots">...</span>
-        <span className="show-more">{body.substring(250)}</span></p>
-        <button className="moreBtn" onClick={showMore}>Show More</button>
+        <Grid item>
+          <p>{body.substring(0, 250)}<span className="dots">...</span>
+          <span className="show-more" style={{display: 'none'}}>{body.substring(250)}</span></p>
+          <Button className="moreBtn" variant="outlined" color="secondary" onClick={showMore}>Show More</Button>
+        </Grid>
       </div>
     )
   } else {

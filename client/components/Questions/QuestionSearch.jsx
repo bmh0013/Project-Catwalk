@@ -20,7 +20,12 @@ const QuestionSearch = ({ handleSearch }) => {
           onChange={(e) => handleSearch(e.target.value)}
           onFocus={handleFocus}
           fullWidth
-          style={{ fontSize: 14, fontWeight: 600, margin: 10 }}
+          style={{
+            fontSize: 14,
+            fontWeight: 600,
+            marginLeft: 10,
+            marginBottom: 10,
+          }}
           endAdornment={
             <InputAdornment position="end">
               <SearchIcon></SearchIcon>

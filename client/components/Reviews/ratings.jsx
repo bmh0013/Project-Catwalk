@@ -3,6 +3,7 @@ import CharBreakdown from './charBreakdown.jsx';
 import { StaticRating } from '../../starRating.jsx';
 
 import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
 
 const Ratings = ({ metadata, reviewCards }) => {
   let totalReviews = 0, recommend = 0;
@@ -14,7 +15,7 @@ const Ratings = ({ metadata, reviewCards }) => {
     totalReviews++;
   });
 
-  const percentage = Math.round(100 * (recommend / totalReviews));
+  const percentage = Math.round(100 * (recommend / totalReviews)) || 0;
   const totalRatings = Object.values(metadata.ratings).reduce((a, b) => Number(a) + Number(b));
   const stars5 = starBarFill(5);
   const stars4 = starBarFill(4);
@@ -34,13 +35,13 @@ const Ratings = ({ metadata, reviewCards }) => {
   return (
     <div>
       <Grid item container>
-        <Grid item xs={4} style={{fontSize: '40px', fontWeight: 'bold', textAlign: 'right'}}>
+        <Grid item xs={6} style={{fontSize: '60px', fontWeight: 'bold', textAlign: 'right'}}>
           {overallRating.toFixed(1)}
         </Grid>
-        <Grid item xs={4}>
-          <StaticRating data={metadata.ratings} id="overall-rating"/>
+        <Grid item xs={6} style={{fontSize: '50px'}}>
+          <StaticRating data={metadata.ratings} size="large"/>
         </Grid>
-        <Grid item xs={12} style={{fontSize: '14px', fontWeight: 600, textAlign: 'center'}}>
+        <Grid item xs={12} style={{fontSize: '14px', fontWeight: 600, textAlign: 'center', letterSpacing: '0px'}}>
           {percentage}% of reviews recommend this product
         </Grid>
         {allStars.map((star, index) => (
@@ -59,7 +60,7 @@ const Ratings = ({ metadata, reviewCards }) => {
             </Grid>
           </Grid>
         ))}
-        <CharBreakdown metadata={metadata} />
+        <CharBreakdown metadata={metadata}/>
       </Grid>
     </div>
   )

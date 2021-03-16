@@ -69,7 +69,7 @@ const ModalDetails = ({currentProduct, currentProductStyles, relatedItemsStyles,
     <TableContainer className = 'scroll-table'>
       <Table className={classes.table} stickyHeader = {true} aria-label="simple table">
         <TableHead>
-          <TableRow style ={{padding:35}}>
+          <TableRow>
             <TableCell align="center" style ={{fontSize: 22}}>{name}</TableCell>
             <TableCell align="center" style ={{padding: 40}}></TableCell>
             <TableCell align="center" style ={{fontSize: 22}}>{currentProduct.name}</TableCell>

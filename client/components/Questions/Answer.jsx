@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import API from "../../../api";
+import ImageModal from "./ImageModal.jsx";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -53,11 +54,7 @@ const Answer = ({ product_id, answer, refresh }) => {
       {hasPhotos && (
         <Grid item container>
           {answer.photos.map((img) => {
-            return (
-              <a target="_blank" key={img} href={img}>
-                <img className={classes.thumbnail} src={img} />
-              </a>
-            );
+            return <ImageModal imageUrl={img} key={img} />;
           })}
         </Grid>
       )}
@@ -78,15 +75,16 @@ const Answer = ({ product_id, answer, refresh }) => {
             " | "}
         </Typography>
         <Typography component="span" variant="body1">
-          Helpful?
+          Helpful?{" "}
           {!markedHelpful && (
             <Link
               aria-label="qa-answer-helpfulness"
               onClick={markHelpful}
               variant="body1"
+              underline="always"
+              style={{ cursor: "pointer" }}
             >
-              {" "}
-              Yes{" "}
+              Yes
             </Link>
           )}
           {markedHelpful && (
@@ -94,9 +92,14 @@ const Answer = ({ product_id, answer, refresh }) => {
               {" "}
               Yes{" "}
             </Typography>
-          )}
+          )}{" "}
           ({answer.helpfulness}) |{" "}
-          <Link onClick={report} variant="body1">
+          <Link
+            onClick={report}
+            variant="body1"
+            underline="always"
+            style={{ cursor: "pointer" }}
+          >
             Report
           </Link>
         </Typography>

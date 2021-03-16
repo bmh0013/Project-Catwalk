@@ -8,18 +8,21 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
 import { AllSizes } from './AllSizes.jsx';
+import { Gallery } from './Gallery.jsx';
+import { MainImage } from './MainImage.jsx';
 
 function ProductStyles(props) {
   let [selectedStyle, updateStyle] = useState(null);
   let [styleList, updateList] = useState({});
   let [sizes, updateSizes] = useState([]);
+  let [images, updateImages] = useState({});
+  let [gallery, updateGalleryState] = useState(0);
   let defaultImage = null;
 
   function currentStyle(e, style) {
     e.preventDefault();
     if (style.name !== selectedStyle) {
       updateStyle(selectedStyle = style);
-
       for (let k in styleList) {
         if (Number(k) === Number(style.id)) {
           updateList(styleList = {...styleList, [k]: false});
@@ -48,28 +51,33 @@ function ProductStyles(props) {
           updateStyle(selectedStyle = style);
           updateSizes(sizes = [...sizes, [ style.style_id, style.skus ]]);
           updateList(styleList = {...styleList, [style.style_id]: false})
+          updateImages(images = {...images, [style.style_id]: style.photos})
         }
 
         if (styleList[style.style_id] === undefined) {
           updateList(styleList = {...styleList, [style.style_id]: true})
           updateSizes(sizes = [...sizes, [ style.style_id, style.skus ]]);
+          updateImages(images = {...images, [style.style_id]: style.photos})
         }
 
         return (
           <div>
-            <Style
-              id={style.style_id}
-              image={defaultImage}
-              name={style.name}
-              function={currentStyle}
-              invisible={styleList[style.style_id]}
-            />
+            <div className="style">
+              <Style
+                id={style.style_id}
+                image={defaultImage}
+                name={style.name}
+                function={currentStyle}
+                invisible={styleList[style.style_id]}
+              />
+            </div>
           </div>
         )
+        updateGalleryState(gallery += 1);
       })}
-
-      {/* GET SIZES
-      {(() => {
+ {/* GET SIZES */}
+      {
+        (() => {
           const useStyles = makeStyles((theme) => ({
             formControl: {
               margin: theme.spacing(1),
@@ -88,7 +96,6 @@ function ProductStyles(props) {
 
           let styleData = undefined;
           sizes.map(arr => {
-            console.log('ARR: ', arr)
             if (arr[0] === selectedStyle.id || arr[0] === selectedStyle.style_id) {
               styleData = arr[1];
             }
@@ -96,21 +103,38 @@ function ProductStyles(props) {
 
           return (
             <div>
-              <FormControl className={classes.formControl}>
-                <InputLabel id="SizeChart">Select size</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="select"
-                  value={size}
-                  onChange={handleChange}
-                >
-                  <AllSizes sizes={styleData} />
-                </Select>
-              </FormControl>
+              <div>
+                <FormControl className={classes.formControl}>
+                  <InputLabel id="SizeChart">Select size</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="select"
+                      value={size}
+                      onChange={handleChange}
+                    >
+                    <AllSizes sizes={styleData} />
+                  </Select>
+                </FormControl>
+              </div>
+              <div>
+                <div className="gallery">
+                {images && selectedStyle && styleList &&
+                <Gallery
+                  styles={images}
+                  selectedStyle={selectedStyle}
+                  list={styleList}
+                  function={currentStyle}
+                />}
+                </div>
+                
+              </div>
+              <div>
+                <MainImage currentStyle={selectedStyle}/>
+              </div>
             </div>
           );
-        })
-      } */}
+        })()
+      }
     </div>
   )
 }

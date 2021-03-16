@@ -7,7 +7,6 @@ import Box from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
-import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,9 +16,18 @@ const useStyles = makeStyles((theme) => ({
   bold: {
     fontWeight: 600,
   },
+  highlighted: {
+    fontWeight: 600,
+    backgroundColor: "yellow",
+  },
 }));
 
-const Question = ({ product_id, question, refresh }) => {
+const Question = ({ product_id, question, searchTerm, refresh }) => {
+  const [answersToShow, setAnswersToShow] = useState(2);
+  const [expanded, setExpanded] = useState(false);
+  const [markedHelpful, setMarkedHelpful] = useState(false);
+  const classes = useStyles();
+
   var answers = Object.entries(question.answers)
     .map((a) => a[1])
     .sort((a, b) => (a.helpfulness > b.helpfulness ? -1 : 1))
@@ -32,11 +40,39 @@ const Question = ({ product_id, question, refresh }) => {
       }
     });
 
-  const [answersToShow, setAnswersToShow] = useState(2);
-  const [expanded, setExpanded] = useState(false);
-  const [markedHelpful, setMarkedHelpful] = useState(false);
+  var getHighlightedText = (text, highlight) => {
+    const parts = text.split(new RegExp(`(${highlight})`, "gi"));
+    return (
+      <span>
+        {parts.map((part, i) =>
+          part.toLowerCase() === highlight.toLowerCase() ? (
+            <Typography
+              key={i}
+              component="span"
+              variant="h5"
+              className={classes.highlighted}
+            >
+              {part}
+            </Typography>
+          ) : (
+            <Typography
+              key={i}
+              component="span"
+              variant="h5"
+              className={classes.bold}
+            >
+              {part}
+            </Typography>
+          )
+        )}
+      </span>
+    );
+  };
 
-  const classes = useStyles();
+  var questionBodyHighlighted = getHighlightedText(
+    question.question_body,
+    searchTerm
+  );
 
   const showMore = () => {
     expanded ? setAnswersToShow(2) : setAnswersToShow(answers.length);
@@ -63,9 +99,7 @@ const Question = ({ product_id, question, refresh }) => {
           </Typography>
         </Grid>
         <Grid item xs={7}>
-          <Typography variant="h5" className={classes.bold}>
-            {question.question_body}
-          </Typography>
+          {questionBodyHighlighted}
         </Grid>
         <Grid
           item
@@ -73,15 +107,16 @@ const Question = ({ product_id, question, refresh }) => {
           style={{ display: "flex", justifyContent: "flex-end" }}
         >
           <Typography component="span" variant="h6">
-            Helpful?
+            Helpful?{" "}
             {!markedHelpful && (
               <Link
                 aria-label="qa-question-helpfulness"
                 onClick={markHelpful}
+                underline="always"
                 variant="h6"
+                style={{ cursor: "pointer" }}
               >
-                {" "}
-                Yes{" "}
+                Yes
               </Link>
             )}
             {markedHelpful && (
@@ -89,7 +124,7 @@ const Question = ({ product_id, question, refresh }) => {
                 {" "}
                 Yes{" "}
               </Typography>
-            )}
+            )}{" "}
             ({question.question_helpfulness}) |{" "}
             <AddAnswer
               product_id={product_id}
@@ -99,7 +134,7 @@ const Question = ({ product_id, question, refresh }) => {
             />
           </Typography>
         </Grid>
-        {answers.length ? (
+        {!!answers.length && (
           <Grid item container direction="row" spacing={1}>
             <Grid
               item
@@ -123,29 +158,19 @@ const Question = ({ product_id, question, refresh }) => {
               })}
             </Grid>
           </Grid>
-        ) : null}
-        <Grid
-          item
-          xs={12}
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            paddingTop: "0px",
-          }}
-        >
+        )}
+        <Grid item xs={1}></Grid>
+        <Grid item xs={11}>
           {answers.length > 2 ? (
-            <Button
-              color="secondary"
+            <Link
+              color="primary"
               onClick={showMore}
-              size="small"
-              variant="outlined"
+              variant="h6"
+              underline="none"
+              style={{ cursor: "pointer" }}
             >
-              {expanded ? (
-                <span>Collapse answers</span>
-              ) : (
-                <span>See more answers</span>
-              )}
-            </Button>
+              {expanded ? "COLLAPSE ANSWERS" : "SEE MORE ANSWERS"}
+            </Link>
           ) : null}
         </Grid>
       </Grid>
