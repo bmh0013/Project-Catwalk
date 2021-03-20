@@ -43,10 +43,6 @@ Project Catwalk comprises a complete redesign of the retail portal designed to a
 <img align="left" alt="Jest" width="30px" src="https://raw.githubusercontent.com/vscode-icons/vscode-icons/master/icons/file_type_jest.svg?sanitize=true" />
 <br />
 
-### Server Hosting
-<img align="left" alt="AWS" width="30px" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-original.svg" />
-<br />
-
 ### Project Management
 <img align="left" alt="Trello" width="30px" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/trello/trello-plain.svg" />
 <img align="left" alt="Slack" width="30px" src="https://github.com/devicons/devicon/blob/master/icons/slack/slack-original.svg" />
@@ -58,7 +54,7 @@ Fork the repo and clone to your local machine. After completion, follow these st
 
 1. Run `npm init` to initialize node package management setup.
 2. Run `npm install` to download dependencies.
-3. You will need to either set up a `.env` or a JS file that's attached to the `.gitignore` file. This file will house the private Github Authentication Token in the following form in your root directory. You can read more about creating a token [here](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
+3. You will need to either set up a `.env.local` or a JS file that's attached to the `.gitignore` file. This file will house the private Github Authentication Token in the following form in your root directory. You can read more about creating a token [here](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
 
 ## Development
 After installation is complete, proceed to setup the development environment.
