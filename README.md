@@ -19,8 +19,7 @@ Project Catwalk comprises a complete redesign of the retail portal designed to a
 
 ## Final Product example
 
-![](https://thumbs.gfycat.com/insignificantshinyflicker.gif)
-![](https://thumbs.gfycat.com/ShabbyLiquidBlackrussianterrier-size_restricted.gif)
+![](https://thumbs.gfycat.com/insignificantshinyflicker-size_restricted.gif)
 
 ## Technologies Used
 
