@@ -17,7 +17,7 @@
 ## Description
 Project Catwalk comprises a complete redesign of the retail portal designed to address the concern of an outdated UI. The requirements provided in the given Business Requirement Documentation define the new user interface required for customers to browse items in our retail catalog.
 
-## Final Product example
+## Demo
 
 ![](https://thumbs.gfycat.com/InsignificantShinyFlicker-size_restricted.gif)
 
